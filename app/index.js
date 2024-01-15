@@ -184,6 +184,8 @@ const App = observer(() => {
       </View>
     );
   } else {
+      // userStore.setLoading(false);
+
     return (
       <BottomSheetModalProvider>
         <NavigationContainer

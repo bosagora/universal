@@ -204,8 +204,8 @@ const Index = observer(({ navigation }) => {
               }}>
               <Box>
                 <Heading _dark={{ color: '$textLight200' }} size='lg'>
-                  나의 KIOS 마일리지 v0.31 - {process.env.EXPO_PUBLIC_ENV} -{' '}
-                  {process.env.EXPO_PUBLIC_ENVIRONMENT}
+                  나의 KIOS 마일리지 shop v0.2 - {process.env.EXPO_PUBLIC_ENV} -{' '}
+                  {process.env.ENVIRONMENT}
                 </Heading>
                 <Text
                   _dark={{ color: '$textLight200' }}
