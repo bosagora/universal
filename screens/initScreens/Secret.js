@@ -1,11 +1,11 @@
 import { Platform, SafeAreaView } from 'react-native';
 import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-native-get-random-values';
 import '@ethersproject/shims';
 import { saveSecureValue } from '../../utils/secure.store';
-import ImportPrivateKey from '../../components/ImportPrivateKey';
+import ImportShopPrivateKey from '../../components/ImportShopPrivateKey';
 import { Box, ButtonText, Button, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import { Wallet } from 'ethers';
@@ -14,6 +14,7 @@ import { getClient } from '../../utils/client';
 import { AUTH_STATE } from '../../stores/user.store';
 import { MobileType } from 'dms-sdk-client';
 import { useTranslation } from 'react-i18next';
+import ImportPrivateKey from '../../components/ImportPrivateKey';
 
 const Secret = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -21,7 +22,13 @@ const Secret = observer(({ navigation }) => {
   const [client, setClient] = useState();
   const [walletAddress, setWalletAddress] = useState('');
   const [fromOtherWallet, setFromOtherWallet] = useState(false);
+  const [nextScreen, setNextScreen] = useState('none');
 
+  useEffect(() => {
+    const nc =
+      process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? 'ShopReg' : 'PhoneAuth';
+    setNextScreen(nc);
+  }, []);
   const fetchClient = async () => {
     const { client: client1, address: userAddress } = await getClient();
     console.log('>>>>>>> userAddress :', userAddress);
@@ -73,14 +80,14 @@ const Secret = observer(({ navigation }) => {
     }
 
     const token = userStore.expoPushToken;
-    const language = 'kr';
+    const language = userStore.lang.toLowerCase();
     const os = Platform.OS === 'android' ? 'android' : 'iOS';
     try {
       await cc.ledger.registerMobileToken(
         token,
         language,
         os,
-        MobileType.SHOP_APP,
+        nextScreen === 'ShopReg' ? MobileType.SHOP_APP : MobileType.USER_APP,
       );
       userStore.setRegisteredPushToken(true);
     } catch (e) {
@@ -89,24 +96,40 @@ const Secret = observer(({ navigation }) => {
       alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
     }
   }
-  function resetPinCode(uri = 'ShopReg') {
+  function resetPinCode() {
     userStore.setLoading(false);
     alert(t('secret.alert.wallet.done'));
-    navigation.navigate(uri);
+    navigation.navigate(nextScreen);
   }
-
-  async function saveKey(key) {
+  async function saveSecure(key) {
     key = key.trim();
     let wallet;
     try {
       wallet = new Wallet(key);
     } catch (e) {
+      console.log('Invalid private key.');
       alert(t('secret.alert.wallet.invalid'));
       return;
     }
     secretStore.setAddress(wallet.address);
     await saveSecureValue('address', wallet.address);
     await saveSecureValue('privateKey', key);
+  }
+  async function saveKey(key) {
+    await saveSecure(key);
+
+    const cc = await fetchClient();
+    if (Device.isDevice) {
+      await registerPushTokenWithClient(cc);
+      resetPinCode();
+    } else {
+      console.log('Not on device.');
+      resetPinCode();
+    }
+  }
+
+  async function saveKeyForShop(key) {
+    await saveSecure(key);
 
     await fetchClient();
     userStore.setLoading(false);
@@ -146,12 +169,16 @@ const Secret = observer(({ navigation }) => {
               <ButtonText>{t('wallet.create')}</ButtonText>
             </Button>
           </Box>
-          <ImportPrivateKey
-            saveKey={saveKey}
-            fromOtherWallet={fromOtherWallet}
-            afterSelectingShop={afterSelectingShop}
-            client={client}
-          />
+          {nextScreen === 'ShopReg' ? (
+            <ImportShopPrivateKey
+              saveKey={saveKeyForShop}
+              fromOtherWallet={fromOtherWallet}
+              afterSelectingShop={afterSelectingShop}
+              client={client}
+            />
+          ) : (
+            <ImportPrivateKey saveKey={saveKey} />
+          )}
         </VStack>
       </Box>
     </SafeAreaView>
