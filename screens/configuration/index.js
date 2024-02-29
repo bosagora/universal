@@ -180,7 +180,7 @@ const Configuration = observer(({ navigation }) => {
         'Version : ' +
         Constants.expoConfig?.version +
         '/' +
-        process.env.EXPO_PUBLIC_BUNDLE_CODE +
+        process.env.EXPO_PUBLIC_UPDATE_CODE +
         ' (' +
         process.env.EXPO_PUBLIC_ENV +
         ') ',
