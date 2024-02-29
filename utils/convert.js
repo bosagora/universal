@@ -60,3 +60,58 @@ export function checkValidPeriod(timestamp, timeout) {
     return true;
   } else return false;
 }
+
+export function getName(lang, type, key) {
+  let ret = '';
+  if (lang === 'en') {
+    if (type === 'appName') {
+      switch (key) {
+        case 'kios':
+          ret = 'KIOS';
+          break;
+        case 'pnb':
+          ret = 'PNB';
+          break;
+        default:
+          ret = '';
+      }
+    } else if (type === 'tokenName') {
+      switch (key) {
+        case 'kios':
+          ret = 'KIOS';
+          break;
+        case 'pnb':
+          ret = 'PNB';
+          break;
+        default:
+          ret = '';
+      }
+    }
+  } else {
+    if (type === 'appName') {
+      switch (key) {
+        case 'kios':
+          ret = '키오스';
+          break;
+        case 'pnb':
+          ret = 'PNB';
+          break;
+        default:
+          ret = '';
+      }
+    } else if (type === 'tokenName') {
+      switch (key) {
+        case 'kios':
+          ret = 'KIOS';
+          break;
+        case 'pnb':
+          ret = 'PNB';
+          break;
+        default:
+          ret = '';
+      }
+    }
+  }
+
+  return ret;
+}

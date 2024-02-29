@@ -25,14 +25,14 @@ import {
   Image,
   Text,
 } from '@gluestack-ui/themed';
-import {KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { getSecureValue } from '../utils/secure.store';
 import QRCode from 'react-native-qrcode-svg';
 import { useStores } from '../stores';
 import { observer } from 'mobx-react';
 import * as Clipboard from 'expo-clipboard';
 import { truncateMiddleString } from '../utils/convert';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 // export default function QRActionSheet() {
 const TermActionSheet = observer(() => {
@@ -59,50 +59,47 @@ const TermActionSheet = observer(() => {
               <ActionsheetDragIndicator />
             </ActionsheetDragIndicatorWrapper>
             <ScrollView>
-            <VStack w='$full' p={20}>
-              <HStack justifyContent='center' alignItems='center' space='md'>
-                <Box
-                  // maxWidth='$64'
-                  borderColor='$borderLight200'
-                  borderRadius='$lg'
-                  borderWidth='$1'
-                  my='$4'
-                  overflow='hidden'
-                  sx={{
-                    '@base': {
-                      mx: '$5',
-                    },
-                    _dark: {
-                      bg: '$borderLight0',
-                      borderColor: '$borderLight0',
-                    },
-                  }}>
-                  <Box w='$full' p={20}>
-
+              <VStack w='$full' p={20}>
+                <HStack justifyContent='center' alignItems='center' space='md'>
+                  <Box
+                    // maxWidth='$64'
+                    borderColor='$borderLight200'
+                    borderRadius='$lg'
+                    borderWidth='$1'
+                    my='$4'
+                    overflow='hidden'
+                    sx={{
+                      '@base': {
+                        mx: '$5',
+                      },
+                      _dark: {
+                        bg: '$borderLight0',
+                        borderColor: '$borderLight0',
+                      },
+                    }}>
+                    <Box w='$full' p={20}></Box>
+                    <VStack px='$6' pt='$4' pb='$6'>
+                      <Text
+                        color='black'
+                        _dark={{ color: '$black' }}
+                        size='sm'
+                        p='$1.5'>
+                        {t('term.term.detail', { appName: t('app.name') })}
+                      </Text>
+                      <Button
+                        variant='solid'
+                        action='primary'
+                        onPress={async () => {
+                          handleClose();
+                        }}>
+                        <ButtonText fontSize='$sm' fontWeight='$medium'>
+                          {t('term.read')}
+                        </ButtonText>
+                      </Button>
+                    </VStack>
                   </Box>
-                  <VStack px='$6' pt='$4' pb='$6'>
-                    <Text
-                      color='black'
-                      _dark={{ color: '$black' }}
-                      size='sm'
-                      p='$1.5'>
-
-                      {t('term.term.detail')}
-                    </Text>
-                    <Button
-                      variant='solid'
-                      action='primary'
-                      onPress={async () => {
-                        handleClose();
-                      }}>
-                      <ButtonText fontSize='$sm' fontWeight='$medium'>
-                        {t('term.read')}
-                      </ButtonText>
-                    </Button>
-                  </VStack>
-                </Box>
-              </HStack>
-            </VStack>
+                </HStack>
+              </VStack>
             </ScrollView>
           </ActionsheetContent>
         </Actionsheet>

@@ -151,7 +151,9 @@ const MileageCancelNotification = observer(() => {
       bg='$backgroundLight0'>
       <MobileHeader
         title={t('wallet.redeem.header.title')}
-        subTitle={t('wallet.redeem.header.subtitle')}
+        subTitle={t('wallet.redeem.header.subtitle', {
+          appName: t('app.name'),
+        })}
       />
 
       <VStack space='lg' pt='$4' m='$7'>

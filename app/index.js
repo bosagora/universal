@@ -70,6 +70,7 @@ import * as Device from 'expo-device';
 import ShopNotification from '../screens/wallet/ShopNotification';
 import * as SystemUI from 'expo-system-ui';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getName } from '../utils/convert';
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -83,8 +84,26 @@ I18N.use(initReactI18next) // passes i18n down to react-i18next
   .init({
     compatibilityJSON: 'v3',
     resources: {
-      en: { translation: en },
-      ko: { translation: ko },
+      en: {
+        translation: {
+          ...en,
+          'app.name': getName(
+            'en',
+            'appName',
+            process.env.EXPO_PUBLIC_TOKEN_NAME,
+          ),
+        },
+      },
+      ko: {
+        translation: {
+          ...ko,
+          'app.name': getName(
+            'ko',
+            'appName',
+            process.env.EXPO_PUBLIC_TOKEN_NAME,
+          ),
+        },
+      },
     },
     lng: 'en', // if you're using a language detector, do not define the lng option
     fallbackLng: 'en',

@@ -269,7 +269,7 @@ const Index = observer(({ navigation }) => {
                   _dark={{ color: '$textLight200' }}
                   fontSize='$xs'
                   my='$1.5'>
-                  {t('wallet.heading.description')}
+                  {t('wallet.heading.description', { appName: t('app.name') })}
                 </Text>
               </Box>
 
