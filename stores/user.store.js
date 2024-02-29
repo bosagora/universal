@@ -16,6 +16,7 @@ class UserStore {
   email = '';
   phone = '';
   countryPhoneCode = '';
+  phoneFormatted = '';
   country = '';
   lang = '';
   langTag = '';
@@ -34,15 +35,18 @@ class UserStore {
   loading = false;
   walletInterval = 0;
   quickApproval = false;
+
   constructor() {
     makeAutoObservable(this);
   }
+
   reset() {
     this.state = '';
     this.name = '';
     this.email = '';
     this.phone = '';
     this.countryPhoneCode = '';
+    this.phoneFormatted = '';
     this.country = '';
     this.lang = '';
     this.langTag = '';
@@ -123,6 +127,8 @@ class UserStore {
   setQuickApproval = (appr) => {
     this.quickApproval = appr;
   };
+  setPhoneFormatted = (pf) => {
+    this.phoneFormatted = pf;
+  };
 }
-
 export default UserStore;
