@@ -56,7 +56,8 @@ const Configuration = observer(({ navigation }) => {
     setRegisteredPushToken(toggleState);
     const ret = await registerForPushNotificationsAsync(userStore);
 
-    if (ret === 'denied') alert(t('permission.body.text.b'));
+    if (ret === 'denied')
+      alert(t('permission.body.text.b', { appName: t('app.name') }));
 
     if (toggleState && ret === 'granted') {
       const cc = await fetchClient();

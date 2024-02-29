@@ -50,7 +50,7 @@ const Term = observer(({ navigation }) => {
         height='$full'
         bg='$backgroundLight0'>
         <MobileHeader
-          title={t('term.header.title')}
+          title={t('term.header.title', { appName: t('app.name') })}
           subTitle={t('term.header.subtitle')}
         />
 

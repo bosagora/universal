@@ -64,7 +64,7 @@ const Permissions = observer(({ navigation }) => {
         height='$full'
         bg='$backgroundLight0'>
         <MobileHeader
-          title={t('permission.header.title')}
+          title={t('permission.header.title', { appName: t('app.name') })}
           subTitle={t('permission.header.subtitle')}></MobileHeader>
 
         <VStack space='lg' pt='$4' m='$7'>
@@ -73,10 +73,10 @@ const Permissions = observer(({ navigation }) => {
               {t('permission.body.heading')}
             </Heading>
             <Text my='$1.5' _dark={{ color: '$textLight200' }} fontSize='$xs'>
-              {t('permission.body.text.a')}
+              {t('permission.body.text.a', { appName: t('app.name') })}
             </Text>
             <Text my='$1.5' _dark={{ color: '$textLight200' }} fontSize='$xs'>
-              {t('permission.body.text.b')}
+              {t('permission.body.text.b', { appName: t('app.name') })}
             </Text>
           </VStack>
 
