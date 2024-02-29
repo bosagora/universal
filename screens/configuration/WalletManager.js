@@ -8,7 +8,7 @@ import { ethers } from 'ethers';
 import * as Clipboard from 'expo-clipboard';
 
 import { getSecureValue, saveSecureValue } from '../../utils/secure.store';
-import ImportPrivateKey from '../../components/ImportPrivateKey';
+import ImportShopPrivateKey from '../../components/ImportShopPrivateKey';
 import {
   Box,
   ButtonText,
@@ -172,7 +172,7 @@ const WalletManager = observer(({ navigation }) => {
               <ButtonText>{t('wallet.export')}</ButtonText>
             </Button>
           </Box>
-          <ImportPrivateKey
+          <ImportShopPrivateKey
             saveKey={saveKey}
             fromOtherWallet={fromOtherWallet}
             afterSelectingShop={afterSelectingShop}

@@ -61,7 +61,7 @@ const ShopNotification = observer(() => {
           setHasPayment(false);
         }
       } catch (e) {
-        alert('shop notificaiton error :' + JSON.stringify(e));
+        console.log('shop notificaiton error :' + JSON.stringify(e));
       }
     }
     fetchClient().then(() => console.log('end of fetchClient'));
