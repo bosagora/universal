@@ -113,9 +113,9 @@
   "user.wallet.modal.heading.description": "Once your points are converted to tokens, you can't convert them back to points and your future loyalty will be collected in tokens.",
   "user.wallet.modal.body.a": "Click confirm to continue.",
 
-  "wallet.history.settlement.header.title": "Loyalty settlement history",
+  "wallet.history.header.title.settlement": "Loyalty settlement history",
   "wallet.history.header.title": "Loyalty collection/redemption history",
-  "wallet.history.header.title.p": "Loyalty provide/redemption history",
+  "wallet.history.header.title.provide": "Loyalty provide/redemption history",
   "wallet.history.header.subtitle.a": "Recent",
   "wallet.history.header.subtitle.b": "entries",
   "wallet.history.header.subtitle.nothing": "No history available.",
@@ -125,10 +125,19 @@
   "wallet.history.body.text.d": "Provided",
   "wallet.history.body.text.e": "Scheduled to provide",
 
-  "wallet.redeem.use.fail": "Authorizing loyalty redemption cancellation failed.",
-  "wallet.redeem.use.done": "Authorizing loyalty redemption cancellation successful.",
-  "wallet.redeem.header.title": "Loyalty redemption cancellation",
-  "wallet.redeem.header.subtitle": "Redeem {{appName}} Loyalty",
+  "user.wallet.history.body.text.d": "Converted",
+  "user.wallet.history.body.text.e": "Scheduled to collect",
+
+  "wallet.cancel.use.fail": "Authorizing loyalty redemption cancellation failed.",
+  "wallet.cancel.use.done": "Authorizing loyalty redemption cancellation successful.",
+  "wallet.cancel.header.title": "Loyalty redemption cancellation",
+  "wallet.cancel.header.subtitle": "Redeem {{appName}} Loyalty",
+  "wallet.cancel.header.body.a": "Loyalty redeemed amount",
+
+  "wallet.redeem.use.fail": "Redemption authentication failed. Please contact support.",
+  "wallet.redeem.use.done": "Redemption successfully authenticated.",
+  "wallet.redeem.header.title": "KIOS Loyalty redeemed",
+  "wallet.redeem.header.subtitle": "Redeem KIOS Loyalty",
   "wallet.redeem.header.body.a": "Loyalty redeemed amount",
 
   "wallet.shop.update.fail": "Approving store/shop information change failed.",

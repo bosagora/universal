@@ -104,7 +104,7 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
         height='$full'
         bg='$backgroundLight0'>
         <MobileHeader
-          title={t('wallet.history.settlement.header.title')}
+          title={t('wallet.history.header.title.settlement')}
           subTitle={
             historyData && historyData.length > 0
               ? t('wallet.history.header.subtitle.a') +

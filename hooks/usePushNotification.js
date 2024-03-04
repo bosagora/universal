@@ -92,6 +92,7 @@ export const usePushNotification = (userStore, loyaltyStore, pinStore) => {
         //   'notification data :' + JSON.stringify(response.notification.request),
         // );
         if (
+          payment.type === 'new' ||
           payment.type === 'cancel' ||
           payment.type === 'shop_update' ||
           payment.type === 'shop_status'

@@ -5,32 +5,39 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  ButtonIcon,
   ButtonText,
   HStack,
   Text,
   VStack,
 } from '@gluestack-ui/themed';
+import { CheckIcon } from 'lucide-react-native';
 import MobileHeader from '../../components/MobileHeader';
 import '@ethersproject/shims';
-import { Amount, NormalSteps } from 'dms-sdk-client';
+import { Amount, LoyaltyType, NormalSteps } from 'dms-sdk-client';
 import { getClient } from '../../utils/client';
 import {
   checkValidPeriod,
-  convertShopProperValue,
+  convertProperValue,
   isEmpty,
 } from '../../utils/convert';
+import * as Clipboard from 'expo-clipboard';
 import { useTranslation } from 'react-i18next';
 
-const MileageCancelNotification = observer(() => {
+const MileageRedeemNotification = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { pinStore, loyaltyStore } = useStores();
+  const [values, setValues] = useState(['T1', 'T2']);
 
   const [client, setClient] = useState(null);
   const [address, setAddress] = useState('');
 
   const [shopName, setShopName] = useState('');
+  const [shopId, setShopId] = useState('');
   const [purchaseId, setPurchaseId] = useState('');
   const [amount, setAmount] = useState(new Amount(0, 18));
+  const [useAmount, setUseAmount] = useState(new Amount(0, 18));
+  const [loyaltyType, setLoyaltyType] = useState(0);
   const [currency, setCurrency] = useState('');
   const [hasPayment, setHasPayment] = useState(false);
   const [expired, setExpired] = useState(false);
@@ -45,7 +52,7 @@ const MileageCancelNotification = observer(() => {
         if (
           loyaltyStore.payment &&
           !isEmpty(loyaltyStore.payment) &&
-          loyaltyStore.payment.type === 'cancel'
+          loyaltyStore.payment.type === 'new'
         ) {
           if (
             checkValidPeriod(
@@ -75,35 +82,39 @@ const MileageCancelNotification = observer(() => {
     // get shop info
     const info = await cc.shop.getShopInfo(shopId);
     console.log('shop info : ', info);
+    setShopId(shopId);
     setShopName(info.name);
   };
 
   const savePaymentInfo = async (cc, paymentId) => {
     const info = await cc.ledger.getPaymentDetail(paymentId);
     console.log('payment info:', info);
+    await Clipboard.setStringAsync(JSON.stringify(info));
     setPurchaseId(info.purchaseId);
     setAmount(new Amount(info.amount, 18));
     setCurrency(info.currency);
+    const mm = info.loyaltyType === 0 ? info.paidPoint : info.paidToken;
+    setUseAmount(new Amount(mm, 18));
+    setLoyaltyType(info.loyaltyType);
     await saveShopInfo(cc, info.shopId);
   };
 
-  async function confirmCancel() {
-    if (expired) {
-      loyaltyStore.setPayment({});
-      pinStore.setNextScreen('Wallet');
-      return;
-    }
-
+  async function confirmRedeem() {
     try {
       const steps = [];
-      const isUp = await client.ledger.isRelayUp();
-      for await (const step of client.ledger.approveCancelPayment(
+
+      // return;
+
+      for await (const step of client.ledger.approveNewPayment(
         loyaltyStore.payment.id,
         purchaseId,
+        amount.value,
+        currency.toLowerCase(),
+        shopId,
         true,
       )) {
         steps.push(step);
-        console.log('confirmCancel step :', step);
+        console.log('confirmRedeem step :', step);
         switch (step.key) {
           case NormalSteps.PREPARED:
             break;
@@ -122,13 +133,13 @@ const MileageCancelNotification = observer(() => {
         loyaltyStore.setLastUpdateTime(time);
         loyaltyStore.setPayment({});
         pinStore.setNextScreen('Wallet');
-        alert(t('wallet.cancel.use.done'));
+        alert(t('wallet.redeem.use.done'));
       }
     } catch (e) {
       console.log('e :', e);
       loyaltyStore.setPayment({});
       pinStore.setNextScreen('Wallet');
-      alert(t('wallet.cancel.use.fail') + 'e:' + e.message);
+      alert(t('wallet.redeem.use.fail') + 'e:' + e.message);
     }
   }
 
@@ -138,53 +149,60 @@ const MileageCancelNotification = observer(() => {
   }
 
   return hasPayment ? (
-    <Box
-      sx={{
-        _dark: { bg: '$backgroundDark800' },
-        _web: {
-          height: '100vh',
-          w: '100vw',
-          overflow: 'hidden',
-        },
-      }}
-      height='$full'
-      bg='$backgroundLight0'>
-      <MobileHeader
-        title={t('wallet.cancel.header.title')}
-        subTitle={t('wallet.cancel.header.subtitle', {
-          appName: t('app.name'),
-        })}
-      />
+    <SafeAreaView>
+      <Box
+        sx={{
+          _dark: { bg: '$backgroundDark800' },
+          _web: {
+            height: '100vh',
+            w: '100vw',
+            overflow: 'hidden',
+          },
+        }}
+        height='$full'
+        bg='$backgroundLight0'>
+        <MobileHeader
+          title={t('wallet.redeem.header.title')}
+          subTitle={t('wallet.redeem.header.subtitle')}
+        />
 
-      <VStack space='lg' pt='$4' m='$7'>
-        <HStack>
-          <Text w='40%'>{t('shop')} :</Text>
-          <Text>{shopName}</Text>
-        </HStack>
-        <HStack>
-          <Text w='40%'>{t('purchase')} ID :</Text>
-          <Text>{purchaseId}</Text>
-        </HStack>
-        <HStack>
-          <Text w='40%'>
-            {t('purchase')} {t('amount')} :{' '}
-          </Text>
-          <Text>
-            {convertShopProperValue(amount.toBOAString())}{' '}
-            {currency.toUpperCase()}
-          </Text>
-        </HStack>
         <VStack space='lg' pt='$4' m='$7'>
-          <Button py='$2.5' px='$3' onPress={() => confirmCancel()}>
-            <ButtonText>{t('button.press.a')}</ButtonText>
-          </Button>
-          <Button onPress={() => cancelCancel()}>
-            <ButtonText>{t('button.press.b')}</ButtonText>
-          </Button>
+          <HStack>
+            <Text w='40%'>{t('shop')} :</Text>
+            <Text>{shopName}</Text>
+          </HStack>
+          <HStack>
+            <Text w='40%'>{t('purchase')} ID :</Text>
+            <Text>{purchaseId}</Text>
+          </HStack>
+          <HStack>
+            <Text w='40%'>
+              {t('purchase')} {t('amount')} :
+            </Text>
+            <Text>
+              {convertProperValue(amount.toBOAString())}{' '}
+              {currency.toUpperCase()}
+            </Text>
+          </HStack>
+          <HStack>
+            <Text w='40%'>{t('wallet.redeem.header.body.a')} :</Text>
+            <Text>
+              {convertProperValue(useAmount.toBOAString())}{' '}
+              {loyaltyType === LoyaltyType.POINT ? 'POINT' : 'TOKEN'}
+            </Text>
+          </HStack>
+          <VStack space='lg' pt='$4' m='$7'>
+            <Button py='$2.5' px='$3' onPress={() => confirmRedeem()}>
+              <ButtonText>{t('button.press.a')}</ButtonText>
+            </Button>
+            <Button onPress={() => cancelCancel()}>
+              <ButtonText>{t('button.press.b')}</ButtonText>
+            </Button>
+          </VStack>
         </VStack>
-      </VStack>
-    </Box>
+      </Box>
+    </SafeAreaView>
   ) : null;
 });
 
-export default MileageCancelNotification;
+export default MileageRedeemNotification;

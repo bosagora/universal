@@ -72,6 +72,8 @@ import * as SystemUI from 'expo-system-ui';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getName } from '../utils/convert';
 import UserWallet from '../screens/wallet/UserWallet';
+import MileageHistory from '../screens/wallet/MileageHistory';
+import MileageRedeemNotification from '../screens/wallet/MileageRedeemNotification';
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -306,6 +308,7 @@ const App = observer(() => {
             <PrivacyActionSheet />
             <ShopNotification />
             <MileageCancelNotification />
+            <MileageRedeemNotification />
           </GluestackUIProvider>
         </NavigationContainer>
         <PinCodeScreen />
@@ -379,6 +382,17 @@ function MainStackScreen() {
         <MainStack.Screen name='QRActionSheet' component={QRActionSheet} />
         <MainStack.Screen
           name='MileageHistory'
+          component={MileageHistory}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#1f2937',
+            },
+            headerTintColor: '#fff',
+          }}
+        />
+        <MainStack.Screen
+          name='MileageProvideHistory'
           component={MileageProvideHistory}
           options={{
             title: '',
