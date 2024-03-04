@@ -19,6 +19,7 @@ import { registerForPushNotificationsAsync } from '../../hooks/usePushNotificati
 import { getClient } from '../../utils/client';
 import { MobileType } from 'dms-sdk-client';
 import * as Clipboard from 'expo-clipboard';
+import { registerPushTokenWithClient } from '../../utils/push.token';
 
 const Configuration = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -56,19 +57,25 @@ const Configuration = observer(({ navigation }) => {
     setRegisteredPushToken(toggleState);
     const ret = await registerForPushNotificationsAsync(userStore);
 
-    if (ret === 'denied')
+    if (ret === 'denied') {
       alert(t('permission.body.text.b', { appName: t('app.name') }));
+      return;
+    }
 
     if (toggleState && ret === 'granted') {
       const cc = await fetchClient();
-      const regRet = await registerPushTokenWithClient(cc);
+      const regRet = await registerPushTokenWithClient(
+        cc,
+        userStore,
+        process.env.EXPO_PUBLIC_APP_KIND,
+      );
       if (regRet) {
         setRegisteredPushToken(true);
-        userStore.setRegisteredPushToken(true);
+        // userStore.setRegisteredPushToken(true);
       }
     } else {
       setRegisteredPushToken(false);
-      userStore.setRegisteredPushToken(false);
+      // userStore.setRegisteredPushToken(false);
     }
   };
   const toggleQuickApproval = async (toggleState) => {
@@ -108,26 +115,28 @@ const Configuration = observer(({ navigation }) => {
     }
   };
 
-  async function registerPushTokenWithClient(cc) {
-    console.log('registerPushTokenWithClient >>>>>>>> cc:', cc);
-    const token = userStore.expoPushToken;
-    const language = userStore.lang;
-    const os = Platform.OS === 'android' ? 'android' : 'iOS';
-    try {
-      await cc.ledger.registerMobileToken(
-        token,
-        language,
-        os,
-        MobileType.SHOP_APP,
-      );
-      return true;
-    } catch (e) {
-      await Clipboard.setStringAsync(JSON.stringify(e));
-      console.log('error : ', e);
-      alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
-      return false;
-    }
-  }
+  // async function registerPushTokenWithClient(cc) {
+  //   console.log('registerPushTokenWithClient >>>>>>>> cc:', cc);
+  //   const token = userStore.expoPushToken;
+  //   const language = userStore.lang.toLowerCase();
+  //   const os = Platform.OS === 'android' ? 'android' : 'iOS';
+  //   try {
+  //     await cc.ledger.registerMobileToken(
+  //       token,
+  //       language,
+  //       os,
+  //       process.env.EXPO_PUBLIC_APP_KIND === 'shop'
+  //         ? MobileType.SHOP_APP
+  //         : MobileType.USER_APP,
+  //     );
+  //     return true;
+  //   } catch (e) {
+  //     await Clipboard.setStringAsync(JSON.stringify(e));
+  //     console.log('error : ', e);
+  //     alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
+  //     return false;
+  //   }
+  // }
   const setPincode = () => {
     console.log('setPincode');
     pinStore.setNextScreen('setPincode');
@@ -154,7 +163,7 @@ const Configuration = observer(({ navigation }) => {
     }
   };
 
-  const data = [
+  const aData = [
     {
       id: 'bd7acbea',
       name: t('config.menu.a'),
@@ -171,14 +180,20 @@ const Configuration = observer(({ navigation }) => {
       id: '4a0f5869',
       name: t('config.menu.d'),
     },
+  ];
+  const bData = [
     {
       id: 'f44a0869',
       name: t('config.menu.e'),
     },
+  ];
+  const cData = [
     {
       id: 'cb69423sg',
       name:
         'Version : ' +
+        process.env.EXPO_PUBLIC_APP_KIND +
+        ' ' +
         Constants.expoConfig?.version +
         '/' +
         process.env.EXPO_PUBLIC_UPDATE_CODE +
@@ -187,6 +202,10 @@ const Configuration = observer(({ navigation }) => {
         ') ',
     },
   ];
+  const data =
+    process.env.EXPO_PUBLIC_APP_KIND === 'shop'
+      ? [...aData, ...bData, ...cData]
+      : [...aData, ...cData];
   return (
     <Box
       sx={{

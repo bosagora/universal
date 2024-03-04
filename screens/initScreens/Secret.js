@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import 'react-native-get-random-values';
 import '@ethersproject/shims';
-import { saveSecureValue } from '../../utils/secure.store';
+import { saveSecure, saveSecureValue } from '../../utils/secure.store';
 import ImportShopPrivateKey from '../../components/ImportShopPrivateKey';
 import { Box, ButtonText, Button, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
@@ -15,6 +15,7 @@ import { AUTH_STATE } from '../../stores/user.store';
 import { MobileType } from 'dms-sdk-client';
 import { useTranslation } from 'react-i18next';
 import ImportPrivateKey from '../../components/ImportPrivateKey';
+import { registerPushTokenWithClient } from '../../utils/push.token';
 
 const Secret = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -54,7 +55,11 @@ const Secret = observer(({ navigation }) => {
 
     const cc = await fetchClient();
     if (Device.isDevice) {
-      await registerPushTokenWithClient(cc);
+      await registerPushTokenWithClient(
+        cc,
+        userStore,
+        process.env.EXPO_PUBLIC_APP_KIND,
+      );
       resetPinCode();
     } else {
       console.log('Not on device.');
@@ -69,58 +74,62 @@ const Secret = observer(({ navigation }) => {
     }, 100);
   }
 
-  async function registerPushTokenWithClient(cc) {
-    console.log('registerPushTokenWithClient >>>>>>>> cc:', cc);
-    if (
-      userStore.expoPushToken === '' ||
-      userStore.enableNotification === false
-    ) {
-      userStore.setRegisteredPushToken(false);
-      return;
-    }
-
-    const token = userStore.expoPushToken;
-    const language = userStore.lang.toLowerCase();
-    const os = Platform.OS === 'android' ? 'android' : 'iOS';
-    try {
-      await cc.ledger.registerMobileToken(
-        token,
-        language,
-        os,
-        nextScreen === 'ShopReg' ? MobileType.SHOP_APP : MobileType.USER_APP,
-      );
-      userStore.setRegisteredPushToken(true);
-    } catch (e) {
-      await Clipboard.setStringAsync(JSON.stringify(e));
-      console.log('error : ', e);
-      alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
-    }
-  }
+  // async function registerPushTokenWithClient(cc) {
+  //   console.log('registerPushTokenWithClient >>>>>>>> cc:', cc);
+  //   if (
+  //     userStore.expoPushToken === '' ||
+  //     userStore.enableNotification === false
+  //   ) {
+  //     userStore.setRegisteredPushToken(false);
+  //     return;
+  //   }
+  //
+  //   const token = userStore.expoPushToken;
+  //   const language = userStore.lang.toLowerCase();
+  //   const os = Platform.OS === 'android' ? 'android' : 'iOS';
+  //   try {
+  //     await cc.ledger.registerMobileToken(
+  //       token,
+  //       language,
+  //       os,
+  //       nextScreen === 'ShopReg' ? MobileType.SHOP_APP : MobileType.USER_APP,
+  //     );
+  //     userStore.setRegisteredPushToken(true);
+  //   } catch (e) {
+  //     await Clipboard.setStringAsync(JSON.stringify(e));
+  //     console.log('error : ', e);
+  //     alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
+  //   }
+  // }
   function resetPinCode() {
     userStore.setLoading(false);
     alert(t('secret.alert.wallet.done'));
     navigation.navigate(nextScreen);
   }
-  async function saveSecure(key) {
-    key = key.trim();
-    let wallet;
-    try {
-      wallet = new Wallet(key);
-    } catch (e) {
-      console.log('Invalid private key.');
-      alert(t('secret.alert.wallet.invalid'));
-      return;
-    }
-    secretStore.setAddress(wallet.address);
-    await saveSecureValue('address', wallet.address);
-    await saveSecureValue('privateKey', key);
-  }
+  // async function saveSecure(key) {
+  //   key = key.trim();
+  //   let wallet;
+  //   try {
+  //     wallet = new Wallet(key);
+  //   } catch (e) {
+  //     console.log('Invalid private key.');
+  //     alert(t('secret.alert.wallet.invalid'));
+  //     return;
+  //   }
+  //   secretStore.setAddress(wallet.address);
+  //   await saveSecureValue('address', wallet.address);
+  //   await saveSecureValue('privateKey', key);
+  // }
   async function saveKey(key) {
-    await saveSecure(key);
+    await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
 
     const cc = await fetchClient();
     if (Device.isDevice) {
-      await registerPushTokenWithClient(cc);
+      await registerPushTokenWithClient(
+        cc,
+        userStore,
+        process.env.EXPO_PUBLIC_APP_KIND,
+      );
       resetPinCode();
     } else {
       console.log('Not on device.');
@@ -129,7 +138,7 @@ const Secret = observer(({ navigation }) => {
   }
 
   async function saveKeyForShop(key) {
-    await saveSecure(key);
+    await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
 
     await fetchClient();
     userStore.setLoading(false);
@@ -138,7 +147,11 @@ const Secret = observer(({ navigation }) => {
 
   async function afterSelectingShop() {
     if (Device.isDevice) {
-      await registerPushTokenWithClient(client);
+      await registerPushTokenWithClient(
+        client,
+        userStore,
+        process.env.EXPO_PUBLIC_APP_KIND,
+      );
       userStore.setAuthState(AUTH_STATE.DONE);
     } else {
       console.log('Not on device.');
