@@ -71,6 +71,7 @@ import ShopNotification from '../screens/wallet/ShopNotification';
 import * as SystemUI from 'expo-system-ui';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getName } from '../utils/convert';
+import UserWallet from '../screens/wallet/UserWallet';
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -125,11 +126,6 @@ const App = observer(() => {
     const rehydrate = async () => {
       await trunk.init();
       setIsStoreLoaded(true);
-      // pinStore.setVisible(false);
-      // console.log('push token :', expoPushToken);
-      // if (expoPushToken !== undefined && expoPushToken?.data?.length > 10) {
-      //   userStore.setExpoPushToken(expoPushToken.data);
-      // }
 
       userStore.setLoading(false);
       console.log('app.index > userStore : ', userStore);
@@ -489,7 +485,9 @@ const TabScreens = observer(() => {
       }}>
       <Tab.Screen
         name='Wallet'
-        component={Wallet}
+        component={
+          process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? Wallet : UserWallet
+        }
         options={{
           title: '홈',
           tabBarVisible: false,

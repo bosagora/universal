@@ -16,7 +16,7 @@ import { Amount, NormalSteps } from 'dms-sdk-client';
 import { getClient } from '../../utils/client';
 import {
   checkValidPeriod,
-  convertProperValue,
+  convertShopProperValue,
   isEmpty,
 } from '../../utils/convert';
 import { useTranslation } from 'react-i18next';
@@ -170,7 +170,8 @@ const MileageCancelNotification = observer(() => {
             {t('purchase')} {t('amount')} :{' '}
           </Text>
           <Text>
-            {convertProperValue(amount.toBOAString())} {currency.toUpperCase()}
+            {convertShopProperValue(amount.toBOAString())}{' '}
+            {currency.toUpperCase()}
           </Text>
         </HStack>
         <VStack space='lg' pt='$4' m='$7'>

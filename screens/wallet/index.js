@@ -25,8 +25,10 @@ import {
   ContractUtils,
   ShopWithdrawStatus,
 } from 'dms-sdk-client';
-import { convertProperValue, truncateMiddleString } from '../../utils/convert';
-import loyaltyStore from '../../stores/loyalty.store';
+import {
+  convertShopProperValue,
+  truncateMiddleString,
+} from '../../utils/convert';
 import { SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import * as Clipboard from 'expo-clipboard';
@@ -34,7 +36,6 @@ import { BigNumber } from '@ethersproject/bignumber/src.ts';
 import { getSecureValue, saveSecureValue } from '../../utils/secure.store';
 import '@ethersproject/shims';
 import { Wallet } from 'ethers';
-import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 
 const Index = observer(({ navigation }) => {
@@ -89,13 +90,6 @@ const Index = observer(({ navigation }) => {
 
     await setData(client1);
     await fetchBalances(client1);
-
-    // loyaltyStore.setPayment({
-    //   id: '0x5f59d6b480ff5a30044dcd7fe3b28c69b6d0d725ca469d1b685b57dfc1055d7f',
-    //   type: 'shop_update',
-    //   taskId:
-    //     '0xf7d3c6c310f5b53d62e96e363146b7da517ffaf063866923c6ce60683b154c91',
-    // });
   }
   async function fetchBalances(cc, userAddress) {
     if (userStore.walletInterval > 0) clearInterval(userStore.walletInterval);
@@ -290,7 +284,7 @@ const Index = observer(({ navigation }) => {
                   <Box p='$1'>
                     <Text _dark={{ color: '$textLight200' }} size='md' mr='$1'>
                       {t('wallet.modal.body.b')} :{' '}
-                      {convertProperValue(
+                      {convertShopProperValue(
                         providedAmount.toBOAString(),
                         userStore.currency,
                       )}{' '}
@@ -300,7 +294,7 @@ const Index = observer(({ navigation }) => {
                   <Box p='$1'>
                     <Text _dark={{ color: '$textLight200' }} size='md' mr='$1'>
                       {t('wallet.modal.body.c')}:{' '}
-                      {convertProperValue(
+                      {convertShopProperValue(
                         usedAmount.toBOAString(),
                         userStore.currency,
                       )}{' '}
@@ -333,11 +327,11 @@ const Index = observer(({ navigation }) => {
                         mr='$2'>
                         {t('wallet.modal.body.e')} :{' '}
                         {adjustmentStatus === ShopWithdrawStatus.OPEN
-                          ? convertProperValue(
+                          ? convertShopProperValue(
                               withdrawAmount.toBOAString(),
                               userStore.currency,
                             )
-                          : convertProperValue(
+                          : convertShopProperValue(
                               new Amount(0, 18).toBOAString(),
                               userStore.currency,
                             )}{' '}
@@ -362,7 +356,7 @@ const Index = observer(({ navigation }) => {
                         size='sm'
                         mr='$2'>
                         {t('wallet.modal.body.f')} :{' '}
-                        {convertProperValue(
+                        {convertShopProperValue(
                           withdrawableAmount.toBOAString(),
                           userStore.currency,
                         )}{' '}
@@ -385,7 +379,7 @@ const Index = observer(({ navigation }) => {
                   <Box p='$1'>
                     <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>
                       {t('wallet.modal.body.g')} :{' '}
-                      {convertProperValue(
+                      {convertShopProperValue(
                         withdrawnAmount.toBOAString(),
                         userStore.currency,
                       )}{' '}

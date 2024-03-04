@@ -103,6 +103,16 @@
   "wallet.modal.body.g": "Completed",
   "wallet.modal.body.h": "Press confirm to continue",
 
+  "user.wallet.alert.convert.fail": "Converting to KIOS tokens failed.",
+  "user.wallet.alert.convert.done": "Successfully converted to KIOS tokens.",
+  "user.wallet.heading": "My KIOS Loyalty",
+  "user.wallet.heading.description": "KIOS Loyalty can be redeemed for goods and services at any THE9 kiosk",
+  "user.wallet.link.history": "Collection/Redemption History",
+  "user.wallet.link.convert": "Convert to KIOS tokens",
+  "user.wallet.use.qr": "Use at kiosk(QR)",
+  "user.wallet.modal.heading.description": "Once your points are converted to tokens, you can't convert them back to points and your future loyalty will be collected in tokens.",
+  "user.wallet.modal.body.a": "Click confirm to continue.",
+
   "wallet.history.settlement.header.title": "Loyalty settlement history",
   "wallet.history.header.title": "Loyalty collection/redemption history",
   "wallet.history.header.title.p": "Loyalty provide/redemption history",

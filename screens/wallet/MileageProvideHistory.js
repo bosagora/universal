@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { Box, FlatList, HStack, Text, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import { getClient } from '../../utils/client';
-import { convertProperValue, timePadding } from '../../utils/convert';
+import { convertShopProperValue, timePadding } from '../../utils/convert';
 import { Amount, BOACoin } from 'dms-sdk-client';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useTranslation } from 'react-i18next';
@@ -211,7 +211,7 @@ const MileageProvideHistory = observer(({ navigation }) => {
                   <Box>
                     <Text>
                       {item.actionName === 'USED' ? '+' : '-'}
-                      {convertProperValue(
+                      {convertShopProperValue(
                         new Amount(
                           BigNumber.from(item.increase),
                           9,
