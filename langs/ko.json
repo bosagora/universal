@@ -113,9 +113,9 @@
   "user.wallet.modal.heading.description": "포인트를 토큰으로 전환한 후에는 다시 포인트로 전환할 수 없으며, 향후 마일리지는 토큰으로 지급됩니다.",
   "user.wallet.modal.body.a": "계속 진행하려면 확인을 클릭하세요.",
 
-  "wallet.history.settlement.header.title": "마일리지 정산 내역",
+  "wallet.history.header.title.settlement": "마일리지 정산 내역",
   "wallet.history.header.title": "마일리지 적립/사용 내역",
-  "wallet.history.header.title.p": "마일리지 제공/사용 내역",
+  "wallet.history.header.title.provide": "마일리지 제공/사용 내역",
   "wallet.history.header.subtitle.a": "최근",
   "wallet.history.header.subtitle.b": "개 내역",
   "wallet.history.header.subtitle.nothing": "조회된 내역이 없습니다.",
@@ -125,10 +125,19 @@
   "wallet.history.body.text.d": "제공",
   "wallet.history.body.text.e": "제공 예정",
 
-  "wallet.redeem.use.fail": "마일리지 사용 취소 승인에 실패하였습니다.",
-  "wallet.redeem.use.done": "마일리지 사용 취소가 성공적으로 승인되었습니다.",
-  "wallet.redeem.header.title": "마일리지 사용 취소",
-  "wallet.redeem.header.subtitle": "",
+  "user.wallet.history.body.text.d": "토큰 전환",
+  "user.wallet.history.body.text.e": "적립 예정",
+
+  "wallet.cancel.use.fail": "마일리지 사용 취소 승인에 실패하였습니다.",
+  "wallet.cancel.use.done": "마일리지 사용 취소가 성공적으로 승인되었습니다.",
+  "wallet.cancel.header.title": "마일리지 사용 취소",
+  "wallet.cancel.header.subtitle": "",
+  "wallet.cancel.header.body.a": "사용 마일리지",
+
+  "wallet.redeem.use.fail": "사용 승인에 실패하였습니다. 관리자에게 문의하세요.",
+  "wallet.redeem.use.done": "마일리지 사용이 성공적으로 승인되었습니다.",
+  "wallet.redeem.header.title": "마일리지 사용 알림",
+  "wallet.redeem.header.subtitle": "마일리지로 상품 구매",
   "wallet.redeem.header.body.a": "사용 마일리지",
 
   "wallet.shop.update.fail": "상점 정보 변경 승인에 실패하였습니다.",

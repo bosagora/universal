@@ -274,7 +274,9 @@ const Index = observer(({ navigation }) => {
                     <Heading size='md'>{t('wallet.modal.body.a')}</Heading>
                   </HStack>
                   <Pressable
-                    onPress={() => navigation.navigate('MileageHistory')}>
+                    onPress={() =>
+                      navigation.navigate('MileageProvideHistory')
+                    }>
                     <Text fontSize='$sm' color='$violet400'>
                       {t('wallet.link.history.redemption')}
                     </Text>

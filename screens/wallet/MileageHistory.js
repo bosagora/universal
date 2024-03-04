@@ -5,12 +5,12 @@ import { observer } from 'mobx-react';
 import { Box, FlatList, HStack, Text, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import { getClient } from '../../utils/client';
-import { convertShopProperValue, timePadding } from '../../utils/convert';
-import { Amount, BOACoin } from 'dms-sdk-client';
+import { convertProperValue, timePadding } from '../../utils/convert';
+import { Amount, BOACoin, LedgerAction } from 'dms-sdk-client';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useTranslation } from 'react-i18next';
 
-const MileageProvideHistory = observer(({ navigation }) => {
+const MileageHistory = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { secretStore, userStore } = useStores();
   const [client, setClient] = useState();
@@ -59,59 +59,59 @@ const MileageProvideHistory = observer(({ navigation }) => {
       console.log('>>>>>>> userAddress :', userAddress);
       setClient(client1);
       setAddress(userAddress);
-
-      const resEst = await client1.shop.getEstimatedProvideHistory(
-        userStore.shopId,
-      );
+      const resEst = await client1.ledger.getEstimatedSaveHistory(userAddress);
       console.log('resEst:', resEst);
+
       const scheduledHistory = resEst.map((it) => {
         return {
           id: it.timestamp + it.purchaseId,
-          action: it.action,
-          increase: it.providedAmount.substring(
-            0,
-            it.providedAmount.length - 9,
-          ),
-          currency: it.currency,
+          action: LedgerAction.SAVED,
           actionName: 'SCHEDULED',
-          amount: it.providedAmount,
+          loyaltyType: it.loyaltyType,
+          loyaltyTypeName: it.loyaltyType === 0 ? 'POINT' : 'TOKEN',
+          amountPoint: it.providePoint.substring(0, it.providePoint.length - 9),
+          amountToken: it.provideToken.substring(0, it.provideToken.length - 9),
+          amountValue: it.provideValue,
           blockTimestamp: it.timestamp,
         };
       });
-      console.log('scheduledHistory:', scheduledHistory);
-      const res = await client1.shop.getProvideAndUseTradeHistory(
-        userStore.shopId,
-        {
-          limit: 100,
-          skip: 0,
-          sortDirection: 'desc',
-          sortBy: 'blockNumber',
-        },
-      );
+      console.log('scheduledHistory :', scheduledHistory);
+      const res = await client1.ledger.getSaveAndUseHistory(userAddress, {
+        limit: 100,
+        skip: 0,
+        sortDirection: 'desc',
+        sortBy: 'blockNumber',
+      });
 
-      console.log('len :', res.shopTradeHistories?.length);
-      console.log('res.shopTradeHistories 1:', res.shopTradeHistories[0]);
-      const tradeHistory = res.shopTradeHistories
+      console.log('len :', res.userTradeHistories?.length);
+      const tradeHistory = res.userTradeHistories
         .filter((it) => {
-          return it.action === 1 || it.action === 2;
+          return (
+            it.action === LedgerAction.SAVED ||
+            it.action === LedgerAction.USED ||
+            it.action === LedgerAction.CHANGED
+          );
         })
         .map((it) => {
           return {
             id: it.id,
             action: it.action,
-            increase: it.increase,
-            currency: it.currency,
             actionName:
-              it.action === 1
-                ? 'PROVIDED'
-                : it.cancel === false
-                ? 'USED'
-                : 'CANCEL',
-            amount: it.action === 1 ? it.providedAmount : it.increase,
+              it.cancel === true
+                ? 'CANCEL'
+                : it.action === LedgerAction.SAVED
+                ? 'SAVED'
+                : it.action === LedgerAction.CHANGED
+                ? 'CHANGED'
+                : 'USED',
+            loyaltyType: it.loyaltyType,
+            loyaltyTypeName: it.loyaltyType === 0 ? 'POINT' : 'TOKEN',
+            amountPoint: it.amountPoint,
+            amountToken: it.amountToken,
+            amountValue: it.amountValue,
             blockTimestamp: it.blockTimestamp,
           };
         });
-
       const history = scheduledHistory.concat(tradeHistory);
       history.sort(function (a, b) {
         // 오름차순
@@ -122,10 +122,11 @@ const MileageProvideHistory = observer(({ navigation }) => {
           : 0;
       });
       console.log('history :', history.slice(0, 3));
-
       setHistoryData(history);
     };
-    fetchHistory();
+    fetchHistory()
+      .then()
+      .catch((e) => console.log('history error :', e));
   }, []);
 
   return (
@@ -142,7 +143,7 @@ const MileageProvideHistory = observer(({ navigation }) => {
         height='$full'
         bg='$backgroundLight0'>
         <MobileHeader
-          title={t('wallet.history.header.title.provide')}
+          title={t('wallet.history.header.title')}
           subTitle={
             historyData && historyData.length > 0
               ? t('wallet.history.header.subtitle.a') +
@@ -190,12 +191,14 @@ const MileageProvideHistory = observer(({ navigation }) => {
                         },
                       }}>
                       {item.actionName === 'SCHEDULED'
-                        ? t('wallet.history.body.text.e')
+                        ? t('user.wallet.history.body.text.e')
                         : item.actionName === 'CANCEL'
                         ? t('wallet.history.body.text.a')
-                        : item.actionName === 'PROVIDED'
-                        ? t('wallet.history.body.text.d')
-                        : t('wallet.history.body.text.c')}
+                        : item.actionName === 'SAVED'
+                        ? t('wallet.history.body.text.b')
+                        : item.actionName === 'USED'
+                        ? t('wallet.history.body.text.c')
+                        : t('user.wallet.history.body.text.d')}
                     </Text>
                     <Text
                       fontSize='$sm'
@@ -210,15 +213,26 @@ const MileageProvideHistory = observer(({ navigation }) => {
                   </VStack>
                   <Box>
                     <Text>
-                      {item.actionName === 'USED' ? '+' : '-'}
-                      {convertShopProperValue(
-                        new Amount(
-                          BigNumber.from(item.increase),
-                          9,
-                        ).toBOAString(),
-                        item.currency,
+                      {item.actionName === 'CANCEL' ||
+                      item.actionName === 'SAVED' ||
+                      item.actionName === 'SCHEDULED'
+                        ? '+'
+                        : item.actionName === 'USED'
+                        ? '-'
+                        : ''}
+                      {convertProperValue(
+                        item.loyaltyType === 1
+                          ? new Amount(
+                              BigNumber.from(item.amountToken),
+                              9,
+                            ).toBOAString()
+                          : new Amount(
+                              BigNumber.from(item.amountPoint),
+                              9,
+                            ).toBOAString(),
+                        item.loyaltyType,
                       )}{' '}
-                      {item.currency.toUpperCase()}
+                      {item.loyaltyTypeName}
                     </Text>
                   </Box>
                 </HStack>
@@ -231,4 +245,4 @@ const MileageProvideHistory = observer(({ navigation }) => {
   );
 });
 
-export default MileageProvideHistory;
+export default MileageHistory;
