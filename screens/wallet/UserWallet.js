@@ -20,7 +20,7 @@ import {
 } from '@gluestack-ui/themed';
 import { getClient } from '../../utils/client';
 import { Amount, BOACoin, ContractUtils } from 'dms-sdk-client';
-import { convertProperValue } from '../../utils/convert';
+import { convertProperValue, truncateMiddleString } from '../../utils/convert';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -187,7 +187,18 @@ const UserWallet = observer(({ navigation }) => {
             borderColor: '$borderDark800',
           },
         }}>
-        <VStack justifyContent='center' alignItems='center' p='$5'>
+        <Box alignItems='flex-end' pt='$4' px='$5'>
+          <Button
+            variant='link'
+            onPress={async () => {
+              await Clipboard.setStringAsync(address);
+            }}>
+            <ButtonText fontWeight='$medium' fontSize='$sm'>
+              {truncateMiddleString(address || '', 12)}
+            </ButtonText>
+          </Button>
+        </Box>
+        <VStack justifyContent='center' alignItems='center' p='$4'>
           <HStack>
             <Box
               // maxWidth='$64'
