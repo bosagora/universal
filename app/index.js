@@ -74,6 +74,7 @@ import { getName } from '../utils/convert';
 import UserWallet from '../screens/wallet/UserWallet';
 import MileageHistory from '../screens/wallet/MileageHistory';
 import MileageRedeemNotification from '../screens/wallet/MileageRedeemNotification';
+import PhoneAuth from '../screens/initScreens/PhoneAuth';
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -348,6 +349,11 @@ function InitStackScreen() {
       <InitStack.Screen
         name='ShopReg'
         component={ShopReg}
+        options={{ headerShown: false }}
+      />
+      <InitStack.Screen
+        name='PhoneAuth'
+        component={PhoneAuth}
         options={{ headerShown: false }}
       />
     </InitStack.Navigator>
