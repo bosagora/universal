@@ -110,7 +110,7 @@ const QRActionSheet = observer(() => {
                   }}>
                   <Box w='$full' p={20}>
                     {walletAddress ? (
-                      <QRCode size={250} value={temporaryAccount} />
+                      <QRCode size={150} value={temporaryAccount} />
                     ) : null}
                   </Box>
                 </Box>
