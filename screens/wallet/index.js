@@ -29,7 +29,7 @@ import {
   convertShopProperValue,
   truncateMiddleString,
 } from '../../utils/convert';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import * as Clipboard from 'expo-clipboard';
 import { BigNumber } from '@ethersproject/bignumber/src.ts';
@@ -442,5 +442,13 @@ const Index = observer(({ navigation }) => {
     </SafeAreaView>
   );
 });
-
+const styles = StyleSheet.create({
+  heading: {
+    fontSize: 24,
+    fontWeight: '500',
+    letterSpacing: -0.7,
+    lineHeight: 32,
+    fontFamily: 'Roboto-Medium',
+  },
+});
 export default Index;

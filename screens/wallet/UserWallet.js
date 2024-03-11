@@ -21,7 +21,7 @@ import {
 import { getClient } from '../../utils/client';
 import { Amount, BOACoin, ContractUtils } from 'dms-sdk-client';
 import { convertProperValue, truncateMiddleString } from '../../utils/convert';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 const UserWallet = observer(({ navigation }) => {
@@ -219,9 +219,9 @@ const UserWallet = observer(({ navigation }) => {
                 },
               }}>
               <Box>
-                <Heading _dark={{ color: '$textLight200' }} size='lg'>
+                <Text style={[styles.heading]} size='lg'>
                   {t('user.wallet.heading')}
-                </Heading>
+                </Text>
                 <Text
                   _dark={{ color: '$textLight200' }}
                   fontSize='$xs'
@@ -385,5 +385,13 @@ const UserWallet = observer(({ navigation }) => {
     </SafeAreaView>
   );
 });
-
+const styles = StyleSheet.create({
+  heading: {
+    fontSize: 24,
+    fontWeight: '500',
+    letterSpacing: -0.7,
+    lineHeight: 32,
+    fontFamily: 'Roboto-Medium',
+  },
+});
 export default UserWallet;
