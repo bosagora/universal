@@ -14,13 +14,6 @@ import {
 } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import { useTranslation } from 'react-i18next';
-import { WrapBox, WrapDivider } from '../../components/styled/layout';
-import {
-  ActiveButtonText,
-  Header2Text,
-  ParaText,
-} from '../../components/styled/text';
-import { WrapButton } from '../../components/styled/button';
 
 const Permissions = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -58,33 +51,43 @@ const Permissions = observer(({ navigation }) => {
     }
   }
   return (
-    <WrapBox>
-      <Box flex={5}>
+    <SafeAreaView>
+      <Box
+        sx={{
+          _dark: { bg: '$backgroundDark800' },
+          _web: {
+            height: '100vh',
+            w: '100vw',
+            overflow: 'hidden',
+          },
+        }}
+        height='$full'
+        bg='$backgroundLight0'>
         <MobileHeader
-          title={t('permission.header.title')}
-          subTitle={t('permission.header.subtitle', {
-            appName: t('app.name'),
-          })}></MobileHeader>
+          title={t('permission.header.title', { appName: t('app.name') })}
+          subTitle={t('permission.header.subtitle')}></MobileHeader>
 
-        <VStack mt={50}>
-          <VStack>
-            <Header2Text>{t('permission.body.heading')}</Header2Text>
-            <WrapDivider></WrapDivider>
-            <ParaText mt={5}>
+        <VStack space='lg' pt='$4' m='$7'>
+          <VStack px='$6' pt='$4' pb='$6'>
+            <Heading _dark={{ color: '$textLight200' }} size='sm'>
+              {t('permission.body.heading')}
+            </Heading>
+            <Text my='$1.5' _dark={{ color: '$textLight200' }} fontSize='$xs'>
               {t('permission.body.text.a', { appName: t('app.name') })}
-            </ParaText>
-            <ParaText mt={15}>
+            </Text>
+            <Text my='$1.5' _dark={{ color: '$textLight200' }} fontSize='$xs'>
               {t('permission.body.text.b', { appName: t('app.name') })}
-            </ParaText>
+            </Text>
           </VStack>
+
+          <Box py='$10'>
+            <Button py='$2.5' px='$3' onPress={() => agreePermissions()}>
+              <ButtonText>{t('next')}</ButtonText>
+            </Button>
+          </Box>
         </VStack>
       </Box>
-      <Box py='$10'>
-        <WrapButton py='$2.5' px='$3' onPress={() => agreePermissions()}>
-          <ActiveButtonText>{t('next')}</ActiveButtonText>
-        </WrapButton>
-      </Box>
-    </WrapBox>
+    </SafeAreaView>
   );
 });
 
