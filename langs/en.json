@@ -35,8 +35,8 @@
   "button.press.d": "Agree",
 
   "permission.agree.alert": "Please allow notifications",
-  "permission.header.title": "Necessary permission for your {{appName}} experience",
-  "permission.header.subtitle": "",
+  "permission.header.subtitle": "Necessary permission for your {{appName}} experience",
+  "permission.header.title": "Consent to access permission",
   "permission.body.heading": "Push notifications",
   "permission.body.text.a": "Please enable push notifications in your system settings to receive necessary alerts (redemption confirmation, cancellation, and more) for your {{appName}} loyalty redemption.",
   "permission.body.text.b": "To allow push notifications, go to Settings > Notifications >  {{appName}} for stores  and turn on 'Allow notifications'",

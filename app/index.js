@@ -130,7 +130,7 @@ const App = observer(() => {
 
   usePushNotification(userStore, loyaltyStore, pinStore);
   useEffect(() => {
-    SystemUI.setBackgroundColorAsync('#1f2937');
+    SystemUI.setBackgroundColorAsync('#fff');
     const rehydrate = async () => {
       await trunk.init();
       setIsStoreLoaded(true);
@@ -269,6 +269,7 @@ const App = observer(() => {
   const [fontsLoaded, fontError] = useFonts({
     'Roboto-Bold': require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
     'Roboto-Medium': require('../assets/fonts/Roboto/Roboto-Medium.ttf'),
+    'Roboto-Regular': require('../assets/fonts/Roboto/Roboto-Regular.ttf'),
   });
 
   const onLayoutRootView = useCallback(async () => {
