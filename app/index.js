@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   AppState,
@@ -75,6 +75,8 @@ import UserWallet from '../screens/wallet/UserWallet';
 import MileageHistory from '../screens/wallet/MileageHistory';
 import MileageRedeemNotification from '../screens/wallet/MileageRedeemNotification';
 import PhoneAuth from '../screens/initScreens/PhoneAuth';
+import { useFonts } from 'expo-font';
+import { SplashScreen } from 'expo-router';
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -116,6 +118,9 @@ I18N.use(initReactI18next) // passes i18n down to react-i18next
       escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
     },
   });
+
+// SplashScreen.preventAutoHideAsync();
+
 const App = observer(() => {
   const [isStoreLoaded, setIsStoreLoaded] = useState(false);
   const { pinStore, userStore, loyaltyStore } = useStores();
@@ -255,11 +260,26 @@ const App = observer(() => {
         console.log('After AppState', appState.current);
       },
     );
-
+    onLayoutRootView();
     return () => {
       subscription.remove();
     };
   }, []);
+
+  const [fontsLoaded, fontError] = useFonts({
+    'Roboto-Bold': require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
+    'Roboto-Medium': require('../assets/fonts/Roboto/Roboto-Medium.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  // if (!fontsLoaded && !fontError) {
+  //   return null;
+  // }
 
   if (!isStoreLoaded) {
     return (
