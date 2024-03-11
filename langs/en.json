@@ -42,7 +42,8 @@
   "permission.body.text.b": "To allow push notifications, go to Settings > Notifications >  {{appName}} for stores  and turn on 'Allow notifications'",
 
   "term.header.title": "Please agree to use {{appName}} app",
-  "term.header.subtitle": "",
+  "term.header.subtitle": "Check and agree to the terms and conditions required to use KIOS services.",
+  "term.body.heading": "Agreement",
   "term.body.text.a": "[Required] Terms of Service",
   "term.body.text.b": "[Required] Privacy policy",
 

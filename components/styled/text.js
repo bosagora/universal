@@ -52,8 +52,16 @@ export const ParaText = styled(BaseText, {
   fontFamily: 'Roboto-Regular',
   fontWeight: 400,
   lineHeight: 18,
-  fontSize: 12,
+  fontSize: 13,
   color: '#8A8A8A',
+});
+
+export const Para2Text = styled(BaseText, {
+  fontFamily: 'Roboto-Regular',
+  fontWeight: 400,
+  lineHeight: 18,
+  fontSize: 13,
+  color: '#555555',
 });
 
 export const ActiveButtonText = styled(ButtonText, {
