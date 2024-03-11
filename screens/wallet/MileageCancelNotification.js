@@ -64,7 +64,7 @@ const MileageCancelNotification = observer(() => {
           setHasPayment(false);
         }
       } catch (e) {
-        alert('shop notificaiton error :' + JSON.stringify(e));
+        // alert('shop notificaiton error :' + JSON.stringify(e));
       }
     }
     fetchClient().then(() => console.log('end of fetchClient'));
