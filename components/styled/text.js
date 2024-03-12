@@ -71,6 +71,13 @@ export const ActiveButtonText = styled(ButtonText, {
   fontSize: 17,
   color: 'white',
 });
+export const ActiveWhiteButtonText = styled(ButtonText, {
+  fontFamily: 'Roboto-Bold',
+  fontWeight: 600,
+  lineHeight: 25,
+  fontSize: 17,
+  color: '#555555',
+});
 
 export const PinButtonText = styled(ButtonText, {
   fontFamily: 'Roboto-Regular',

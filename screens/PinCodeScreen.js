@@ -27,26 +27,58 @@ const PinCodeScreen = observer(() => {
       subTitle: `Wrong PIN {{maxAttempt}} times.\nTemporarily locked in {{lockDuration}}.`,
     },
   };
-
   const EnterAndSet = {
     header: {
       justifyContent: 'flex-start',
       alignItems: 'center',
       minHeight: 100,
     },
-    title: { fontSize: 24 },
-    pin: { backgroundColor: '#a78bfa' },
+    title: {
+      color: '#12121D',
+      fontFamily: 'Roboto-Medium',
+      fontWeight: 500,
+      lineHeight: 28,
+      fontSize: 25,
+    },
+    subTitle: {
+      color: '#707070',
+      fontFamily: 'Roboto-Medium',
+      fontWeight: 400,
+      lineHeight: 20,
+      fontSize: 14,
+    },
+    pin: { backgroundColor: '#5C66D5' },
+    button: {
+      backgroundColor: '#E4E4E4',
+      width: 72,
+      height: 72,
+      borderRadius: 60,
+    },
+    buttonText: {
+      color: '#12121D',
+      fontFamily: 'Roboto-Regular',
+      fontWeight: 400,
+      lineHeight: 28,
+      fontSize: 28,
+    },
+    footerText: {
+      color: '#8A8A8A',
+      fontFamily: 'Roboto-Medium',
+      fontWeight: 500,
+      lineHeight: 24,
+      fontSize: 16,
+    },
   };
 
   const customStyles = {
     main: {
       ...StyleSheet.absoluteFillObject,
       zIndex: 99,
-      backgroundColor: '#4b5563',
+      backgroundColor: '#fff',
     },
     enter: {
       ...EnterAndSet,
-      buttonTextDisabled: { color: 'gray' },
+      buttonTextDisabled: { color: 'red' },
     },
     set: EnterAndSet,
     locked: {
@@ -54,7 +86,7 @@ const PinCodeScreen = observer(() => {
       countdownText: { color: 'black' },
     },
     reset: {
-      confirmText: { color: 'red' },
+      confirmText: { color: '#a78bfa' },
     },
   };
 

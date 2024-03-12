@@ -29,12 +29,21 @@ import {
   SelectDragIndicatorWrapper,
   SelectDragIndicator,
   SelectItem,
+  HStack,
 } from '@gluestack-ui/themed';
 import { ChevronDownIcon } from 'lucide-react-native';
 import { useStores } from '../stores';
 import { observer } from 'mobx-react';
 import { truncateMiddleString, truncateString } from '../utils/convert';
 import { useTranslation } from 'react-i18next';
+import {
+  ActiveButtonText,
+  ActiveWhiteButtonText,
+  HeaderText,
+  ParaText,
+  SubHeaderText,
+} from './styled/text';
+import { WrapButton, WrapWhiteButton } from './styled/button';
 
 const ImportShopPrivateKey = observer(
   ({ saveKey, fromOtherWallet, afterSelectingShop, client }) => {
@@ -89,23 +98,21 @@ const ImportShopPrivateKey = observer(
     };
 
     return (
-      <Box>
-        <Button
-          py='$2.5'
-          px='$3'
+      <Box mt={9}>
+        <WrapWhiteButton
           onPress={() => {
             setShowModal(true);
           }}>
-          <ButtonText>{t('wallet.import')}</ButtonText>
-        </Button>
+          <ActiveWhiteButtonText>{t('wallet.import')}</ActiveWhiteButtonText>
+        </WrapWhiteButton>
         {fromOtherWallet === true ? (
           shopIds.length > 0 ? (
             <Box my='$5'>
               <FormControl size='md' isRequired={true}>
                 <FormControlLabel mb='$1'>
-                  <FormControlLabelText>
+                  <SubHeaderText style={{ color: '#8A8A8A' }}>
                     {t('import.shop.body.list')}
-                  </FormControlLabelText>
+                  </SubHeaderText>
                 </FormControlLabel>
                 <Select
                   onValueChange={onPressShop}
@@ -115,8 +122,22 @@ const ImportShopPrivateKey = observer(
                   selectedLabel={
                     shopIds ? truncateMiddleString(shopIds[0], 12) : ''
                   }>
-                  <SelectTrigger>
-                    <SelectInput placeholder='Select option' />
+                  <SelectTrigger
+                    style={{
+                      height: 48,
+                      borderWidth: 1,
+                      borderColor: '#E4E4E4',
+                    }}>
+                    <SelectInput
+                      placeholder='Select option'
+                      style={{
+                        fontFamily: 'Roboto-Medium',
+                        fontWeight: 500,
+                        lineHeight: 16,
+                        fontSize: 15,
+                        color: '#12121D',
+                      }}
+                    />
                     <SelectIcon mr='$3'>
                       <Icon as={ChevronDownIcon} />
                     </SelectIcon>
@@ -139,14 +160,15 @@ const ImportShopPrivateKey = observer(
                     </SelectContent>
                   </SelectPortal>
                 </Select>
-                <Button
-                  my='$2.5'
-                  px='$3'
+                <WrapButton
+                  mt={10}
                   onPress={() => {
                     onPressSelectShop();
                   }}>
-                  <ButtonText>{t('import.shop.body.select')}</ButtonText>
-                </Button>
+                  <ActiveButtonText>
+                    {t('import.shop.body.select')}
+                  </ActiveButtonText>
+                </WrapButton>
               </FormControl>
             </Box>
           ) : (
@@ -156,28 +178,39 @@ const ImportShopPrivateKey = observer(
           )
         ) : null}
         <Modal
+          size='lg'
           avoidKeyboard={true}
           isOpen={showModal}
           onClose={() => {
             setShowModal(false);
           }}>
           <ModalBackdrop />
-          <ModalContent maxWidth='$96'>
-            <ModalBody p='$5'>
-              <VStack space='xs' mb='$4'>
-                <Heading>{t('wallet.import')}</Heading>
-                <Text size='sm'>{t('import.body.text.a')}</Text>
+          <ModalContent bg='#FFFFFF'>
+            <ModalBody mt={30} mb={10} mx={10}>
+              <VStack>
+                <HeaderText>{t('wallet.import')}</HeaderText>
+                <ParaText mt={7}>{t('import.body.text.a')}</ParaText>
               </VStack>
               <VStack py='$2' space='xl'>
                 <FormControl>
                   <FormControlHelper>
-                    <FormControlHelperText>
+                    <SubHeaderText style={{ color: '#555555' }}>
                       {t('import.body.text.b')}
-                    </FormControlHelperText>
+                    </SubHeaderText>
                   </FormControlHelper>
 
                   <Input>
                     <InputField
+                      bg='#C0C0C0'
+                      style={{
+                        fontFamily: 'Roboto-Medium',
+                        fontWeight: 500,
+                        lineHeight: 16,
+                        fontSize: 15,
+                        color: '#12121D',
+                        borderWidth: 1,
+                        borderColor: '#8A8A8A',
+                      }}
                       value={privateKey}
                       onChangeText={setPrivateKey}
                     />
@@ -196,35 +229,31 @@ const ImportShopPrivateKey = observer(
                   {/*  />*/}
                   {/*</Textarea>*/}
                 </FormControl>
-              </VStack>
 
-              <ButtonGroup space='md' alignSelf='center'>
-                <Button
-                  variant='outline'
-                  py='$2.5'
-                  action='secondary'
-                  onPress={() => {
-                    setShowModal(false);
-                    setPrivateKey('');
-                  }}>
-                  <ButtonText fontSize='$sm' fontWeight='$medium'>
-                    {t('button.press.b')}
-                  </ButtonText>
-                </Button>
-                <Button
-                  variant='solid'
-                  bg='$success700'
-                  borderColor='$success700'
-                  onPress={() => {
-                    setShowModal(false);
-                    saveKey(privateKey);
-                    setPrivateKey('');
-                  }}>
-                  <ButtonText fontSize='$sm' fontWeight='$medium'>
-                    {t('button.press.a')}
-                  </ButtonText>
-                </Button>
-              </ButtonGroup>
+                <HStack flex={1}>
+                  <Box flex={1} mx={5}>
+                    <WrapWhiteButton
+                      onPress={() => {
+                        setShowModal(false);
+                        setPrivateKey('');
+                      }}>
+                      <ActiveWhiteButtonText>
+                        {t('button.press.b')}
+                      </ActiveWhiteButtonText>
+                    </WrapWhiteButton>
+                  </Box>
+                  <Box flex={1} mx={5}>
+                    <WrapButton
+                      onPress={() => {
+                        setShowModal(false);
+                        saveKey(privateKey);
+                        setPrivateKey('');
+                      }}>
+                      <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+                    </WrapButton>
+                  </Box>
+                </HStack>
+              </VStack>
             </ModalBody>
           </ModalContent>
         </Modal>
