@@ -163,7 +163,7 @@ const Secret = observer(({ navigation }) => {
   }
 
   return (
-    <WrapBox>
+    <WrapBox style={{ backgroundColor: userStore.contentColor }}>
       <MobileHeader
         title={t('secret.header.title')}
         subTitle={t('secret.header.subtitle')}

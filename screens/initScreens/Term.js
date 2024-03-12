@@ -30,7 +30,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const Term = observer(({ navigation }) => {
   const { t } = useTranslation();
-  const { secretStore } = useStores();
+  const { secretStore, userStore } = useStores();
   const [values, setValues] = useState([]);
   function agreeTerm() {
     if (values.includes('T1') && values.includes('T2')) {
@@ -46,7 +46,7 @@ const Term = observer(({ navigation }) => {
     secretStore.setShowPrivacySheet(true);
   }
   return (
-    <WrapBox>
+    <WrapBox style={{ backgroundColor: userStore.contentColor }}>
       <Box flex={5}>
         <MobileHeader
           title={t('term.header.title', { appName: t('app.name') })}

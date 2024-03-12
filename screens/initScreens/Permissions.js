@@ -58,7 +58,7 @@ const Permissions = observer(({ navigation }) => {
     }
   }
   return (
-    <WrapBox>
+    <WrapBox style={{ backgroundColor: userStore.contentColor }}>
       <Box flex={5}>
         <MobileHeader
           title={t('permission.header.title')}

@@ -138,7 +138,7 @@ const ShopReg = observer(({ navigation }) => {
     userStore.setCurrency(it);
   };
   return (
-    <WrapBox>
+    <WrapBox style={{ backgroundColor: userStore.contentColor }}>
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}

@@ -8,16 +8,14 @@ const RootPaddingBox = observer(({ navigation }) => {
   const { userStore } = useStores();
   console.log('userStore.contentColor : ', userStore.contentColor);
   return (
-    <View>
-      style=
-      {{
-        height: 1,
-        backgroundColor: 'red',
+    <View
+      style={{
+        height: 60,
+        backgroundColor: userStore.contentColor,
         marginTop: -60,
 
         zIndex: 2,
-      }}
-      >
+      }}>
       <StatusBar style='dark' translucent={true} />
     </View>
   );
