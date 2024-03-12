@@ -37,6 +37,7 @@ import { getSecureValue, saveSecureValue } from '../../utils/secure.store';
 import '@ethersproject/shims';
 import { Wallet } from 'ethers';
 import * as Device from 'expo-device';
+import { WrapBox } from '../../components/styled/layout';
 
 const Index = observer(({ navigation }) => {
   const { noteStore, secretStore, userStore, loyaltyStore } = useStores();
@@ -215,231 +216,205 @@ const Index = observer(({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
-      <View
-        h='$full'
-        sx={{
-          _dark: {
-            bg: '$backgroundDark800',
-            borderColor: '$borderDark800',
-          },
-        }}>
-        <Box alignItems='flex-end' pt='$4' px='$5'>
-          <Button
-            variant='link'
-            onPress={async () => {
-              await Clipboard.setStringAsync(address);
+    <WrapBox style={{ backgroundColor: userStore.contentColor }}>
+      <Box alignItems='flex-end' pt='$4' px='$5'>
+        <Button
+          variant='link'
+          onPress={async () => {
+            await Clipboard.setStringAsync(address);
+          }}>
+          <ButtonText fontWeight='$medium' fontSize='$sm'>
+            {truncateMiddleString(address || '', 12)}
+          </ButtonText>
+        </Button>
+      </Box>
+      <VStack justifyContent='center' alignItems='center' px='$4'>
+        <HStack>
+          <Box
+            // maxWidth='$64'
+            w='$full'
+            h='$full'
+            borderColor='$backgroundDark900'
+            borderRadius='$xl'
+            borderWidth='$1'
+            p='$4'
+            overflow='hidden'
+            sx={{
+              '@base': {
+                m: '$3',
+              },
+              _dark: {
+                bg: '$backgroundDark900',
+                borderColor: '$backgroundDark600',
+              },
             }}>
-            <ButtonText fontWeight='$medium' fontSize='$sm'>
-              {truncateMiddleString(address || '', 12)}
-            </ButtonText>
-          </Button>
-        </Box>
-        <VStack justifyContent='center' alignItems='center' px='$4'>
-          <HStack>
-            <Box
-              // maxWidth='$64'
-              w='$full'
-              h='$full'
-              borderColor='$backgroundDark900'
-              borderRadius='$xl'
-              borderWidth='$1'
-              p='$4'
-              overflow='hidden'
-              sx={{
-                '@base': {
-                  m: '$3',
-                },
-                _dark: {
-                  bg: '$backgroundDark900',
-                  borderColor: '$backgroundDark600',
-                },
-              }}>
-              <Box>
-                <Heading _dark={{ color: '$textLight200' }} size='lg'>
-                  {userStore.shopName}
-                </Heading>
-                <Text
-                  _dark={{ color: '$textLight200' }}
-                  fontSize='$xs'
-                  my='$1.5'>
-                  {t('wallet.heading.description', { appName: t('app.name') })}
-                </Text>
-              </Box>
-
-              <Divider my='$5' mr='$1' bg='$violet600' />
-              <Box>
-                <HStack justifyContent='space-between'>
-                  <HStack m='$30'>
-                    <Heading size='md'>{t('wallet.modal.body.a')}</Heading>
-                  </HStack>
-                  <Pressable
-                    onPress={() =>
-                      navigation.navigate('MileageProvideHistory')
-                    }>
-                    <Text fontSize='$sm' color='$violet400'>
-                      {t('wallet.link.history.redemption')}
-                    </Text>
-                  </Pressable>
-                </HStack>
-                <VStack m='$2'>
-                  <Box p='$1'>
-                    <Text _dark={{ color: '$textLight200' }} size='md' mr='$1'>
-                      {t('wallet.modal.body.b')} :{' '}
-                      {convertShopProperValue(
-                        providedAmount.toBOAString(),
-                        userStore.currency,
-                      )}{' '}
-                      {userStore.currency.toUpperCase()}
-                    </Text>
-                  </Box>
-                  <Box p='$1'>
-                    <Text _dark={{ color: '$textLight200' }} size='md' mr='$1'>
-                      {t('wallet.modal.body.c')}:{' '}
-                      {convertShopProperValue(
-                        usedAmount.toBOAString(),
-                        userStore.currency,
-                      )}{' '}
-                      {userStore.currency.toUpperCase()}
-                    </Text>
-                  </Box>
-                </VStack>
-              </Box>
-              <Box h='$2'></Box>
-              <Box>
-                <HStack justifyContent='space-between'>
-                  <HStack m='$30'>
-                    <Heading size='md'>{t('wallet.modal.body.d')}</Heading>
-                  </HStack>
-                  <Pressable
-                    onPress={() =>
-                      navigation.navigate('MileageAdjustmentHistory')
-                    }>
-                    <Text fontSize='$sm' color='$violet400'>
-                      {t('wallet.link.history.settlement')}
-                    </Text>
-                  </Pressable>
-                </HStack>
-                <VStack m='$2'>
-                  <Box p='$1'>
-                    <HStack alignItems='center'>
-                      <Text
-                        _dark={{ color: '$textLight200' }}
-                        size='sm'
-                        mr='$2'>
-                        {t('wallet.modal.body.e')} :{' '}
-                        {adjustmentStatus === ShopWithdrawStatus.OPEN
-                          ? convertShopProperValue(
-                              withdrawAmount.toBOAString(),
-                              userStore.currency,
-                            )
-                          : convertShopProperValue(
-                              new Amount(0, 18).toBOAString(),
-                              userStore.currency,
-                            )}{' '}
-                        {userStore.currency.toUpperCase()}
-                      </Text>
-                      {adjustmentStatus === ShopWithdrawStatus.OPEN ? (
-                        <Button
-                          size='xs'
-                          h={25}
-                          onPress={() => handleComplete()}>
-                          <ButtonText size='xs'>
-                            {t('wallet.modal.body.g')}
-                          </ButtonText>
-                        </Button>
-                      ) : null}
-                    </HStack>
-                  </Box>
-                  <Box p='$1'>
-                    <HStack alignItems='center'>
-                      <Text
-                        _dark={{ color: '$textLight200' }}
-                        size='sm'
-                        mr='$2'>
-                        {t('wallet.modal.body.f')} :{' '}
-                        {convertShopProperValue(
-                          withdrawableAmount.toBOAString(),
-                          userStore.currency,
-                        )}{' '}
-                        {userStore.currency.toUpperCase()}
-                      </Text>
-                      {adjustmentStatus !== ShopWithdrawStatus.OPEN &&
-                      withdrawableAmount.value.gt(BigNumber.from(0)) ? (
-                        <Button
-                          size='xs'
-                          h={25}
-                          onPress={() => handleRequest()}>
-                          <ButtonText size='xs'>
-                            {t('wallet.modal.body.e')}
-                          </ButtonText>
-                        </Button>
-                      ) : null}
-                    </HStack>
-                  </Box>
-
-                  <Box p='$1'>
-                    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>
-                      {t('wallet.modal.body.g')} :{' '}
-                      {convertShopProperValue(
-                        withdrawnAmount.toBOAString(),
-                        userStore.currency,
-                      )}{' '}
-                      {userStore.currency.toUpperCase()}
-                    </Text>
-                  </Box>
-                </VStack>
-              </Box>
+            <Box>
+              <Heading _dark={{ color: '$textLight200' }} size='lg'>
+                {userStore.shopName}
+              </Heading>
+              <Text _dark={{ color: '$textLight200' }} fontSize='$xs' my='$1.5'>
+                {t('wallet.heading.description', { appName: t('app.name') })}
+              </Text>
             </Box>
-          </HStack>
-        </VStack>
 
-        <Box>
-          <Modal
-            isOpen={showModal}
-            size='lg'
-            onClose={() => {
-              setShowModal(false);
-            }}>
-            <ModalBackdrop />
-            <ModalContent maxWidth='$96'>
-              <ModalBody p='$5'>
-                <VStack space='lg' mb='$4'>
-                  <Heading>{modalHeader}</Heading>
-                  <Text size='sm'>{modalContent}</Text>
-                  <Text size='sm'>{t('wallet.modal.body.h')} </Text>
-                </VStack>
+            <Divider my='$5' mr='$1' bg='$violet600' />
+            <Box>
+              <HStack justifyContent='space-between'>
+                <HStack m='$30'>
+                  <Heading size='md'>{t('wallet.modal.body.a')}</Heading>
+                </HStack>
+                <Pressable
+                  onPress={() => navigation.navigate('MileageProvideHistory')}>
+                  <Text fontSize='$sm' color='$violet400'>
+                    {t('wallet.link.history.redemption')}
+                  </Text>
+                </Pressable>
+              </HStack>
+              <VStack m='$2'>
+                <Box p='$1'>
+                  <Text _dark={{ color: '$textLight200' }} size='md' mr='$1'>
+                    {t('wallet.modal.body.b')} :{' '}
+                    {convertShopProperValue(
+                      providedAmount.toBOAString(),
+                      userStore.currency,
+                    )}{' '}
+                    {userStore.currency.toUpperCase()}
+                  </Text>
+                </Box>
+                <Box p='$1'>
+                  <Text _dark={{ color: '$textLight200' }} size='md' mr='$1'>
+                    {t('wallet.modal.body.c')}:{' '}
+                    {convertShopProperValue(
+                      usedAmount.toBOAString(),
+                      userStore.currency,
+                    )}{' '}
+                    {userStore.currency.toUpperCase()}
+                  </Text>
+                </Box>
+              </VStack>
+            </Box>
+            <Box h='$2'></Box>
+            <Box>
+              <HStack justifyContent='space-between'>
+                <HStack m='$30'>
+                  <Heading size='md'>{t('wallet.modal.body.d')}</Heading>
+                </HStack>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate('MileageAdjustmentHistory')
+                  }>
+                  <Text fontSize='$sm' color='$violet400'>
+                    {t('wallet.link.history.settlement')}
+                  </Text>
+                </Pressable>
+              </HStack>
+              <VStack m='$2'>
+                <Box p='$1'>
+                  <HStack alignItems='center'>
+                    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>
+                      {t('wallet.modal.body.e')} :{' '}
+                      {adjustmentStatus === ShopWithdrawStatus.OPEN
+                        ? convertShopProperValue(
+                            withdrawAmount.toBOAString(),
+                            userStore.currency,
+                          )
+                        : convertShopProperValue(
+                            new Amount(0, 18).toBOAString(),
+                            userStore.currency,
+                          )}{' '}
+                      {userStore.currency.toUpperCase()}
+                    </Text>
+                    {adjustmentStatus === ShopWithdrawStatus.OPEN ? (
+                      <Button size='xs' h={25} onPress={() => handleComplete()}>
+                        <ButtonText size='xs'>
+                          {t('wallet.modal.body.g')}
+                        </ButtonText>
+                      </Button>
+                    ) : null}
+                  </HStack>
+                </Box>
+                <Box p='$1'>
+                  <HStack alignItems='center'>
+                    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>
+                      {t('wallet.modal.body.f')} :{' '}
+                      {convertShopProperValue(
+                        withdrawableAmount.toBOAString(),
+                        userStore.currency,
+                      )}{' '}
+                      {userStore.currency.toUpperCase()}
+                    </Text>
+                    {adjustmentStatus !== ShopWithdrawStatus.OPEN &&
+                    withdrawableAmount.value.gt(BigNumber.from(0)) ? (
+                      <Button size='xs' h={25} onPress={() => handleRequest()}>
+                        <ButtonText size='xs'>
+                          {t('wallet.modal.body.e')}
+                        </ButtonText>
+                      </Button>
+                    ) : null}
+                  </HStack>
+                </Box>
 
-                <ButtonGroup space='md' alignSelf='center'>
-                  <Button
-                    variant='outline'
-                    py='$2.5'
-                    action='secondary'
-                    onPress={() => {
-                      setShowModal(false);
-                    }}>
-                    <ButtonText fontSize='$sm' fontWeight='$medium'>
-                      {t('button.press.b')}
-                    </ButtonText>
-                  </Button>
-                  <Button
-                    variant='solid'
-                    bg='$success700'
-                    borderColor='$success700'
-                    onPress={() => {
-                      confirmModal();
-                    }}>
-                    <ButtonText fontSize='$sm' fontWeight='$medium'>
-                      {t('button.press.a')}
-                    </ButtonText>
-                  </Button>
-                </ButtonGroup>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
-        </Box>
-      </View>
-    </SafeAreaView>
+                <Box p='$1'>
+                  <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>
+                    {t('wallet.modal.body.g')} :{' '}
+                    {convertShopProperValue(
+                      withdrawnAmount.toBOAString(),
+                      userStore.currency,
+                    )}{' '}
+                    {userStore.currency.toUpperCase()}
+                  </Text>
+                </Box>
+              </VStack>
+            </Box>
+          </Box>
+        </HStack>
+      </VStack>
+
+      <Box>
+        <Modal
+          isOpen={showModal}
+          size='lg'
+          onClose={() => {
+            setShowModal(false);
+          }}>
+          <ModalBackdrop />
+          <ModalContent maxWidth='$96'>
+            <ModalBody p='$5'>
+              <VStack space='lg' mb='$4'>
+                <Heading>{modalHeader}</Heading>
+                <Text size='sm'>{modalContent}</Text>
+                <Text size='sm'>{t('wallet.modal.body.h')} </Text>
+              </VStack>
+
+              <ButtonGroup space='md' alignSelf='center'>
+                <Button
+                  variant='outline'
+                  py='$2.5'
+                  action='secondary'
+                  onPress={() => {
+                    setShowModal(false);
+                  }}>
+                  <ButtonText fontSize='$sm' fontWeight='$medium'>
+                    {t('button.press.b')}
+                  </ButtonText>
+                </Button>
+                <Button
+                  variant='solid'
+                  bg='$success700'
+                  borderColor='$success700'
+                  onPress={() => {
+                    confirmModal();
+                  }}>
+                  <ButtonText fontSize='$sm' fontWeight='$medium'>
+                    {t('button.press.a')}
+                  </ButtonText>
+                </Button>
+              </ButtonGroup>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </WrapBox>
   );
 });
 const styles = StyleSheet.create({

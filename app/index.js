@@ -12,7 +12,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Box, GluestackUIProvider } from '@gluestack-ui/themed';
+import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 import DetailsScreen from '../screens/kitchen/Detail';
@@ -32,8 +32,7 @@ import Secret from '../screens/initScreens/Secret';
 import { AUTH_STATE } from '../stores/user.store';
 import InitPinCodeScreen from '../screens/initScreens/InitPinCodeScreen';
 import Temp from '../screens/Temp';
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { config } from '../gluestack-style.config.js';
 import { useStores, StoreProvider, trunk } from '../stores';
 
@@ -131,7 +130,7 @@ const App = observer(() => {
 
   usePushNotification(userStore, loyaltyStore, pinStore);
   useEffect(() => {
-    SystemUI.setBackgroundColorAsync('#fff');
+    SystemUI.setBackgroundColorAsync(userStore.backgroundColor);
     const rehydrate = async () => {
       await trunk.init();
       setIsStoreLoaded(true);
@@ -285,9 +284,9 @@ const App = observer(() => {
 
   if (!isStoreLoaded) {
     return (
-      <Box style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size='large' />
-      </Box>
+      </View>
     );
   } else {
     // userStore.setLoading(false);
@@ -313,9 +312,11 @@ const App = observer(() => {
               }
               console.log('current RouteName :', currentRouteName);
               if (currentRouteName === 'Wallet') {
-                // userStore.setContentColor('yellow');
+                if (process.env.EXPO_PUBLIC_APP_KIND === 'shop')
+                  userStore.setContentColor('#F3F3F4');
+                else userStore.setContentColor('#12121D');
               } else {
-                // userStore.setContentColor('#678656');
+                userStore.setContentColor('white');
               }
 
               // Save the current route name for later comparision
@@ -513,19 +514,22 @@ const TabScreens = observer(() => {
       initialRouteName='Wallet'
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         tabBarStyle: {
-          height: 60,
-          backgroundColor: '#1f2937',
-          marginBottom: 0,
-          paddingBottom: 0,
+          height: 80,
+          backgroundColor: '#fff',
+          paddingTop: 10,
+          paddingBottom: 15,
           borderTopWidth: 0,
           borderBottomWidth: 0,
         },
         tabBarItemStyle: {
-          color: 'white',
           margin: 2,
           borderRadius: 10,
+        },
+        tabBarLabelStyle: {
+          margin: 3,
+          color: 'pink',
         },
       }}>
       <Tab.Screen
@@ -534,13 +538,34 @@ const TabScreens = observer(() => {
           process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? Wallet : UserWallet
         }
         options={{
-          title: '홈',
-          tabBarVisible: false,
+          title: 'wallet',
+          tabBarLabel: ({ color, focused }) => (
+            <Text
+              style={
+                focused
+                  ? {
+                      fontFamily: 'Roboto-Regular',
+                      fontWeight: 400,
+                      lineHeight: 18,
+                      fontSize: 13,
+                      color: '#5C66D5',
+                    }
+                  : {
+                      fontFamily: 'Roboto-Regular',
+                      fontWeight: 400,
+                      lineHeight: 18,
+                      fontSize: 13,
+                      color: '#8A8A8A',
+                    }
+              }>
+              wallet
+            </Text>
+          ),
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
-              name='wallet-outline'
-              size={focused ? 44 : 24}
-              color={focused ? '#4ade80' : 'white'}
+            <MaterialIcons
+              name='account-balance-wallet'
+              size={25}
+              color={focused ? '#5C66D5' : '#707070'}
             />
           ),
         }}
@@ -550,12 +575,34 @@ const TabScreens = observer(() => {
         name='Message'
         component={MessageScreen}
         options={{
-          title: '메시지',
+          title: 'QR',
+          tabBarLabel: ({ color, focused }) => (
+            <Text
+              style={
+                focused
+                  ? {
+                      fontFamily: 'Roboto-Regular',
+                      fontWeight: 400,
+                      lineHeight: 18,
+                      fontSize: 12,
+                      color: '#5C66D5',
+                    }
+                  : {
+                      fontFamily: 'Roboto-Regular',
+                      fontWeight: 400,
+                      lineHeight: 18,
+                      fontSize: 12,
+                      color: '#8A8A8A',
+                    }
+              }>
+              QR
+            </Text>
+          ),
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
+            <MaterialIcons
               name='qr-code'
-              size={focused ? 34 : 24}
-              color={focused ? '#064e3b' : 'white'}
+              size={25}
+              color={focused ? '#5C66D5' : '#707070'}
             />
           ),
           tabBarButton: (props) => (
@@ -567,12 +614,34 @@ const TabScreens = observer(() => {
         name='Configuration'
         component={Configuration}
         options={{
-          title: '홈',
+          title: 'settings',
+          tabBarLabel: ({ color, focused }) => (
+            <Text
+              style={
+                focused
+                  ? {
+                      fontFamily: 'Roboto-Regular',
+                      fontWeight: 400,
+                      lineHeight: 18,
+                      fontSize: 12,
+                      color: '#5C66D5',
+                    }
+                  : {
+                      fontFamily: 'Roboto-Regular',
+                      fontWeight: 400,
+                      lineHeight: 18,
+                      fontSize: 12,
+                      color: '#8A8A8A',
+                    }
+              }>
+              settings
+            </Text>
+          ),
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
-              name='ios-settings-outline'
-              size={focused ? 34 : 24}
-              color={focused ? '#4ade80' : 'white'}
+            <MaterialIcons
+              name='settings'
+              size={25}
+              color={focused ? '#5C66D5' : '#707070'}
             />
           ),
         }}
