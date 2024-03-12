@@ -79,8 +79,8 @@ const Permissions = observer(({ navigation }) => {
           </VStack>
         </VStack>
       </Box>
-      <Box py='$10'>
-        <WrapButton py='$2.5' px='$3' onPress={() => agreePermissions()}>
+      <Box py={10}>
+        <WrapButton onPress={() => agreePermissions()}>
           <ActiveButtonText>{t('next')}</ActiveButtonText>
         </WrapButton>
       </Box>
