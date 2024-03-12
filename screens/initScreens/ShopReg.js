@@ -41,6 +41,8 @@ import { getClient } from '../../utils/client';
 import { ChevronDownIcon } from 'lucide-react-native';
 import MobileHeader from '../../components/MobileHeader';
 import { useTranslation } from 'react-i18next';
+import { WrapBox } from '../../components/styled/layout';
+import { SubHeaderText } from '../../components/styled/text';
 
 const registerSchema = yup.object().shape({
   n1: yup.string().required(),
@@ -136,99 +138,105 @@ const ShopReg = observer(({ navigation }) => {
     userStore.setCurrency(it);
   };
   return (
-    <SafeAreaView>
-      <Box
-        sx={{
-          _dark: { bg: '$backgroundDark800' },
-          _web: {
-            height: '100vh',
-            w: '100vw',
-            overflow: 'hidden',
-          },
-        }}
-        height='$full'
-        bg='$backgroundLight0'>
-        <KeyboardAwareScrollView
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          // style={{ marginBottom: 150 }}
-          enableOnAndroid={true}
-          scrollEnabled={true}
-          extraScrollHeight={100}
-          keyboardShouldPersistTaps='handled'
-          scrollToOverflowEnabled={true}
-          enableAutomaticScroll={true}>
-          <MobileHeader
-            title={t('shop.header.title')}
-            subTitle={t('shop.header.subtitle')}></MobileHeader>
+    <WrapBox>
+      <KeyboardAwareScrollView
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        // style={{ marginBottom: 150 }}
+        enableOnAndroid={true}
+        scrollEnabled={true}
+        extraScrollHeight={100}
+        keyboardShouldPersistTaps='handled'
+        scrollToOverflowEnabled={true}
+        enableAutomaticScroll={true}>
+        <MobileHeader
+          title={t('shop.header.title')}
+          subTitle={t('shop.header.subtitle')}></MobileHeader>
 
-          <Box
-            p='$4'
-            flex={1}
-            maxWidth='$96'
-            alignSelf='center'
-            // justifyContent='center'
-            w='$full'>
-            <VStack py='$2' space='xl'>
-              <FormControl
-                size='md'
-                isRequired={true}
-                isInvalid={!!formik.errors.n1}>
-                <FormControlLabel mb='$1'>
-                  <FormControlLabelText>
-                    {t('shop.body.text.a')}
-                  </FormControlLabelText>
-                </FormControlLabel>
-                <Input>
-                  <InputField
-                    type='text'
-                    placeholder={t('shop.body.text.a')}
-                    onChangeText={formik.handleChange('n1')}
-                    onBlur={formik.handleBlur('n1')}
-                    value={formik.values?.n1}
-                  />
-                </Input>
-              </FormControl>
-              <FormControl size='md' isRequired={true}>
-                <FormControlLabel mb='$1'>
-                  <FormControlLabelText>
-                    {t('shop.body.text.b')}
-                  </FormControlLabelText>
-                </FormControlLabel>
-                <Select
-                  onValueChange={onPressCurrency}
-                  selectedValue={userStore.currency}
-                  selectedLabel={userStore.currency.toUpperCase()}>
-                  <SelectTrigger>
-                    <SelectInput placeholder='Select option' />
-                    <SelectIcon mr='$3'>
-                      <Icon as={ChevronDownIcon} />
-                    </SelectIcon>
-                  </SelectTrigger>
-                  <SelectPortal>
-                    <SelectBackdrop />
-                    <SelectContent>
-                      <SelectDragIndicatorWrapper>
-                        <SelectDragIndicator />
-                      </SelectDragIndicatorWrapper>
-                      <SelectItem label='KRW' value='krw' defaultValue={true} />
-                      <SelectItem label='USD' value='usd' isDisabled={false} />
-                      <SelectItem label='PHP' value='php' isDisabled={false} />
-                    </SelectContent>
-                  </SelectPortal>
-                </Select>
-              </FormControl>
-              <Button
-                isDisabled={formik.values?.n1 === ''}
-                onPress={formik.handleSubmit}
-                my='$4'>
-                <ButtonText>{t('shop.create')}</ButtonText>
-              </Button>
-            </VStack>
-          </Box>
-        </KeyboardAwareScrollView>
-      </Box>
-    </SafeAreaView>
+        <VStack mt={50}>
+          <FormControl
+            size='md'
+            isRequired={true}
+            isInvalid={!!formik.errors.n1}>
+            <FormControlLabel mb='$1'>
+              <SubHeaderText style={{ color: '#555555' }}>
+                {t('shop.body.text.a')}
+              </SubHeaderText>
+            </FormControlLabel>
+            <Input
+              style={{
+                height: 48,
+                borderWidth: 1,
+                borderColor: '#E4E4E4',
+              }}>
+              <InputField
+                style={{
+                  fontFamily: 'Roboto-Medium',
+                  fontWeight: 500,
+                  lineHeight: 20,
+                  fontSize: 15,
+                  color: '#12121D',
+                }}
+                type='text'
+                placeholder={t('shop.body.text.a')}
+                onChangeText={formik.handleChange('n1')}
+                onBlur={formik.handleBlur('n1')}
+                value={formik.values?.n1}
+              />
+            </Input>
+          </FormControl>
+          <FormControl size='md' isRequired={true} mt={15}>
+            <FormControlLabel mb='$1'>
+              <SubHeaderText style={{ color: '#555555' }}>
+                {t('shop.body.text.b')}
+              </SubHeaderText>
+            </FormControlLabel>
+            <Select
+              onValueChange={onPressCurrency}
+              selectedValue={userStore.currency}
+              selectedLabel={userStore.currency.toUpperCase()}>
+              <SelectTrigger
+                style={{
+                  height: 48,
+                  borderWidth: 1,
+                  borderColor: '#E4E4E4',
+                }}>
+                <SelectInput
+                  placeholder='Select option'
+                  style={{
+                    fontFamily: 'Roboto-Medium',
+                    fontWeight: 500,
+                    lineHeight: 16,
+                    fontSize: 15,
+                    color: '#12121D',
+                  }}
+                />
+                <SelectIcon mr='$3'>
+                  <Icon as={ChevronDownIcon} />
+                </SelectIcon>
+              </SelectTrigger>
+              <SelectPortal>
+                <SelectBackdrop />
+                <SelectContent>
+                  <SelectDragIndicatorWrapper>
+                    <SelectDragIndicator />
+                  </SelectDragIndicatorWrapper>
+                  <SelectItem label='KRW' value='krw' defaultValue={true} />
+                  <SelectItem label='USD' value='usd' isDisabled={false} />
+                  <SelectItem label='PHP' value='php' isDisabled={false} />
+                </SelectContent>
+              </SelectPortal>
+            </Select>
+          </FormControl>
+          <Button
+            isDisabled={formik.values?.n1 === ''}
+            onPress={formik.handleSubmit}
+            my='$4'>
+            <ButtonText>{t('shop.create')}</ButtonText>
+          </Button>
+        </VStack>
+      </KeyboardAwareScrollView>
+    </WrapBox>
   );
 });
 

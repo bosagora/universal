@@ -348,8 +348,8 @@ function InitStackScreen() {
   return (
     <InitStack.Navigator>
       <InitStack.Screen
-        name='Secret'
-        component={Secret}
+        name='ShopReg'
+        component={ShopReg}
         options={{ headerShown: false }}
       />
       <InitStack.Screen
@@ -362,17 +362,17 @@ function InitStackScreen() {
         component={Term}
         options={{ headerShown: false }}
       />
-
+      <InitStack.Screen
+        name='Secret'
+        component={Secret}
+        options={{ headerShown: false }}
+      />
       <InitStack.Screen
         name='InitPinCodeScreen'
         component={InitPinCodeScreen}
         options={{ headerShown: false }}
       />
-      <InitStack.Screen
-        name='ShopReg'
-        component={ShopReg}
-        options={{ headerShown: false }}
-      />
+
       <InitStack.Screen
         name='PhoneAuth'
         component={PhoneAuth}
