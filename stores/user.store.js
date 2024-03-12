@@ -35,6 +35,8 @@ class UserStore {
   loading = false;
   walletInterval = 0;
   quickApproval = false;
+  contentColor = '#ffffff';
+  backgroundColor = '#ffffff';
 
   constructor() {
     makeAutoObservable(this);
@@ -61,6 +63,8 @@ class UserStore {
     this.loading = false;
     this.walletInterval = 0;
     this.quickApproval = false;
+    this.contentColor = '#ffffff';
+    this.backgroundColor = '#ffffff';
   }
 
   setAuthState = (state) => {
@@ -129,6 +133,13 @@ class UserStore {
   };
   setPhoneFormatted = (pf) => {
     this.phoneFormatted = pf;
+  };
+
+  setContentColor = (color) => {
+    this.contentColor = color;
+  };
+  setBackgroundColor = (color) => {
+    this.backgroundColor = color;
   };
 }
 export default UserStore;

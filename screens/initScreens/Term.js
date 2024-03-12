@@ -98,8 +98,8 @@ const Term = observer(({ navigation }) => {
           </CheckboxGroup>
         </VStack>
       </Box>
-      <Box py='$10'>
-        <WrapButton py='$2.5' px='$3' onPress={() => agreeTerm()}>
+      <Box py={10}>
+        <WrapButton onPress={() => agreeTerm()}>
           <ActiveButtonText>{t('button.press.d')}</ActiveButtonText>
         </WrapButton>
       </Box>

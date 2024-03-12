@@ -29,7 +29,7 @@ export const WrapBase = styled(Box, {
 });
 
 export const WrapBox = styled(WrapBase, {
-  pt: 70,
+  pt: 100,
 });
 export const WrapDivider = styled(WrapBase, {
   flex: 'no',

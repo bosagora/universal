@@ -4,7 +4,6 @@ import {
   AppState,
   Button,
   Platform,
-  StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
@@ -13,7 +12,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { GluestackUIProvider } from '@gluestack-ui/themed';
+import { Box, GluestackUIProvider } from '@gluestack-ui/themed';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 import DetailsScreen from '../screens/kitchen/Detail';
@@ -77,6 +76,8 @@ import MileageRedeemNotification from '../screens/wallet/MileageRedeemNotificati
 import PhoneAuth from '../screens/initScreens/PhoneAuth';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import RootPaddingBox from '../components/RootPaddingBox';
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -284,62 +285,65 @@ const App = observer(() => {
 
   if (!isStoreLoaded) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Box style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size='large' />
-      </View>
+      </Box>
     );
   } else {
     // userStore.setLoading(false);
 
     return (
-      <BottomSheetModalProvider>
-        <NavigationContainer
-          theme={{
-            colors: {
-              background: '#171717',
-            },
-          }}
-          independent={true}
-          ref={navigationRef}
-          onReady={() =>
-            (routeNameRef.current =
-              navigationRef.current.getCurrentRoute().name)
-          }
-          onStateChange={() => {
-            const previousRouteName = routeNameRef.current;
-            const currentRouteName =
-              navigationRef.current.getCurrentRoute().name;
-
-            if (previousRouteName !== currentRouteName) {
-              // Do something here with it
+      <>
+        <RootPaddingBox></RootPaddingBox>
+        <BottomSheetModalProvider>
+          <NavigationContainer
+            independent={true}
+            ref={navigationRef}
+            onReady={() =>
+              (routeNameRef.current =
+                navigationRef.current.getCurrentRoute().name)
             }
-            console.log('currentRouteName :', currentRouteName);
+            onStateChange={() => {
+              const previousRouteName = routeNameRef.current;
+              const currentRouteName =
+                navigationRef.current.getCurrentRoute().name;
 
-            // Save the current route name for later comparision
-            routeNameRef.current = currentRouteName;
-          }}>
-          <GluestackUIProvider config={config} colorMode='dark'>
-            {userStore.state !== AUTH_STATE.DONE ? (
-              <InitStackScreen />
-            ) : (
-              <MainStackScreen />
-            )}
+              if (previousRouteName !== currentRouteName) {
+                // Do something here with it
+              }
+              console.log('current RouteName :', currentRouteName);
+              if (currentRouteName === 'Wallet') {
+                // userStore.setContentColor('yellow');
+              } else {
+                // userStore.setContentColor('#678656');
+              }
 
-            <QRActionSheet />
-            <TermActionSheet />
-            <PrivacyActionSheet />
-            <ShopNotification />
-            <MileageCancelNotification />
-            <MileageRedeemNotification />
-          </GluestackUIProvider>
-        </NavigationContainer>
-        <PinCodeScreen />
-        <ModalActivityIndicator
-          visible={userStore.loading}
-          size='large'
-          color='white'
-        />
-      </BottomSheetModalProvider>
+              // Save the current route name for later comparision
+              routeNameRef.current = currentRouteName;
+            }}>
+            <GluestackUIProvider config={config} colorMode='dark'>
+              {userStore.state !== AUTH_STATE.DONE ? (
+                <InitStackScreen />
+              ) : (
+                <MainStackScreen />
+              )}
+
+              <QRActionSheet />
+              <TermActionSheet />
+              <PrivacyActionSheet />
+              <ShopNotification />
+              <MileageCancelNotification />
+              <MileageRedeemNotification />
+            </GluestackUIProvider>
+          </NavigationContainer>
+          <PinCodeScreen />
+          <ModalActivityIndicator
+            visible={userStore.loading}
+            size='large'
+            color='white'
+          />
+        </BottomSheetModalProvider>
+      </>
     );
   }
 });
@@ -347,11 +351,6 @@ const App = observer(() => {
 function InitStackScreen() {
   return (
     <InitStack.Navigator>
-      <InitStack.Screen
-        name='ShopReg'
-        component={ShopReg}
-        options={{ headerShown: false }}
-      />
       <InitStack.Screen
         name='Permissions'
         component={Permissions}
@@ -372,7 +371,11 @@ function InitStackScreen() {
         component={InitPinCodeScreen}
         options={{ headerShown: false }}
       />
-
+      <InitStack.Screen
+        name='ShopReg'
+        component={ShopReg}
+        options={{ headerShown: false }}
+      />
       <InitStack.Screen
         name='PhoneAuth'
         component={PhoneAuth}
