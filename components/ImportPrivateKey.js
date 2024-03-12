@@ -18,6 +18,8 @@ import {
   Box,
 } from '@gluestack-ui/themed';
 import { useTranslation } from 'react-i18next';
+import { ActiveButtonText } from './styled/text';
+import { WrapButton } from './styled/button';
 
 const ImportPrivateKey = ({ saveKey }) => {
   const { t } = useTranslation();
@@ -25,14 +27,12 @@ const ImportPrivateKey = ({ saveKey }) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <Box>
-      <Button
-        py='$2.5'
-        px='$3'
+      <WrapButton
         onPress={() => {
           setShowModal(true);
         }}>
-        <ButtonText>{t('wallet.import')}</ButtonText>
-      </Button>
+        <ActiveButtonText>{t('wallet.import')}</ActiveButtonText>
+      </WrapButton>
       <Modal
         avoidKeyboard={true}
         isOpen={showModal}

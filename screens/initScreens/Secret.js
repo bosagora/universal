@@ -16,6 +16,9 @@ import { MobileType } from 'dms-sdk-client';
 import { useTranslation } from 'react-i18next';
 import ImportPrivateKey from '../../components/ImportPrivateKey';
 import { registerPushTokenWithClient } from '../../utils/push.token';
+import { WrapBox } from '../../components/styled/layout';
+import { WrapButton } from '../../components/styled/button';
+import { ActiveButtonText } from '../../components/styled/text';
 
 const Secret = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -160,41 +163,29 @@ const Secret = observer(({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
-      <Box
-        sx={{
-          _dark: { bg: '$backgroundDark800' },
-          _web: {
-            height: '100vh',
-            w: '100vw',
-            overflow: 'hidden',
-          },
-        }}
-        height='$full'
-        bg='$backgroundLight0'>
-        <MobileHeader
-          title={t('secret.header.title')}
-          subTitle={t('secret.header.subtitle')}
-        />
-        <VStack space='lg' pt='$4' m='$7'>
-          <Box>
-            <Button py='$2.5' px='$3' onPress={tt}>
-              <ButtonText>{t('wallet.create')}</ButtonText>
-            </Button>
-          </Box>
-          {nextScreen === 'ShopReg' ? (
-            <ImportShopPrivateKey
-              saveKey={saveKeyForShop}
-              fromOtherWallet={fromOtherWallet}
-              afterSelectingShop={afterSelectingShop}
-              client={client}
-            />
-          ) : (
-            <ImportPrivateKey saveKey={saveKey} />
-          )}
-        </VStack>
-      </Box>
-    </SafeAreaView>
+    <WrapBox>
+      <MobileHeader
+        title={t('secret.header.title')}
+        subTitle={t('secret.header.subtitle')}
+      />
+      <VStack mt={50}>
+        <Box>
+          <WrapButton onPress={tt}>
+            <ActiveButtonText>{t('wallet.create')}</ActiveButtonText>
+          </WrapButton>
+        </Box>
+        {nextScreen === 'ShopReg' ? (
+          <ImportShopPrivateKey
+            saveKey={saveKeyForShop}
+            fromOtherWallet={fromOtherWallet}
+            afterSelectingShop={afterSelectingShop}
+            client={client}
+          />
+        ) : (
+          <ImportPrivateKey saveKey={saveKey} />
+        )}
+      </VStack>
+    </WrapBox>
   );
 });
 

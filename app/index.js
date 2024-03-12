@@ -348,6 +348,11 @@ function InitStackScreen() {
   return (
     <InitStack.Navigator>
       <InitStack.Screen
+        name='Secret'
+        component={Secret}
+        options={{ headerShown: false }}
+      />
+      <InitStack.Screen
         name='Permissions'
         component={Permissions}
         options={{ headerShown: false }}
@@ -357,11 +362,7 @@ function InitStackScreen() {
         component={Term}
         options={{ headerShown: false }}
       />
-      <InitStack.Screen
-        name='Secret'
-        component={Secret}
-        options={{ headerShown: false }}
-      />
+
       <InitStack.Screen
         name='InitPinCodeScreen'
         component={InitPinCodeScreen}
