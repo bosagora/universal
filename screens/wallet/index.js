@@ -368,7 +368,7 @@ const Index = observer(({ navigation }) => {
               </HStack>
             </Box>
             <Box>
-              {adjustmentStatus !== ShopWithdrawStatus.OPEN ? (
+              {adjustmentStatus === ShopWithdrawStatus.OPEN ? (
                 <WrapWhiteButton h={36} onPress={() => handleComplete()}>
                   <PinButtonText
                     style={{
