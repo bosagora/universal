@@ -101,7 +101,7 @@ const Index = observer(({ navigation }) => {
     }
     loyaltyStore.setPayment({
       id: '0x5f59d6b480ff5a30044dcd7fe3b28c69b6d0d725ca469d1b685b57dfc1055d7f',
-      type: 'shop_update',
+      type: 'cancel',
       taskId:
         '0xf7d3c6c310f5b53d62e96e363146b7da517ffaf063866923c6ce60683b154c91',
     });

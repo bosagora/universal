@@ -20,10 +20,23 @@ import {
   isEmpty,
 } from '../../utils/convert';
 import { useTranslation } from 'react-i18next';
+import {
+  WrapBase2,
+  WrapBox,
+  WrapDivider,
+} from '../../components/styled/layout';
+import {
+  ActiveButtonText,
+  ActiveWhiteButtonText,
+  NumberText,
+  RobotoMediumText,
+  RobotoSemiBoldText,
+} from '../../components/styled/text';
+import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
 
 const MileageCancelNotification = observer(() => {
   const { t } = useTranslation();
-  const { pinStore, loyaltyStore } = useStores();
+  const { pinStore, loyaltyStore, userStore } = useStores();
 
   const [client, setClient] = useState(null);
   const [address, setAddress] = useState('');
@@ -138,52 +151,70 @@ const MileageCancelNotification = observer(() => {
   }
 
   return hasPayment ? (
-    <Box
-      sx={{
-        _dark: { bg: '$backgroundDark800' },
-        _web: {
-          height: '100vh',
-          w: '100vw',
-          overflow: 'hidden',
-        },
-      }}
-      height='$full'
-      bg='$backgroundLight0'>
+    <WrapBase2
+      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}
+      height='$full'>
       <MobileHeader
         title={t('wallet.cancel.header.title')}
         subTitle={t('wallet.cancel.header.subtitle', {
           appName: t('app.name'),
         })}
       />
-
-      <VStack space='lg' pt='$4' m='$7'>
-        <HStack>
-          <Text w='40%'>{t('shop')} :</Text>
-          <Text>{shopName}</Text>
+      <VStack pt={50}>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('shop')} :
+          </RobotoMediumText>
+          <RobotoSemiBoldText>{shopName}</RobotoSemiBoldText>
         </HStack>
-        <HStack>
-          <Text w='40%'>{t('purchase')} ID :</Text>
-          <Text>{purchaseId}</Text>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('purchase')} ID :
+          </RobotoMediumText>
+          <RobotoSemiBoldText>{purchaseId}</RobotoSemiBoldText>
         </HStack>
-        <HStack>
-          <Text w='40%'>
-            {t('purchase')} {t('amount')} :{' '}
-          </Text>
-          <Text>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('purchase')} {t('amount')} :
+          </RobotoMediumText>
+          <NumberText>
             {convertShopProperValue(amount.toBOAString())}{' '}
             {currency.toUpperCase()}
-          </Text>
+          </NumberText>
         </HStack>
-        <VStack space='lg' pt='$4' m='$7'>
-          <Button py='$2.5' px='$3' onPress={() => confirmCancel()}>
-            <ButtonText>{t('button.press.a')}</ButtonText>
-          </Button>
-          <Button onPress={() => cancelCancel()}>
-            <ButtonText>{t('button.press.b')}</ButtonText>
-          </Button>
-        </VStack>
+
+        <WrapDivider></WrapDivider>
+        <HStack pt={20} flex={1}>
+          <Box flex={1} mx={5}>
+            <WrapWhiteButton onPress={() => cancelCancel()}>
+              <ActiveWhiteButtonText>
+                {t('button.press.b')}
+              </ActiveWhiteButtonText>
+            </WrapWhiteButton>
+          </Box>
+          <Box flex={1} mx={5}>
+            <WrapButton onPress={() => confirmCancel()}>
+              <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+            </WrapButton>
+          </Box>
+        </HStack>
       </VStack>
-    </Box>
+    </WrapBase2>
   ) : null;
 });
 
