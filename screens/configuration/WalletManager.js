@@ -19,6 +19,7 @@ import {
   Button,
   Center,
   VStack,
+  HStack,
   Modal,
   ModalBackdrop,
   ModalContent,
@@ -45,7 +46,22 @@ import { ContractUtils, MobileType } from 'dms-sdk-client';
 import { AUTH_STATE } from '../../stores/user.store';
 import { useTranslation } from 'react-i18next';
 import ImportPrivateKey from '../../components/ImportPrivateKey';
-
+import {
+  WrapBase2,
+  WrapBox,
+  WrapDivider,
+} from '../../components/styled/layout';
+import {
+  ActiveButtonText,
+  ActiveWhiteButtonText,
+  HeaderText,
+  NumberText,
+  ParaText,
+  RobotoMediumText,
+  RobotoSemiBoldText,
+  SubHeaderText,
+} from '../../components/styled/text';
+import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
 const { Wallet } = ethers;
 
 const WalletManager = observer(({ navigation }) => {
@@ -177,200 +193,194 @@ const WalletManager = observer(({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
-      <Box
-        sx={{
-          _dark: { bg: '$backgroundDark800' },
-          _web: {
-            height: '100vh',
-            w: '100vw',
-            overflow: 'hidden',
-          },
-        }}
-        height='$full'
-        bg='$backgroundLight0'>
-        <MobileHeader
-          title={t('config.wallet.header.title')}
-          subTitle={t('config.wallet.header.subtitle')}
-        />
-        <VStack space='lg' pt='$4' m='$7'>
-          <Box>
-            <Button py='$2.5' px='$3' onPress={() => exportWallet()}>
-              <ButtonText>{t('wallet.export')}</ButtonText>
-            </Button>
-          </Box>
-          {nextScreen === 'ShopReg' ? (
-            <ImportShopPrivateKey
-              saveKey={saveKeyForShop}
-              fromOtherWallet={fromOtherWallet}
-              afterSelectingShop={afterSelectingShop}
-              client={client}
-            />
-          ) : (
-            <ImportPrivateKey saveKey={saveKey} />
-          )}
-          <Box>
-            <Button py='$2.5' px='$3' onPress={() => warnInitializeWallet()}>
-              <ButtonText>{t('wallet.init')}</ButtonText>
-            </Button>
-          </Box>
-        </VStack>
+    <WrapBox
+      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
+      <MobileHeader
+        title={t('config.wallet.header.title')}
+        subTitle={t('config.wallet.header.subtitle')}
+      />
+      <VStack pt={50}>
         <Box>
-          <KeyboardAwareScrollView
-            bounces={false}
-            showsVerticalScrollIndicator={false}
-            style={{ marginBottom: 150 }}
-            enableOnAndroid={true}
-            scrollEnabled={true}
-            extraScrollHeight={100}
-            keyboardShouldPersistTaps='handled'
-            scrollToOverflowEnabled={true}
-            enableAutomaticScroll={true}>
-            <View>
-              <Modal
-                isOpen={showModal}
-                onClose={() => {
-                  setShowModal(false);
-                }}>
-                <ModalBackdrop />
-                <ModalContent maxWidth='$96'>
-                  <ModalHeader>
-                    <Heading size='lg'>
-                      {t('config.wallet.modal.heading')}
-                    </Heading>
-                    <ModalCloseButton>
-                      <Icon as={CloseIcon} />
-                    </ModalCloseButton>
-                  </ModalHeader>
-                  <ModalBody p='$5'>
-                    <VStack space='xs' mb='$4'>
-                      <Text size='sm'>
-                        {t('config.wallet.modal.body.text.a')}
-                      </Text>
-                      <Text size='sm'>
-                        {t('config.wallet.modal.body.text.b')}
-                      </Text>
-                    </VStack>
-                    <VStack py='$2' space='xl'>
-                      <FormControl>
-                        <FormControlHelper>
-                          <FormControlHelperText>
-                            {t('config.wallet.modal.body.text.c')}
-                          </FormControlHelperText>
-                        </FormControlHelper>
-                        <Input>
-                          <InputField value={privateKey} />
-                        </Input>
-                      </FormControl>
-                      <FormControl>
-                        <FormControlHelper>
-                          <FormControlHelperText>
-                            {t('config.wallet.modal.body.text.d')}
-                          </FormControlHelperText>
-                        </FormControlHelper>
-                        <Input>
-                          <InputField value={userStore.shopId} />
-                        </Input>
-                      </FormControl>
-                    </VStack>
+          <WrapButton onPress={() => exportWallet()}>
+            <ActiveButtonText>{t('wallet.export')}</ActiveButtonText>
+          </WrapButton>
+        </Box>
+        {nextScreen === 'ShopReg' ? (
+          <ImportShopPrivateKey
+            saveKey={saveKeyForShop}
+            fromOtherWallet={fromOtherWallet}
+            afterSelectingShop={afterSelectingShop}
+            client={client}
+          />
+        ) : (
+          <ImportPrivateKey saveKey={saveKey} />
+        )}
+        <Box mt={10}>
+          <WrapButton onPress={() => warnInitializeWallet()}>
+            <ActiveButtonText>{t('wallet.init')}</ActiveButtonText>
+          </WrapButton>
+        </Box>
+      </VStack>
+      <Box>
+        <KeyboardAwareScrollView
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          style={{ marginBottom: 150 }}
+          enableOnAndroid={true}
+          scrollEnabled={true}
+          extraScrollHeight={100}
+          keyboardShouldPersistTaps='handled'
+          scrollToOverflowEnabled={true}
+          enableAutomaticScroll={true}>
+          <View>
+            <Modal
+              size='lg'
+              isOpen={showModal}
+              onClose={() => {
+                setShowModal(false);
+              }}>
+              <ModalBackdrop />
+              <ModalContent bg='#FFFFFF'>
+                {/*<ModalHeader>*/}
 
-                    <ButtonGroup space='md' alignSelf='center'>
-                      {/*<Button*/}
-                      {/*  variant='outline'*/}
-                      {/*  py='$2.5'*/}
-                      {/*  action='secondary'*/}
-                      {/*  onPress={() => {*/}
-                      {/*    setShowModal(false);*/}
-                      {/*  }}>*/}
-                      {/*  <ButtonText fontSize='$sm' fontWeight='$medium'>*/}
-                      {/*    Close*/}
-                      {/*  </ButtonText>*/}
-                      {/*</Button>*/}
-                      <Button
-                        variant='solid'
-                        bg='$success700'
-                        borderColor='$success700'
+                {/*  <ModalCloseButton>*/}
+                {/*    <Icon as={CloseIcon} />*/}
+                {/*  </ModalCloseButton>*/}
+                {/*</ModalHeader>*/}
+                <ModalBody mt={30} mb={10} mx={10}>
+                  <VStack>
+                    <HeaderText>{t('config.wallet.modal.heading')}</HeaderText>
+                    <ParaText mt={7}>
+                      {t('config.wallet.modal.body.text.a')}
+                    </ParaText>
+                    <ParaText mt={7}>
+                      {t('config.wallet.modal.body.text.b')}
+                    </ParaText>
+                  </VStack>
+                  <VStack py='$2' space='sm'>
+                    <FormControl>
+                      <FormControlHelper>
+                        <SubHeaderText style={{ color: '#555555' }}>
+                          {t('config.wallet.modal.body.text.c')}
+                        </SubHeaderText>
+                      </FormControlHelper>
+                      <Input h={60}>
+                        <InputField
+                          bg='#C0C0C0'
+                          style={{
+                            fontFamily: 'Roboto-Medium',
+                            fontWeight: 500,
+                            lineHeight: 16,
+                            fontSize: 15,
+                            color: '#12121D',
+                            borderWidth: 1,
+                            borderColor: '#8A8A8A',
+                          }}
+                          value={privateKey}
+                        />
+                      </Input>
+                    </FormControl>
+                    <FormControl>
+                      <FormControlHelper>
+                        <SubHeaderText style={{ color: '#555555' }}>
+                          {t('config.wallet.modal.body.text.d')}
+                        </SubHeaderText>
+                      </FormControlHelper>
+                      <Input h={60}>
+                        <InputField
+                          bg='#C0C0C0'
+                          style={{
+                            fontFamily: 'Roboto-Medium',
+                            fontWeight: 500,
+                            lineHeight: 16,
+                            fontSize: 15,
+                            color: '#12121D',
+                            borderWidth: 1,
+                            borderColor: '#8A8A8A',
+                          }}
+                          value={userStore.shopId}
+                        />
+                      </Input>
+                    </FormControl>
+                  </VStack>
+
+                  <HStack flex={1}>
+                    <Box flex={1} mx={5}>
+                      <WrapButton
                         onPress={async () => {
                           await Clipboard.setStringAsync(privateKey);
                           setShowModal(false);
                         }}>
-                        <ButtonText fontSize='$sm' fontWeight='$medium'>
+                        <ActiveButtonText>
                           {t('config.wallet.modal.body.text.e')}
-                        </ButtonText>
-                      </Button>
-                      <Button
-                        variant='solid'
-                        bg='$success700'
-                        borderColor='$success700'
+                        </ActiveButtonText>
+                      </WrapButton>
+                    </Box>
+                    <Box flex={1} mx={5}>
+                      <WrapButton
                         onPress={async () => {
                           await Clipboard.setStringAsync(userStore.shopId);
                           setShowModal(false);
                         }}>
-                        <ButtonText fontSize='$sm' fontWeight='$medium'>
+                        <ActiveButtonText>
                           {t('config.wallet.modal.body.text.f')}
-                        </ButtonText>
-                      </Button>
-                    </ButtonGroup>
-                  </ModalBody>
-                </ModalContent>
-              </Modal>
+                        </ActiveButtonText>
+                      </WrapButton>
+                    </Box>
+                  </HStack>
+                </ModalBody>
+              </ModalContent>
+            </Modal>
 
-              <Modal
-                isOpen={showInitWalletModal}
-                onClose={() => {
-                  setShowInitWalletModal(false);
-                }}>
-                <ModalBackdrop />
-                <ModalContent maxWidth='$96'>
-                  <ModalHeader>
-                    <Heading size='lg'>{t('wallet.init')}</Heading>
-                    <ModalCloseButton>
-                      <Icon as={CloseIcon} />
-                    </ModalCloseButton>
-                  </ModalHeader>
-                  <ModalBody p='$5'>
-                    <VStack space='xs' mb='$4'>
-                      <Text size='sm'>
-                        {t('config.wallet.modal.body.text.g')}
-                      </Text>
-                      <Text size='sm'>
-                        {t('config.wallet.modal.body.text.h')}
-                      </Text>
-                    </VStack>
+            <Modal
+              size='lg'
+              isOpen={showInitWalletModal}
+              onClose={() => {
+                setShowInitWalletModal(false);
+              }}>
+              <ModalBackdrop />
+              <ModalContent bg='#FFFFFF'>
+                <ModalBody mt={30} mb={10} mx={10}>
+                  <VStack>
+                    <HeaderText>{t('wallet.init')}</HeaderText>
+                    <ParaText mt={7}>
+                      {t('config.wallet.modal.body.text.g')}
+                    </ParaText>
+                    <ParaText mt={7}>
+                      {t('config.wallet.modal.body.text.h')}
+                    </ParaText>
+                  </VStack>
 
-                    <ButtonGroup space='md' alignSelf='center'>
-                      <Button
-                        variant='solid'
-                        bg='$success700'
-                        borderColor='$success700'
+                  <HStack flex={1} mt={30}>
+                    <Box flex={1} mx={5}>
+                      <WrapWhiteButton
                         onPress={async () => {
                           setShowInitWalletModal(false);
                         }}>
-                        <ButtonText fontSize='$sm' fontWeight='$medium'>
+                        <ActiveWhiteButtonText>
                           {t('button.press.b')}
-                        </ButtonText>
-                      </Button>
-                      <Button
-                        variant='solid'
-                        bg='$success700'
-                        borderColor='$success700'
+                        </ActiveWhiteButtonText>
+                      </WrapWhiteButton>
+                    </Box>
+                    <Box flex={1} mx={5}>
+                      <WrapButton
                         onPress={async () => {
                           setShowInitWalletModal(false);
                           await initAuth();
                         }}>
-                        <ButtonText fontSize='$sm' fontWeight='$medium'>
+                        <ActiveButtonText>
                           {t('button.press.a')}
-                        </ButtonText>
-                      </Button>
-                    </ButtonGroup>
-                  </ModalBody>
-                </ModalContent>
-              </Modal>
-            </View>
-          </KeyboardAwareScrollView>
-        </Box>
+                        </ActiveButtonText>
+                      </WrapButton>
+                    </Box>
+                  </HStack>
+                </ModalBody>
+              </ModalContent>
+            </Modal>
+          </View>
+        </KeyboardAwareScrollView>
       </Box>
-    </SafeAreaView>
+    </WrapBox>
   );
 });
 
