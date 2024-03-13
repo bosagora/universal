@@ -41,3 +41,9 @@ export const WrapWhiteButton = styled(Button, {
     },
   },
 });
+
+export const WrapHistoryButton = styled(Button, {
+  borderWidth: '$1',
+  borderColor: '#C0C0C030',
+  bg: '#E4E4E450',
+});
