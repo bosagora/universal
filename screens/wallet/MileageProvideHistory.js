@@ -9,6 +9,8 @@ import { convertShopProperValue, timePadding } from '../../utils/convert';
 import { Amount, BOACoin } from 'dms-sdk-client';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useTranslation } from 'react-i18next';
+import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import { NumberText, Para3Text, ParaText } from '../../components/styled/text';
 
 const MileageProvideHistory = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -129,66 +131,34 @@ const MileageProvideHistory = observer(({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <Box
-        sx={{
-          _dark: { bg: '$backgroundDark800' },
-          _web: {
-            height: '100vh',
-            w: '100vw',
-            overflow: 'hidden',
-          },
-        }}
-        height='$full'
-        bg='$backgroundLight0'>
-        <MobileHeader
-          title={t('wallet.history.header.title.provide')}
-          subTitle={
-            historyData && historyData.length > 0
-              ? t('wallet.history.header.subtitle.a') +
-                ' ' +
-                historyData.length +
-                ' ' +
-                t('wallet.history.header.subtitle.b')
-              : t('wallet.history.header.subtitle.nothing')
-          }
-        />
-        {historyData && historyData.length > 0 ? (
-          <FlatList
-            m='$3'
-            data={historyData}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <Box
-                borderBottomWidth='$1'
-                borderColor='$trueGray800'
-                sx={{
-                  _dark: {
-                    borderColor: '$trueGray100',
-                  },
-                  '@base': {
-                    pl: 0,
-                    pr: 0,
-                  },
-                  '@sm': {
-                    pl: '$4',
-                    pr: '$5',
-                  },
-                }}
-                py='$2'>
+    <WrapBox
+      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
+      <MobileHeader
+        title={t('wallet.history.header.title.provide')}
+        subTitle={
+          historyData && historyData.length > 0
+            ? t('wallet.history.header.subtitle.a') +
+              ' ' +
+              historyData.length +
+              ' ' +
+              t('wallet.history.header.subtitle.b')
+            : t('wallet.history.header.subtitle.nothing')
+        }
+      />
+      {historyData && historyData.length > 0 ? (
+        <FlatList
+          mt={40}
+          data={historyData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Box>
+              <VStack>
                 <HStack
                   space='md'
                   alignItems='center'
                   justifyContent='space-between'>
                   <VStack>
-                    <Text
-                      fontSize='$sm'
-                      color='$coolGray600'
-                      sx={{
-                        _dark: {
-                          color: '$warmGray200',
-                        },
-                      }}>
+                    <ParaText fontSize={14} fontWeight={400} lightHeight={20}>
                       {item.actionName === 'SCHEDULED'
                         ? t('wallet.history.body.text.e')
                         : item.actionName === 'CANCEL'
@@ -196,20 +166,17 @@ const MileageProvideHistory = observer(({ navigation }) => {
                         : item.actionName === 'PROVIDED'
                         ? t('wallet.history.body.text.d')
                         : t('wallet.history.body.text.c')}
-                    </Text>
-                    <Text
-                      fontSize='$sm'
-                      color='$coolGray600'
-                      sx={{
-                        _dark: {
-                          color: '$warmGray200',
-                        },
-                      }}>
+                    </ParaText>
+                    <ParaText
+                      fontSize={15}
+                      fontWeight={500}
+                      lightHeight={16}
+                      color='#707070'>
                       {timeConverter(item.blockTimestamp)}
-                    </Text>
+                    </ParaText>
                   </VStack>
-                  <Box>
-                    <Text>
+                  <HStack alignItems='center'>
+                    <NumberText>
                       {item.actionName === 'USED' ? '+' : '-'}
                       {convertShopProperValue(
                         new Amount(
@@ -218,16 +185,22 @@ const MileageProvideHistory = observer(({ navigation }) => {
                         ).toBOAString(),
                         item.currency,
                       )}{' '}
+                    </NumberText>
+                    <Para3Text
+                      pt={4}
+                      color='#12121D'
+                      style={{ fontWeight: 400 }}>
                       {item.currency.toUpperCase()}
-                    </Text>
-                  </Box>
+                    </Para3Text>
+                  </HStack>
                 </HStack>
-              </Box>
-            )}
-          />
-        ) : null}
-      </Box>
-    </SafeAreaView>
+                <WrapDivider mb={3}></WrapDivider>
+              </VStack>
+            </Box>
+          )}
+        />
+      ) : null}
+    </WrapBox>
   );
 });
 

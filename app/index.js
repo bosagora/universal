@@ -327,7 +327,7 @@ const App = observer(() => {
               {userStore.state !== AUTH_STATE.DONE ? (
                 <InitStackScreen />
               ) : (
-                <MainStackScreen />
+                <MainStackScreen userStore={userStore} />
               )}
 
               <QRActionSheet />
@@ -387,9 +387,13 @@ function InitStackScreen() {
   );
 }
 
-function MainStackScreen() {
+function MainStackScreen(userStore) {
   return (
-    <MainStack.Navigator>
+    <MainStack.Navigator
+      screenOptions={{
+        headerTintColor: 'black',
+        headerStyle: { backgroundColor: userStore.contentColor },
+      }}>
       <MainStack.Group>
         <MainStack.Screen
           name='TabScreens'
@@ -406,10 +410,6 @@ function MainStackScreen() {
           component={WalletManager}
           options={{
             title: '',
-            headerStyle: {
-              backgroundColor: '#1f2937',
-            },
-            headerTintColor: '#fff',
           }}
         />
         <MainStack.Screen name='QRActionSheet' component={QRActionSheet} />
@@ -418,10 +418,6 @@ function MainStackScreen() {
           component={MileageHistory}
           options={{
             title: '',
-            headerStyle: {
-              backgroundColor: '#1f2937',
-            },
-            headerTintColor: '#fff',
           }}
         />
         <MainStack.Screen
@@ -429,10 +425,6 @@ function MainStackScreen() {
           component={MileageProvideHistory}
           options={{
             title: '',
-            headerStyle: {
-              backgroundColor: '#1f2937',
-            },
-            headerTintColor: '#fff',
           }}
         />
         <MainStack.Screen
@@ -440,10 +432,6 @@ function MainStackScreen() {
           component={MileageAdjustmentHistory}
           options={{
             title: '',
-            headerStyle: {
-              backgroundColor: '#1f2937',
-            },
-            headerTintColor: '#fff',
           }}
         />
 
@@ -515,6 +503,7 @@ const TabScreens = observer(() => {
       initialRouteName='Wallet'
       screenOptions={{
         headerShown: false,
+
         tabBarShowLabel: true,
         tabBarStyle: {
           height: 80,
