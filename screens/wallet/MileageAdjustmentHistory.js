@@ -9,6 +9,8 @@ import { convertShopProperValue, timePadding } from '../../utils/convert';
 import { Amount, BOACoin } from 'dms-sdk-client';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useTranslation } from 'react-i18next';
+import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import { NumberText, Para3Text, ParaText } from '../../components/styled/text';
 
 const MileageAdjustmentHistory = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -83,6 +85,26 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
             blockTimestamp: it.blockTimestamp,
           };
         });
+      // const history = [
+      //   {
+      //     action: 1,
+      //     actionName: 'PROVIDED',
+      //     amount: '10000000000000',
+      //     blockTimestamp: '1710296615',
+      //     currency: 'krw',
+      //     id: '0x3312188d36afff93ee6b6784c1372be0bd37db34f94069b1f917e97904193b4901000000',
+      //     increase: '2500000000000',
+      //   },
+      //   {
+      //     action: 1,
+      //     actionName: 'PROVIDED',
+      //     amount: '7500000000000',
+      //     blockTimestamp: '1710296579',
+      //     currency: 'krw',
+      //     id: '0x4a0ac844d4f16bfbaa4fa0b01cf17bfa24581496f69c756ae2887ba9a51de19201000000',
+      //     increase: '7500000000000',
+      //   },
+      // ];
       console.log('adjustment history :', history.slice(0, 3));
 
       setHistoryData(history);
@@ -91,97 +113,63 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <Box
-        sx={{
-          _dark: { bg: '$backgroundDark800' },
-          _web: {
-            height: '100vh',
-            w: '100vw',
-            overflow: 'hidden',
-          },
-        }}
-        height='$full'
-        bg='$backgroundLight0'>
-        <MobileHeader
-          title={t('wallet.history.header.title.settlement')}
-          subTitle={
-            historyData && historyData.length > 0
-              ? t('wallet.history.header.subtitle.a') +
-                historyData.length +
-                t('wallet.history.header.subtitle.b')
-              : t('wallet.history.header.subtitle.nothing')
-          }
-        />
-        {historyData && historyData.length > 0 ? (
-          <FlatList
-            m='$3'
-            data={historyData}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <Box
-                borderBottomWidth='$1'
-                borderColor='$trueGray800'
-                sx={{
-                  _dark: {
-                    borderColor: '$trueGray100',
-                  },
-                  '@base': {
-                    pl: 0,
-                    pr: 0,
-                  },
-                  '@sm': {
-                    pl: '$4',
-                    pr: '$5',
-                  },
-                }}
-                py='$2'>
-                <HStack
-                  space='md'
-                  alignItems='center'
-                  justifyContent='space-between'>
-                  <VStack>
-                    <Text
-                      fontSize='$sm'
-                      color='$coolGray600'
-                      sx={{
-                        _dark: {
-                          color: '$warmGray200',
-                        },
-                      }}>
-                      {item.actionName === 'OPEN_WITHDRAWN'
-                        ? t('wallet.modal.body.e')
-                        : t('wallet.modal.body.g')}
-                    </Text>
-                    <Text
-                      fontSize='$sm'
-                      color='$coolGray600'
-                      sx={{
-                        _dark: {
-                          color: '$warmGray200',
-                        },
-                      }}>
-                      {timeConverter(item.blockTimestamp)}
-                    </Text>
-                  </VStack>
-                  <Box>
-                    <Text>
-                      {convertShopProperValue(
-                        new Amount(
-                          BigNumber.from(item.increase),
-                          9,
-                        ).toBOAString(),
-                      )}{' '}
-                      {userStore.currency.toUpperCase()}
-                    </Text>
-                  </Box>
+    <WrapBox
+      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
+      <MobileHeader
+        title={t('wallet.history.header.title.settlement')}
+        subTitle={
+          historyData && historyData.length > 0
+            ? t('wallet.history.header.subtitle.a') +
+              historyData.length +
+              t('wallet.history.header.subtitle.b')
+            : t('wallet.history.header.subtitle.nothing')
+        }
+      />
+      {historyData && historyData.length > 0 ? (
+        <FlatList
+          mt={40}
+          data={historyData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <VStack>
+              <HStack
+                space='md'
+                alignItems='center'
+                justifyContent='space-between'>
+                <VStack>
+                  <ParaText fontSize={14} fontWeight={400} lightHeight={20}>
+                    {item.actionName === 'OPEN_WITHDRAWN'
+                      ? t('wallet.modal.body.e')
+                      : t('wallet.modal.body.g')}
+                  </ParaText>
+                  <ParaText
+                    fontSize={15}
+                    fontWeight={500}
+                    lightHeight={16}
+                    color='#707070'>
+                    {timeConverter(item.blockTimestamp)}
+                  </ParaText>
+                </VStack>
+                <HStack alignItems='center'>
+                  <NumberText>
+                    {convertShopProperValue(
+                      new Amount(
+                        BigNumber.from(item.increase),
+                        9,
+                      ).toBOAString(),
+                    )}{' '}
+                  </NumberText>
+                  <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                    {userStore.currency.toUpperCase()}
+                  </Para3Text>
                 </HStack>
-              </Box>
-            )}
-          />
-        ) : null}
-      </Box>
-    </SafeAreaView>
+              </HStack>
+              <WrapDivider mb={3}></WrapDivider>
+            </VStack>
+          )}
+        />
+      ) : null}
+    </WrapBox>
   );
 });
 
