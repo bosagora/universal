@@ -34,6 +34,7 @@ import * as Clipboard from 'expo-clipboard';
 import { truncateMiddleString } from '../utils/convert';
 import { useTranslation } from 'react-i18next';
 import { getClient } from '../utils/client';
+import { RobotoSemiBoldText } from '../components/styled/text';
 
 // export default function QRActionSheet() {
 const QRActionSheet = observer(() => {
@@ -87,9 +88,9 @@ const QRActionSheet = observer(() => {
             </ActionsheetDragIndicatorWrapper>
             <VStack w='$full' p={20}>
               <Box space='lg' pt='$4' m='$7' alignItems='center'>
-                <Heading _dark={{ color: '$textLight200' }} size='lg'>
+                <RobotoSemiBoldText fontSize={18}>
                   {t('wallet.bottom.qr')}
-                </Heading>
+                </RobotoSemiBoldText>
               </Box>
               <HStack justifyContent='center' alignItems='center' space='md'>
                 <Box
