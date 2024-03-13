@@ -17,6 +17,9 @@ import {
   ModalContent,
   ModalBody,
   ButtonGroup,
+  AddIcon,
+  CopyIcon,
+  ButtonIcon,
 } from '@gluestack-ui/themed';
 import { getClient } from '../../utils/client';
 import {
@@ -37,7 +40,23 @@ import { getSecureValue, saveSecureValue } from '../../utils/secure.store';
 import '@ethersproject/shims';
 import { Wallet } from 'ethers';
 import * as Device from 'expo-device';
-import { WrapBox } from '../../components/styled/layout';
+import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import {
+  ActiveButtonText,
+  ActiveWhiteButtonText,
+  HeaderText,
+  NumberText,
+  Para2Text,
+  Para3Text,
+  ParaText,
+  PinButtonText,
+} from '../../components/styled/text';
+import MobileHeader from '../../components/MobileHeader';
+import {
+  WrapButton,
+  WrapHistoryButton,
+  WrapWhiteButton,
+} from '../../components/styled/button';
 
 const Index = observer(({ navigation }) => {
   const { noteStore, secretStore, userStore, loyaltyStore } = useStores();
@@ -216,158 +235,237 @@ const Index = observer(({ navigation }) => {
   };
 
   return (
-    <WrapBox style={{ backgroundColor: userStore.contentColor }}>
-      <Box alignItems='flex-end' pt='$4' px='$5'>
+    <WrapBox style={{ backgroundColor: userStore.contentColor, paddingTop: 3 }}>
+      <Box alignItems='flex-end'>
         <Button
+          bg='#5C66D5'
+          rounded='$xl'
+          h={24}
+          w={138}
           variant='link'
           onPress={async () => {
             await Clipboard.setStringAsync(address);
           }}>
-          <ButtonText fontWeight='$medium' fontSize='$sm'>
-            {truncateMiddleString(address || '', 12)}
-          </ButtonText>
+          <ParaText style={{ color: '#fff' }}>
+            {truncateMiddleString(address || '', 8)}
+          </ParaText>
+          <ButtonIcon as={CopyIcon} ml={5} />
         </Button>
       </Box>
-      <VStack justifyContent='center' alignItems='center' px='$4'>
-        <HStack>
-          <Box
-            // maxWidth='$64'
-            w='$full'
-            h='$full'
-            borderColor='$backgroundDark900'
-            borderRadius='$xl'
-            borderWidth='$1'
-            p='$4'
-            overflow='hidden'
-            sx={{
-              '@base': {
-                m: '$3',
-              },
-              _dark: {
-                bg: '$backgroundDark900',
-                borderColor: '$backgroundDark600',
-              },
-            }}>
-            <Box>
-              <Heading _dark={{ color: '$textLight200' }} size='lg'>
-                {userStore.shopName}
-              </Heading>
-              <Text _dark={{ color: '$textLight200' }} fontSize='$xs' my='$1.5'>
-                {t('wallet.heading.description', { appName: t('app.name') })}
-              </Text>
-            </Box>
+      <VStack alignItems='center' pt={50}>
+        <MobileHeader
+          title={userStore.shopName}
+          subTitle={t('wallet.heading.description', {
+            appName: t('app.name'),
+          })}></MobileHeader>
+      </VStack>
 
-            <Divider my='$5' mr='$1' bg='$violet600' />
+      <VStack mt={40} p={20} bg='white' rounded='$lg'>
+        <HStack justifyContent='space-between'>
+          <Para2Text style={{ color: '#5C66D5' }}>
+            • {t('wallet.modal.body.a')}
+          </Para2Text>
+          <WrapHistoryButton
+            borderRadius='$full'
+            h={24}
+            pt={-2}
+            onPress={() => navigation.navigate('MileageProvideHistory')}>
+            <Para2Text style={{ color: '#707070' }}>
+              {t('wallet.link.history.redemption')}
+            </Para2Text>
+          </WrapHistoryButton>
+        </HStack>
+
+        <Box mt={18}>
+          <Para3Text>{t('wallet.modal.body.b')}</Para3Text>
+          <HStack mt={4} alignItems='center'>
+            <NumberText>
+              {convertShopProperValue(
+                providedAmount.toBOAString(),
+                userStore.currency,
+              )}{' '}
+            </NumberText>
+            <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+              {userStore.currency.toUpperCase()}
+            </Para3Text>
+          </HStack>
+        </Box>
+        <WrapDivider></WrapDivider>
+        <Box mt={4}>
+          <Para3Text>{t('wallet.modal.body.c')}</Para3Text>
+          <HStack mt={4} alignItems='center'>
+            <NumberText>
+              {convertShopProperValue(
+                usedAmount.toBOAString(),
+                userStore.currency,
+              )}{' '}
+            </NumberText>
+            <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+              {userStore.currency.toUpperCase()}
+            </Para3Text>
+          </HStack>
+        </Box>
+      </VStack>
+
+      <VStack mt={12} p={20} bg='white' rounded='$lg'>
+        <HStack justifyContent='space-between'>
+          <Para2Text style={{ color: '#5C66D5' }}>
+            • {t('wallet.modal.body.d')}
+          </Para2Text>
+          <WrapHistoryButton
+            borderRadius='$full'
+            h={24}
+            pt={-2}
+            onPress={() => navigation.navigate('MileageAdjustmentHistory')}>
+            <Para2Text style={{ color: '#707070' }}>
+              {t('wallet.link.history.settlement')}
+            </Para2Text>
+          </WrapHistoryButton>
+        </HStack>
+
+        {/*<Box mt={18}>*/}
+        {/*  <HStack alignItems='center'>*/}
+        {/*    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
+        {/*      {t('wallet.modal.body.e')} :{' '}*/}
+        {/*      {adjustmentStatus === ShopWithdrawStatus.OPEN*/}
+        {/*        ? convertShopProperValue(*/}
+        {/*            withdrawAmount.toBOAString(),*/}
+        {/*            userStore.currency,*/}
+        {/*          )*/}
+        {/*        : convertShopProperValue(*/}
+        {/*            new Amount(0, 18).toBOAString(),*/}
+        {/*            userStore.currency,*/}
+        {/*          )}{' '}*/}
+        {/*      {userStore.currency.toUpperCase()}*/}
+        {/*    </Text>*/}
+        {/*    {adjustmentStatus === ShopWithdrawStatus.OPEN ? (*/}
+        {/*      <Button size='xs' h={25} onPress={() => handleComplete()}>*/}
+        {/*        <ButtonText size='xs'>{t('wallet.modal.body.g')}</ButtonText>*/}
+        {/*      </Button>*/}
+        {/*    ) : null}*/}
+        {/*  </HStack>*/}
+        {/*</Box>*/}
+
+        <Box mt={18}>
+          <HStack justifyContent='space-between' alignItems='center'>
             <Box>
-              <HStack justifyContent='space-between'>
-                <HStack m='$30'>
-                  <Heading size='md'>{t('wallet.modal.body.a')}</Heading>
-                </HStack>
-                <Pressable
-                  onPress={() => navigation.navigate('MileageProvideHistory')}>
-                  <Text fontSize='$sm' color='$violet400'>
-                    {t('wallet.link.history.redemption')}
-                  </Text>
-                </Pressable>
-              </HStack>
-              <VStack m='$2'>
-                <Box p='$1'>
-                  <Text _dark={{ color: '$textLight200' }} size='md' mr='$1'>
-                    {t('wallet.modal.body.b')} :{' '}
-                    {convertShopProperValue(
-                      providedAmount.toBOAString(),
-                      userStore.currency,
-                    )}{' '}
-                    {userStore.currency.toUpperCase()}
-                  </Text>
-                </Box>
-                <Box p='$1'>
-                  <Text _dark={{ color: '$textLight200' }} size='md' mr='$1'>
-                    {t('wallet.modal.body.c')}:{' '}
-                    {convertShopProperValue(
-                      usedAmount.toBOAString(),
-                      userStore.currency,
-                    )}{' '}
-                    {userStore.currency.toUpperCase()}
-                  </Text>
-                </Box>
-              </VStack>
-            </Box>
-            <Box h='$2'></Box>
-            <Box>
-              <HStack justifyContent='space-between'>
-                <HStack m='$30'>
-                  <Heading size='md'>{t('wallet.modal.body.d')}</Heading>
-                </HStack>
-                <Pressable
-                  onPress={() =>
-                    navigation.navigate('MileageAdjustmentHistory')
-                  }>
-                  <Text fontSize='$sm' color='$violet400'>
-                    {t('wallet.link.history.settlement')}
-                  </Text>
-                </Pressable>
-              </HStack>
-              <VStack m='$2'>
-                <Box p='$1'>
-                  <HStack alignItems='center'>
-                    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>
-                      {t('wallet.modal.body.e')} :{' '}
-                      {adjustmentStatus === ShopWithdrawStatus.OPEN
-                        ? convertShopProperValue(
-                            withdrawAmount.toBOAString(),
-                            userStore.currency,
-                          )
-                        : convertShopProperValue(
-                            new Amount(0, 18).toBOAString(),
-                            userStore.currency,
-                          )}{' '}
-                      {userStore.currency.toUpperCase()}
-                    </Text>
-                    {adjustmentStatus === ShopWithdrawStatus.OPEN ? (
-                      <Button size='xs' h={25} onPress={() => handleComplete()}>
-                        <ButtonText size='xs'>
-                          {t('wallet.modal.body.g')}
-                        </ButtonText>
-                      </Button>
-                    ) : null}
-                  </HStack>
-                </Box>
-                <Box p='$1'>
-                  <HStack alignItems='center'>
-                    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>
-                      {t('wallet.modal.body.f')} :{' '}
-                      {convertShopProperValue(
-                        withdrawableAmount.toBOAString(),
+              <Para3Text>{t('wallet.modal.body.e')}</Para3Text>
+              <HStack mt={4} alignItems='center'>
+                <NumberText>
+                  {adjustmentStatus === ShopWithdrawStatus.OPEN
+                    ? convertShopProperValue(
+                        withdrawAmount.toBOAString(),
+                        userStore.currency,
+                      )
+                    : convertShopProperValue(
+                        new Amount(0, 18).toBOAString(),
                         userStore.currency,
                       )}{' '}
-                      {userStore.currency.toUpperCase()}
-                    </Text>
-                    {adjustmentStatus !== ShopWithdrawStatus.OPEN &&
-                    withdrawableAmount.value.gt(BigNumber.from(0)) ? (
-                      <Button size='xs' h={25} onPress={() => handleRequest()}>
-                        <ButtonText size='xs'>
-                          {t('wallet.modal.body.e')}
-                        </ButtonText>
-                      </Button>
-                    ) : null}
-                  </HStack>
-                </Box>
-
-                <Box p='$1'>
-                  <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>
-                    {t('wallet.modal.body.g')} :{' '}
-                    {convertShopProperValue(
-                      withdrawnAmount.toBOAString(),
-                      userStore.currency,
-                    )}{' '}
-                    {userStore.currency.toUpperCase()}
-                  </Text>
-                </Box>
-              </VStack>
+                </NumberText>
+                <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                  {userStore.currency.toUpperCase()}
+                </Para3Text>
+              </HStack>
             </Box>
-          </Box>
-        </HStack>
+            <Box>
+              {adjustmentStatus !== ShopWithdrawStatus.OPEN ? (
+                <WrapWhiteButton h={36} onPress={() => handleComplete()}>
+                  <PinButtonText
+                    style={{
+                      fontWeight: 500,
+                      lineHeight: 15,
+                      fontSize: 14,
+                      color: '#555555',
+                    }}>
+                    {t('wallet.modal.body.g')}
+                  </PinButtonText>
+                </WrapWhiteButton>
+              ) : null}
+            </Box>
+          </HStack>
+        </Box>
+        <WrapDivider></WrapDivider>
+
+        {/*<Box p='$1'>*/}
+        {/*  <HStack alignItems='center'>*/}
+        {/*    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
+        {/*      {t('wallet.modal.body.f')} :{' '}*/}
+        {/*      {convertShopProperValue(*/}
+        {/*        withdrawableAmount.toBOAString(),*/}
+        {/*        userStore.currency,*/}
+        {/*      )}{' '}*/}
+        {/*      {userStore.currency.toUpperCase()}*/}
+        {/*    </Text>*/}
+        {/*    {adjustmentStatus !== ShopWithdrawStatus.OPEN &&*/}
+        {/*    withdrawableAmount.value.gt(BigNumber.from(0)) ? (*/}
+        {/*      <Button size='xs' h={25} onPress={() => handleRequest()}>*/}
+        {/*        <ButtonText size='xs'>{t('wallet.modal.body.e')}</ButtonText>*/}
+        {/*      </Button>*/}
+        {/*    ) : null}*/}
+        {/*  </HStack>*/}
+        {/*</Box>*/}
+
+        <Box mt={4}>
+          <HStack justifyContent='space-between' alignItems='center'>
+            <Box>
+              <Para3Text>{t('wallet.modal.body.f')}</Para3Text>
+              <HStack mt={4} alignItems='center'>
+                <NumberText>
+                  {convertShopProperValue(
+                    withdrawableAmount.toBOAString(),
+                    userStore.currency,
+                  )}{' '}
+                </NumberText>
+                <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                  {userStore.currency.toUpperCase()}
+                </Para3Text>
+              </HStack>
+            </Box>
+            <Box>
+              {adjustmentStatus !== ShopWithdrawStatus.OPEN &&
+              withdrawableAmount.value.gt(BigNumber.from(0)) ? (
+                <WrapButton h={36} onPress={() => handleRequest()}>
+                  <PinButtonText
+                    style={{
+                      fontWeight: 500,
+                      lineHeight: 15,
+                      fontSize: 14,
+                      color: '#fff',
+                    }}>
+                    {t('wallet.modal.body.e')}
+                  </PinButtonText>
+                </WrapButton>
+              ) : null}
+            </Box>
+          </HStack>
+        </Box>
+        <WrapDivider></WrapDivider>
+
+        {/*<Box p='$1'>*/}
+        {/*  <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
+        {/*    {t('wallet.modal.body.g')} :{' '}*/}
+        {/*    {convertShopProperValue(*/}
+        {/*      withdrawnAmount.toBOAString(),*/}
+        {/*      userStore.currency,*/}
+        {/*    )}{' '}*/}
+        {/*    {userStore.currency.toUpperCase()}*/}
+        {/*  </Text>*/}
+        {/*</Box>*/}
+
+        <Box mt={4}>
+          <Para3Text>{t('wallet.modal.body.g')}</Para3Text>
+          <HStack mt={4} alignItems='center'>
+            <NumberText>
+              {convertShopProperValue(
+                withdrawnAmount.toBOAString(),
+                userStore.currency,
+              )}{' '}
+            </NumberText>
+            <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+              {userStore.currency.toUpperCase()}
+            </Para3Text>
+          </HStack>
+        </Box>
       </VStack>
 
       <Box>
@@ -378,38 +476,60 @@ const Index = observer(({ navigation }) => {
             setShowModal(false);
           }}>
           <ModalBackdrop />
-          <ModalContent maxWidth='$96'>
-            <ModalBody p='$5'>
-              <VStack space='lg' mb='$4'>
-                <Heading>{modalHeader}</Heading>
-                <Text size='sm'>{modalContent}</Text>
-                <Text size='sm'>{t('wallet.modal.body.h')} </Text>
+          <ModalContent bg='#FFFFFF'>
+            <ModalBody mt={30} mb={10} mx={10}>
+              <VStack>
+                <HeaderText>{modalHeader}</HeaderText>
+                <ParaText mt={7}>{modalContent}</ParaText>
+                <ParaText mt={7}>{t('wallet.modal.body.h')} </ParaText>
               </VStack>
 
-              <ButtonGroup space='md' alignSelf='center'>
-                <Button
-                  variant='outline'
-                  py='$2.5'
-                  action='secondary'
-                  onPress={() => {
-                    setShowModal(false);
-                  }}>
-                  <ButtonText fontSize='$sm' fontWeight='$medium'>
-                    {t('button.press.b')}
-                  </ButtonText>
-                </Button>
-                <Button
-                  variant='solid'
-                  bg='$success700'
-                  borderColor='$success700'
-                  onPress={() => {
-                    confirmModal();
-                  }}>
-                  <ButtonText fontSize='$sm' fontWeight='$medium'>
-                    {t('button.press.a')}
-                  </ButtonText>
-                </Button>
-              </ButtonGroup>
+              {/*<ButtonGroup space='md' alignSelf='center'>*/}
+              {/*  <Button*/}
+              {/*    variant='outline'*/}
+              {/*    py='$2.5'*/}
+              {/*    action='secondary'*/}
+              {/*    onPress={() => {*/}
+              {/*      setShowModal(false);*/}
+              {/*    }}>*/}
+              {/*    <ButtonText fontSize='$sm' fontWeight='$medium'>*/}
+              {/*      {t('button.press.b')}*/}
+              {/*    </ButtonText>*/}
+              {/*  </Button>*/}
+              {/*  <Button*/}
+              {/*    variant='solid'*/}
+              {/*    bg='$success700'*/}
+              {/*    borderColor='$success700'*/}
+              {/*    onPress={() => {*/}
+              {/*      confirmModal();*/}
+              {/*    }}>*/}
+              {/*    <ButtonText fontSize='$sm' fontWeight='$medium'>*/}
+              {/*      {t('button.press.a')}*/}
+              {/*    </ButtonText>*/}
+              {/*  </Button>*/}
+              {/*</ButtonGroup>*/}
+
+              <HStack pt={20} flex={1}>
+                <Box flex={1} mx={5}>
+                  <WrapWhiteButton
+                    onPress={() => {
+                      setShowModal(false);
+                    }}>
+                    <ActiveWhiteButtonText>
+                      {t('button.press.b')}
+                    </ActiveWhiteButtonText>
+                  </WrapWhiteButton>
+                </Box>
+                <Box flex={1} mx={5}>
+                  <WrapButton
+                    onPress={() => {
+                      setShowModal(false);
+                      confirmModal();
+                    }}>
+                    <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+                  </WrapButton>
+                </Box>
+              </HStack>
             </ModalBody>
           </ModalContent>
         </Modal>

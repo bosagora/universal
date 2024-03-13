@@ -63,6 +63,13 @@ export const Para2Text = styled(BaseText, {
   fontSize: 13,
   color: '#555555',
 });
+export const Para3Text = styled(BaseText, {
+  fontFamily: 'Roboto-Regular',
+  fontWeight: 500,
+  lineHeight: 16,
+  fontSize: 15,
+  color: '#8A8A8A',
+});
 
 export const ActiveButtonText = styled(ButtonText, {
   fontFamily: 'Roboto-Bold',
@@ -85,4 +92,12 @@ export const PinButtonText = styled(ButtonText, {
   lineHeight: 28,
   fontSize: 32,
   color: 'white',
+});
+
+export const NumberText = styled(ButtonText, {
+  fontFamily: 'Roboto-SemiBold',
+  fontWeight: 600,
+  lineHeight: 25,
+  fontSize: 18,
+  color: '#12121D',
 });
