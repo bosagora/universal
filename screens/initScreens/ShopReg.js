@@ -24,6 +24,7 @@ import {
   SelectItem,
   Select,
   SelectDragIndicator,
+  ActionsheetItemText,
 } from '@gluestack-ui/themed';
 import { SafeAreaView } from 'react-native';
 import { useFormik } from 'formik';
@@ -42,7 +43,8 @@ import { ChevronDownIcon } from 'lucide-react-native';
 import MobileHeader from '../../components/MobileHeader';
 import { useTranslation } from 'react-i18next';
 import { WrapBox } from '../../components/styled/layout';
-import { SubHeaderText } from '../../components/styled/text';
+import { ActiveButtonText, SubHeaderText } from '../../components/styled/text';
+import { WrapButton } from '../../components/styled/button';
 
 const registerSchema = yup.object().shape({
   n1: yup.string().required(),
@@ -217,23 +219,27 @@ const ShopReg = observer(({ navigation }) => {
               </SelectTrigger>
               <SelectPortal>
                 <SelectBackdrop />
-                <SelectContent>
+                <SelectContent h={300}>
                   <SelectDragIndicatorWrapper>
                     <SelectDragIndicator />
                   </SelectDragIndicatorWrapper>
-                  <SelectItem label='KRW' value='krw' defaultValue={true} />
+                  <SelectItem
+                    label='KRW'
+                    value='krw'
+                    defaultValue={true}></SelectItem>
                   <SelectItem label='USD' value='usd' isDisabled={false} />
                   <SelectItem label='PHP' value='php' isDisabled={false} />
                 </SelectContent>
               </SelectPortal>
             </Select>
           </FormControl>
-          <Button
+          <WrapButton
             isDisabled={formik.values?.n1 === ''}
+            bg={formik.values?.n1 === '' ? '#E4E4E4' : '#5C66D5'}
             onPress={formik.handleSubmit}
             my='$4'>
-            <ButtonText>{t('shop.create')}</ButtonText>
-          </Button>
+            <ActiveButtonText>{t('shop.create')}</ActiveButtonText>
+          </WrapButton>
         </VStack>
       </KeyboardAwareScrollView>
     </WrapBox>

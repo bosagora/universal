@@ -82,7 +82,7 @@ const QRActionSheet = observer(() => {
           isOpen={temporaryAccount !== '00000' && secretStore.showQRSheet}
           onClose={handleClose}>
           <ActionsheetBackdrop bg='$borderLight200' />
-          <ActionsheetContent maxHeight='75%'>
+          <ActionsheetContent bg='white' maxHeight='75%'>
             <ActionsheetDragIndicatorWrapper>
               <ActionsheetDragIndicator />
             </ActionsheetDragIndicatorWrapper>
