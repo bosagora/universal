@@ -101,3 +101,18 @@ export const NumberText = styled(ButtonText, {
   fontSize: 18,
   color: '#12121D',
 });
+
+export const RobotoMediumText = styled(BaseText, {
+  fontFamily: 'Roboto-Medium',
+  fontWeight: 400,
+  lineHeight: 20,
+  fontSize: 14,
+  color: '#707070',
+});
+export const RobotoSemiBoldText = styled(BaseText, {
+  fontFamily: 'Roboto-SemiBold',
+  fontWeight: 600,
+  lineHeight: 25,
+  fontSize: 18,
+  color: '#707070',
+});

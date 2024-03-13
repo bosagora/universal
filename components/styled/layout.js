@@ -38,3 +38,13 @@ export const WrapDivider = styled(WrapBase, {
   mb: 10,
   bg: '#E4E4E4',
 });
+export const WrapBase2 = styled(Box, {
+  h: '$full',
+  px: 30,
+  bg: 'white',
+  variants: {
+    variant: {
+      wallet: { bg: 'black' },
+    },
+  },
+});
