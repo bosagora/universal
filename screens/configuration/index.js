@@ -20,6 +20,19 @@ import { getClient } from '../../utils/client';
 import { MobileType } from 'dms-sdk-client';
 import * as Clipboard from 'expo-clipboard';
 import { registerPushTokenWithClient } from '../../utils/push.token';
+import MobileHeader from '../../components/MobileHeader';
+import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import {
+  ActiveButtonText,
+  ActiveWhiteButtonText,
+  HeaderText,
+  NumberText,
+  Para2Text,
+  Para3Text,
+  ParaText,
+  PinButtonText,
+  RobotoMediumText,
+} from '../../components/styled/text';
 
 const Configuration = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -207,58 +220,27 @@ const Configuration = observer(({ navigation }) => {
       ? [...aData, ...bData, ...cData]
       : [...aData, ...cData];
   return (
-    <Box
-      sx={{
-        _dark: { bg: '$backgroundDark800' },
-        _web: {
-          height: '100vh',
-          w: '100vw',
-          overflow: 'hidden',
-        },
-      }}
-      height='$full'
-      bg='$backgroundLight0'>
-      <Heading size='xl' p='$4' pb='$3'>
-        {t('config.setting')}
-      </Heading>
+    <WrapBox
+      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
+      <MobileHeader title={t('config.setting')} subTitle='' />
       <FlatList
-        m='$3'
+        mt={40}
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Pressable onPress={() => goProperScreen(item.id)}>
-            <Box
-              borderBottomWidth='$1'
-              borderColor='$trueGray800'
-              sx={{
-                _dark: {
-                  borderColor: '$trueGray100',
-                },
-                '@base': {
-                  pl: 0,
-                  pr: 0,
-                },
-                '@sm': {
-                  pl: '$4',
-                  pr: '$5',
-                },
-              }}
-              py='$2'>
+            <VStack mt={2} mb={4}>
               <HStack
                 space='md'
                 alignItems='center'
                 justifyContent='space-between'>
                 <VStack>
-                  <Text
-                    fontSize='$sm'
-                    color='$coolGray600'
-                    sx={{
-                      _dark: {
-                        color: '$warmGray200',
-                      },
-                    }}>
+                  <RobotoMediumText
+                    fontSize={14}
+                    lightHeight={24}
+                    fontWeight={500}>
                     {item.name}
-                  </Text>
+                  </RobotoMediumText>
                 </VStack>
                 <Box>
                   {item.id === '3ac68afc' ? (
@@ -283,16 +265,17 @@ const Configuration = observer(({ navigation }) => {
                     <MaterialIcons
                       name='arrow-forward-ios'
                       size={20}
-                      color='white'
+                      color='#8A8A8A'
                     />
                   ) : null}
                 </Box>
               </HStack>
-            </Box>
+              <WrapDivider></WrapDivider>
+            </VStack>
           </Pressable>
         )}
       />
-    </Box>
+    </WrapBox>
   );
 });
 
