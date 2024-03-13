@@ -33,6 +33,8 @@ import { observer } from 'mobx-react';
 import * as Clipboard from 'expo-clipboard';
 import { truncateMiddleString } from '../utils/convert';
 import { useTranslation } from 'react-i18next';
+import { WrapButton } from '../components/styled/button';
+import { ActiveButtonText } from '../components/styled/text';
 
 // export default function QRActionSheet() {
 const TermActionSheet = observer(() => {
@@ -54,7 +56,7 @@ const TermActionSheet = observer(() => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <Actionsheet isOpen={secretStore.showTermSheet} onClose={handleClose}>
           <ActionsheetBackdrop bg='$borderLight200' />
-          <ActionsheetContent maxHeight='75%'>
+          <ActionsheetContent bg='white' maxHeight='75%'>
             <ActionsheetDragIndicatorWrapper>
               <ActionsheetDragIndicator />
             </ActionsheetDragIndicatorWrapper>
@@ -86,16 +88,12 @@ const TermActionSheet = observer(() => {
                         p='$1.5'>
                         {t('term.term.detail', { appName: t('app.name') })}
                       </Text>
-                      <Button
-                        variant='solid'
-                        action='primary'
+                      <WrapButton
                         onPress={async () => {
                           handleClose();
                         }}>
-                        <ButtonText fontSize='$sm' fontWeight='$medium'>
-                          {t('term.read')}
-                        </ButtonText>
-                      </Button>
+                        <ActiveButtonText>{t('term.read')}</ActiveButtonText>
+                      </WrapButton>
                     </VStack>
                   </Box>
                 </HStack>
