@@ -16,6 +16,18 @@ import { Amount, NormalSteps } from 'dms-sdk-client';
 import { getClient } from '../../utils/client';
 import { useTranslation } from 'react-i18next';
 import { checkValidPeriod, getUnixTime, isEmpty } from '../../utils/convert';
+import {
+  WrapBase2,
+  WrapBox,
+  WrapDivider,
+} from '../../components/styled/layout';
+import {
+  ActiveButtonText,
+  ActiveWhiteButtonText,
+  RobotoMediumText,
+  RobotoSemiBoldText,
+} from '../../components/styled/text';
+import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
 
 const ShopNotification = observer(() => {
   const { t } = useTranslation();
@@ -131,41 +143,54 @@ const ShopNotification = observer(() => {
   }
 
   return hasPayment ? (
-    <Box
-      sx={{
-        _dark: { bg: '$backgroundDark800' },
-        _web: {
-          height: '100vh',
-          w: '100vw',
-          overflow: 'hidden',
-        },
-      }}
-      height='$full'
-      bg='$backgroundLight0'>
+    <WrapBase2
+      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}
+      height='$full'>
       <MobileHeader
         title={t('wallet.shop.update.header.title')}
         subTitle={t('wallet.shop.update.header.subtitle')}
       />
 
-      <VStack space='lg' pt='$4' m='$7'>
-        <HStack>
-          <Text w='40%'>{t('shop')} :</Text>
-          <Text>{shopName}</Text>
+      <VStack pt={50}>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('shop')} :
+          </RobotoMediumText>
+          <RobotoSemiBoldText>{shopName}</RobotoSemiBoldText>
         </HStack>
-        <HStack>
-          <Text w='40%'>{t('shop.body.text.b')} :</Text>
-          <Text>{currency.toUpperCase()}</Text>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('shop.body.text.b')} :
+          </RobotoMediumText>
+          <RobotoSemiBoldText>{currency.toUpperCase()}</RobotoSemiBoldText>
         </HStack>
-        <VStack space='lg' pt='$4' m='$7'>
-          <Button onPress={() => confirmUpdate()}>
-            <ButtonText>{t('button.press.a')}</ButtonText>
-          </Button>
-          <Button onPress={() => cancelUpdate()}>
-            <ButtonText>{t('button.press.b')}</ButtonText>
-          </Button>
-        </VStack>
+        <WrapDivider></WrapDivider>
+        <HStack pt={20} flex={1}>
+          <Box flex={1} mx={5}>
+            <WrapWhiteButton onPress={() => cancelUpdate()}>
+              <ActiveWhiteButtonText>
+                {t('button.press.b')}
+              </ActiveWhiteButtonText>
+            </WrapWhiteButton>
+          </Box>
+          <Box flex={1} mx={5}>
+            <WrapButton onPress={() => confirmUpdate()}>
+              <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+            </WrapButton>
+          </Box>
+        </HStack>
       </VStack>
-    </Box>
+    </WrapBase2>
   ) : null;
 });
 
