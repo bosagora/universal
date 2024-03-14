@@ -28,6 +28,13 @@ import {
 } from 'google-libphonenumber';
 import { useTranslation } from 'react-i18next';
 import MobileHeader from '../../components/MobileHeader';
+import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import {
+  ActiveButtonText,
+  RobotoRegularText,
+  SubHeaderText,
+} from '../../components/styled/text';
+import { WrapButton } from '../../components/styled/button';
 
 const registerSchema = yup.object().shape({
   n1: yup
@@ -270,159 +277,178 @@ const PhoneAuth = observer(({ navigation }) => {
   });
 
   return (
-    <SafeAreaView>
-      <Box
-        sx={{
-          _dark: { bg: '$backgroundDark800' },
-          _web: {
-            height: '100vh',
-            w: '100vw',
-            overflow: 'hidden',
-          },
-        }}
-        height='$full'
-        bg='$backgroundLight0'>
-        <KeyboardAwareScrollView
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          enableOnAndroid={true}
-          scrollEnabled={true}
-          extraScrollHeight={100}
-          keyboardShouldPersistTaps='handled'
-          scrollToOverflowEnabled={true}
-          enableAutomaticScroll={true}>
-          <MobileHeader
-            title={t('phone.header.title')}
-            subTitle={t('phone.header.subtitle')}
-          />
+    <WrapBox style={{ backgroundColor: userStore.contentColor }}>
+      <KeyboardAwareScrollView
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        enableOnAndroid={true}
+        scrollEnabled={true}
+        extraScrollHeight={100}
+        keyboardShouldPersistTaps='handled'
+        scrollToOverflowEnabled={true}
+        enableAutomaticScroll={true}>
+        <MobileHeader
+          title={t('phone.header.title')}
+          subTitle={t('phone.header.subtitle')}
+        />
 
-          <Box p='$4' flex={1} maxWidth='$96' alignSelf='center' w='$full'>
-            <Text fontWeight='$bold' fontSize='$md'>
-              {t('phone.number')}
-            </Text>
-            <VStack flex={1} m='$2'>
-              <Box flex={1}>
-                <Input
-                  variant='outline'
-                  m='$2'
-                  size='md'
-                  isDisabled={false}
-                  isInvalid={false}
-                  isReadOnly={false}>
-                  <InputField
-                    placeholder={t('phone.body.input.a')}
-                    value={userStore.countryPhoneCode}
-                    onChangeText={userStore.setCountryPhoneCode}
-                  />
-                </Input>
-              </Box>
-
-              <Box flex={2}>
-                <Input
-                  variant='outline'
-                  m='$2'
-                  size='md'
-                  isDisabled={false}
-                  isInvalid={false}
-                  isReadOnly={false}>
-                  <InputField
-                    placeholder={t('phone.number')}
-                    value={phoneCode}
-                    onChangeText={setPhoneCode}
-                  />
-                </Input>
-              </Box>
-              <Button
-                isDisabled={requestId !== ''}
-                onPress={() => {
-                  registerPhone();
-                }}
-                m='$2'
-                flex={1}>
-                <ButtonText>{t('next')}</ButtonText>
-              </Button>
-            </VStack>
-            <Text
-              fontSize='$sm'
-              fontWeight='normal'
-              color='$primary300'
-              sx={{
-                _dark: { color: '$textDark400' },
+        <VStack mt={30}>
+          <RobotoRegularText fontSize={12} lineHeight={18} fontWeight={400}>
+            {t('phone.number')}
+          </RobotoRegularText>
+          <VStack>
+            <Input
+              mt={5}
+              style={{
+                height: 48,
+                borderWidth: 1,
+                borderColor: '#E4E4E4',
               }}>
-              {t('phone.body.text.a')}
-            </Text>
-            <Divider
-              my='$6'
-              bg='$backgroundLight200'
-              sx={{ _dark: { bg: '$backgroundDark700' } }}
-            />
-            <VStack>
-              {fontRef.current > 0 ? (
-                <Text
-                  fontSize='$sm'
-                  fontWeight='normal'
-                  color='$primary300'
-                  alignSelf='flex-end'
-                  mb='$2'
-                  sx={{
-                    _dark: { color: '$textDark400' },
-                  }}>
-                  {t('phone.body.text.b')} {timeLeft.m < 10 ? '0' : ''}
-                  {timeLeft.m}:{timeLeft.s < 10 ? '0' : ''}
-                  {timeLeft.s}
-                </Text>
-              ) : null}
-              <FormControl
-                size='md'
-                isRequired={true}
-                isInvalid={!!formik.errors.n1}>
-                <Input>
-                  <InputField
-                    type='text'
-                    placeholder='#1'
-                    onChangeText={formik.handleChange('n1')}
-                    onBlur={formik.handleBlur('n1')}
-                    value={formik.values?.n1}
-                  />
-                </Input>
-              </FormControl>
-              <FormControl
-                size='md'
-                isRequired={true}
-                isInvalid={!!formik.errors.n2}>
-                <Input>
-                  <InputField
-                    placeholder='#2'
-                    onChangeText={formik.handleChange('n2')}
-                    onBlur={formik.handleBlur('n2')}
-                    value={formik.values?.n2}
-                  />
-                </Input>
-              </FormControl>
-              <FormControl
-                size='md'
-                isRequired={true}
-                isInvalid={!!formik.errors.n3}>
-                <Input>
-                  <InputField
-                    placeholder='#3'
-                    onChangeText={formik.handleChange('n3')}
-                    onBlur={formik.handleBlur('n3')}
-                    value={formik.values?.n3}
-                  />
-                </Input>
-              </FormControl>
-              <Button
-                isDisabled={requestId === ''}
-                onPress={formik.handleSubmit}
-                my='$4'>
-                <ButtonText>{t('authenticate')}</ButtonText>
-              </Button>
-            </VStack>
-          </Box>
-        </KeyboardAwareScrollView>
-      </Box>
-    </SafeAreaView>
+              <InputField
+                style={{
+                  fontFamily: 'Roboto-Medium',
+                  lineHeight: 20,
+                  fontSize: 15,
+                  color: '#12121D',
+                }}
+                placeholder={t('phone.body.input.a')}
+                value={userStore.countryPhoneCode}
+                onChangeText={userStore.setCountryPhoneCode}
+              />
+            </Input>
+
+            <Input
+              mt={5}
+              style={{
+                height: 48,
+                borderWidth: 1,
+                borderColor: '#E4E4E4',
+              }}>
+              <InputField
+                style={{
+                  fontFamily: 'Roboto-Medium',
+                  lineHeight: 20,
+                  fontSize: 15,
+                  color: '#12121D',
+                }}
+                placeholder={t('phone.number')}
+                value={phoneCode}
+                onChangeText={setPhoneCode}
+              />
+            </Input>
+            <WrapButton
+              mt={5}
+              isDisabled={requestId !== ''}
+              onPress={() => {
+                registerPhone();
+              }}>
+              <ActiveButtonText>{t('next')}</ActiveButtonText>
+            </WrapButton>
+          </VStack>
+          <RobotoRegularText
+            mt={15}
+            fontSize={13}
+            lineHeight={18}
+            fontWeight={400}>
+            {t('phone.body.text.a')}
+          </RobotoRegularText>
+
+          <VStack mt={40}>
+            {fontRef.current > 0 ? (
+              <RobotoRegularText
+                color='#12121D'
+                alignSelf='flex-end'
+                fontSize={12}
+                lineHeight={18}
+                fontWeight={400}>
+                {t('phone.body.text.b')} {timeLeft.m < 10 ? '0' : ''}
+                {timeLeft.m}:{timeLeft.s < 10 ? '0' : ''}
+                {timeLeft.s}
+              </RobotoRegularText>
+            ) : null}
+            <FormControl isRequired={true} isInvalid={!!formik.errors.n1}>
+              <Input
+                mt={5}
+                style={{
+                  height: 48,
+                  borderWidth: 1,
+                  borderColor: '#E4E4E4',
+                }}>
+                <InputField
+                  style={{
+                    fontFamily: 'Roboto-Medium',
+                    lineHeight: 20,
+                    fontSize: 15,
+                    color: '#12121D',
+                  }}
+                  type='text'
+                  placeholder='#1'
+                  onChangeText={formik.handleChange('n1')}
+                  onBlur={formik.handleBlur('n1')}
+                  value={formik.values?.n1}
+                />
+              </Input>
+            </FormControl>
+            <FormControl
+              size='md'
+              isRequired={true}
+              isInvalid={!!formik.errors.n2}>
+              <Input
+                mt={5}
+                style={{
+                  height: 48,
+                  borderWidth: 1,
+                  borderColor: '#E4E4E4',
+                }}>
+                <InputField
+                  style={{
+                    fontFamily: 'Roboto-Medium',
+                    lineHeight: 20,
+                    fontSize: 15,
+                    color: '#12121D',
+                  }}
+                  placeholder='#2'
+                  onChangeText={formik.handleChange('n2')}
+                  onBlur={formik.handleBlur('n2')}
+                  value={formik.values?.n2}
+                />
+              </Input>
+            </FormControl>
+            <FormControl
+              size='md'
+              isRequired={true}
+              isInvalid={!!formik.errors.n3}>
+              <Input
+                mt={5}
+                style={{
+                  height: 48,
+                  borderWidth: 1,
+                  borderColor: '#E4E4E4',
+                }}>
+                <InputField
+                  style={{
+                    fontFamily: 'Roboto-Medium',
+                    lineHeight: 20,
+                    fontSize: 15,
+                    color: '#12121D',
+                  }}
+                  placeholder='#3'
+                  onChangeText={formik.handleChange('n3')}
+                  onBlur={formik.handleBlur('n3')}
+                  value={formik.values?.n3}
+                />
+              </Input>
+            </FormControl>
+            <WrapButton
+              isDisabled={requestId === ''}
+              onPress={formik.handleSubmit}
+              my='$4'>
+              <ActiveButtonText>{t('authenticate')}</ActiveButtonText>
+            </WrapButton>
+          </VStack>
+        </VStack>
+      </KeyboardAwareScrollView>
+    </WrapBox>
   );
 });
 

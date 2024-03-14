@@ -354,6 +354,11 @@ function InitStackScreen() {
   return (
     <InitStack.Navigator>
       <InitStack.Screen
+        name='PhoneAuth'
+        component={PhoneAuth}
+        options={{ headerShown: false }}
+      />
+      <InitStack.Screen
         name='Permissions'
         component={Permissions}
         options={{ headerShown: false }}
@@ -376,11 +381,6 @@ function InitStackScreen() {
       <InitStack.Screen
         name='ShopReg'
         component={ShopReg}
-        options={{ headerShown: false }}
-      />
-      <InitStack.Screen
-        name='PhoneAuth'
-        component={PhoneAuth}
         options={{ headerShown: false }}
       />
     </InitStack.Navigator>
