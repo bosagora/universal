@@ -354,11 +354,6 @@ function InitStackScreen() {
   return (
     <InitStack.Navigator>
       <InitStack.Screen
-        name='ShopReg'
-        component={ShopReg}
-        options={{ headerShown: false }}
-      />
-      <InitStack.Screen
         name='Permissions'
         component={Permissions}
         options={{ headerShown: false }}
@@ -378,7 +373,11 @@ function InitStackScreen() {
         component={InitPinCodeScreen}
         options={{ headerShown: false }}
       />
-
+      <InitStack.Screen
+        name='ShopReg'
+        component={ShopReg}
+        options={{ headerShown: false }}
+      />
       <InitStack.Screen
         name='PhoneAuth'
         component={PhoneAuth}

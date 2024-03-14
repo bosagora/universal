@@ -269,7 +269,6 @@ const WalletManager = observer(({ navigation }) => {
                           bg='#C0C0C0'
                           style={{
                             fontFamily: 'Roboto-Medium',
-                            fontWeight: 500,
                             lineHeight: 16,
                             fontSize: 15,
                             color: '#12121D',
@@ -291,7 +290,6 @@ const WalletManager = observer(({ navigation }) => {
                           bg='#C0C0C0'
                           style={{
                             fontFamily: 'Roboto-Medium',
-                            fontWeight: 500,
                             lineHeight: 16,
                             fontSize: 15,
                             color: '#12121D',
@@ -311,7 +309,7 @@ const WalletManager = observer(({ navigation }) => {
                           await Clipboard.setStringAsync(privateKey);
                           setShowModal(false);
                         }}>
-                        <ActiveButtonText>
+                        <ActiveButtonText fontSize={15}>
                           {t('config.wallet.modal.body.text.e')}
                         </ActiveButtonText>
                       </WrapButton>
@@ -322,7 +320,7 @@ const WalletManager = observer(({ navigation }) => {
                           await Clipboard.setStringAsync(userStore.shopId);
                           setShowModal(false);
                         }}>
-                        <ActiveButtonText>
+                        <ActiveButtonText fontSize={15}>
                           {t('config.wallet.modal.body.text.f')}
                         </ActiveButtonText>
                       </WrapButton>

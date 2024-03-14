@@ -31,8 +31,7 @@ export const WrapBase = styled(Box, {
 export const WrapBox = styled(WrapBase, {
   pt: 100,
 });
-export const WrapDivider = styled(WrapBase, {
-  flex: 'no',
+export const WrapDivider = styled(Box, {
   h: 1,
   mt: 10,
   mb: 10,
