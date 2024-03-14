@@ -132,7 +132,6 @@ const ImportShopPrivateKey = observer(
                       placeholder='Select option'
                       style={{
                         fontFamily: 'Roboto-Medium',
-                        fontWeight: 500,
                         lineHeight: 16,
                         fontSize: 15,
                         color: '#12121D',
@@ -204,7 +203,6 @@ const ImportShopPrivateKey = observer(
                       bg='#C0C0C0'
                       style={{
                         fontFamily: 'Roboto-Medium',
-                        fontWeight: 500,
                         lineHeight: 16,
                         fontSize: 15,
                         color: '#12121D',

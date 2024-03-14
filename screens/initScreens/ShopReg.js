@@ -174,7 +174,6 @@ const ShopReg = observer(({ navigation }) => {
               <InputField
                 style={{
                   fontFamily: 'Roboto-Medium',
-                  fontWeight: 500,
                   lineHeight: 20,
                   fontSize: 15,
                   color: '#12121D',
@@ -207,7 +206,6 @@ const ShopReg = observer(({ navigation }) => {
                   placeholder='Select option'
                   style={{
                     fontFamily: 'Roboto-Medium',
-                    fontWeight: 500,
                     lineHeight: 16,
                     fontSize: 15,
                     color: '#12121D',

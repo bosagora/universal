@@ -32,7 +32,7 @@ import {
   convertShopProperValue,
   truncateMiddleString,
 } from '../../utils/convert';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import * as Clipboard from 'expo-clipboard';
 import { BigNumber } from '@ethersproject/bignumber/src.ts';
@@ -258,222 +258,224 @@ const Index = observer(({ navigation }) => {
           <ButtonIcon as={CopyIcon} ml={5} />
         </Button>
       </Box>
-      <VStack alignItems='center' pt={50}>
-        <MobileHeader
-          title={userStore.shopName}
-          subTitle={t('wallet.heading.description', {
-            appName: t('app.name'),
-          })}></MobileHeader>
-      </VStack>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <VStack alignItems='center' pt={50}>
+          <MobileHeader
+            title={userStore.shopName}
+            subTitle={t('wallet.heading.description', {
+              appName: t('app.name'),
+            })}></MobileHeader>
+        </VStack>
 
-      <VStack mt={40} p={20} bg='white' rounded='$lg'>
-        <HStack justifyContent='space-between'>
-          <Para2Text style={{ color: '#5C66D5' }}>
-            • {t('wallet.modal.body.a')}
-          </Para2Text>
-          <WrapHistoryButton
-            borderRadius='$full'
-            h={24}
-            pt={-2}
-            onPress={() => navigation.navigate('MileageProvideHistory')}>
-            <Para2Text style={{ color: '#707070' }}>
-              {t('wallet.link.history.redemption')}
+        <VStack mt={40} p={20} bg='white' rounded='$lg'>
+          <HStack justifyContent='space-between'>
+            <Para2Text style={{ color: '#5C66D5' }}>
+              • {t('wallet.modal.body.a')}
             </Para2Text>
-          </WrapHistoryButton>
-        </HStack>
-
-        <Box mt={18}>
-          <Para3Text>{t('wallet.modal.body.b')}</Para3Text>
-          <HStack mt={4} alignItems='center'>
-            <NumberText>
-              {convertShopProperValue(
-                providedAmount.toBOAString(),
-                userStore.currency,
-              )}{' '}
-            </NumberText>
-            <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-              {userStore.currency.toUpperCase()}
-            </Para3Text>
+            <WrapHistoryButton
+              borderRadius='$full'
+              h={24}
+              pt={-2}
+              onPress={() => navigation.navigate('MileageProvideHistory')}>
+              <Para2Text style={{ color: '#707070' }}>
+                {t('wallet.link.history.redemption')}
+              </Para2Text>
+            </WrapHistoryButton>
           </HStack>
-        </Box>
-        <WrapDivider></WrapDivider>
-        <Box mt={4}>
-          <Para3Text>{t('wallet.modal.body.c')}</Para3Text>
-          <HStack mt={4} alignItems='center'>
-            <NumberText>
-              {convertShopProperValue(
-                usedAmount.toBOAString(),
-                userStore.currency,
-              )}{' '}
-            </NumberText>
-            <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-              {userStore.currency.toUpperCase()}
-            </Para3Text>
-          </HStack>
-        </Box>
-      </VStack>
 
-      <VStack mt={12} p={20} bg='white' rounded='$lg'>
-        <HStack justifyContent='space-between'>
-          <Para2Text style={{ color: '#5C66D5' }}>
-            • {t('wallet.modal.body.d')}
-          </Para2Text>
-          <WrapHistoryButton
-            borderRadius='$full'
-            h={24}
-            pt={-2}
-            onPress={() => navigation.navigate('MileageAdjustmentHistory')}>
-            <Para2Text style={{ color: '#707070' }}>
-              {t('wallet.link.history.settlement')}
+          <Box mt={18}>
+            <Para3Text>{t('wallet.modal.body.b')}</Para3Text>
+            <HStack mt={4} alignItems='center'>
+              <NumberText>
+                {convertShopProperValue(
+                  providedAmount.toBOAString(),
+                  userStore.currency,
+                )}{' '}
+              </NumberText>
+              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                {userStore.currency.toUpperCase()}
+              </Para3Text>
+            </HStack>
+          </Box>
+          <WrapDivider></WrapDivider>
+          <Box mt={4}>
+            <Para3Text>{t('wallet.modal.body.c')}</Para3Text>
+            <HStack mt={4} alignItems='center'>
+              <NumberText>
+                {convertShopProperValue(
+                  usedAmount.toBOAString(),
+                  userStore.currency,
+                )}{' '}
+              </NumberText>
+              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                {userStore.currency.toUpperCase()}
+              </Para3Text>
+            </HStack>
+          </Box>
+        </VStack>
+
+        <VStack mt={12} p={20} bg='white' rounded='$lg'>
+          <HStack justifyContent='space-between'>
+            <Para2Text style={{ color: '#5C66D5' }}>
+              • {t('wallet.modal.body.d')}
             </Para2Text>
-          </WrapHistoryButton>
-        </HStack>
-
-        {/*<Box mt={18}>*/}
-        {/*  <HStack alignItems='center'>*/}
-        {/*    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
-        {/*      {t('wallet.modal.body.e')} :{' '}*/}
-        {/*      {adjustmentStatus === ShopWithdrawStatus.OPEN*/}
-        {/*        ? convertShopProperValue(*/}
-        {/*            withdrawAmount.toBOAString(),*/}
-        {/*            userStore.currency,*/}
-        {/*          )*/}
-        {/*        : convertShopProperValue(*/}
-        {/*            new Amount(0, 18).toBOAString(),*/}
-        {/*            userStore.currency,*/}
-        {/*          )}{' '}*/}
-        {/*      {userStore.currency.toUpperCase()}*/}
-        {/*    </Text>*/}
-        {/*    {adjustmentStatus === ShopWithdrawStatus.OPEN ? (*/}
-        {/*      <Button size='xs' h={25} onPress={() => handleComplete()}>*/}
-        {/*        <ButtonText size='xs'>{t('wallet.modal.body.g')}</ButtonText>*/}
-        {/*      </Button>*/}
-        {/*    ) : null}*/}
-        {/*  </HStack>*/}
-        {/*</Box>*/}
-
-        <Box mt={18}>
-          <HStack justifyContent='space-between' alignItems='center'>
-            <Box>
-              <Para3Text>{t('wallet.modal.body.e')}</Para3Text>
-              <HStack mt={4} alignItems='center'>
-                <NumberText>
-                  {adjustmentStatus === ShopWithdrawStatus.OPEN
-                    ? convertShopProperValue(
-                        withdrawAmount.toBOAString(),
-                        userStore.currency,
-                      )
-                    : convertShopProperValue(
-                        new Amount(0, 18).toBOAString(),
-                        userStore.currency,
-                      )}{' '}
-                </NumberText>
-                <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-                  {userStore.currency.toUpperCase()}
-                </Para3Text>
-              </HStack>
-            </Box>
-            <Box>
-              {adjustmentStatus === ShopWithdrawStatus.OPEN ? (
-                <WrapWhiteButton h={36} onPress={() => handleComplete()}>
-                  <PinButtonText
-                    style={{
-                      fontWeight: 500,
-                      lineHeight: 15,
-                      fontSize: 14,
-                      color: '#555555',
-                    }}>
-                    {t('wallet.modal.body.g')}
-                  </PinButtonText>
-                </WrapWhiteButton>
-              ) : null}
-            </Box>
+            <WrapHistoryButton
+              borderRadius='$full'
+              h={24}
+              pt={-2}
+              onPress={() => navigation.navigate('MileageAdjustmentHistory')}>
+              <Para2Text style={{ color: '#707070' }}>
+                {t('wallet.link.history.settlement')}
+              </Para2Text>
+            </WrapHistoryButton>
           </HStack>
-        </Box>
-        <WrapDivider></WrapDivider>
 
-        {/*<Box p='$1'>*/}
-        {/*  <HStack alignItems='center'>*/}
-        {/*    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
-        {/*      {t('wallet.modal.body.f')} :{' '}*/}
-        {/*      {convertShopProperValue(*/}
-        {/*        withdrawableAmount.toBOAString(),*/}
-        {/*        userStore.currency,*/}
-        {/*      )}{' '}*/}
-        {/*      {userStore.currency.toUpperCase()}*/}
-        {/*    </Text>*/}
-        {/*    {adjustmentStatus !== ShopWithdrawStatus.OPEN &&*/}
-        {/*    withdrawableAmount.value.gt(BigNumber.from(0)) ? (*/}
-        {/*      <Button size='xs' h={25} onPress={() => handleRequest()}>*/}
-        {/*        <ButtonText size='xs'>{t('wallet.modal.body.e')}</ButtonText>*/}
-        {/*      </Button>*/}
-        {/*    ) : null}*/}
-        {/*  </HStack>*/}
-        {/*</Box>*/}
+          {/*<Box mt={18}>*/}
+          {/*  <HStack alignItems='center'>*/}
+          {/*    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
+          {/*      {t('wallet.modal.body.e')} :{' '}*/}
+          {/*      {adjustmentStatus === ShopWithdrawStatus.OPEN*/}
+          {/*        ? convertShopProperValue(*/}
+          {/*            withdrawAmount.toBOAString(),*/}
+          {/*            userStore.currency,*/}
+          {/*          )*/}
+          {/*        : convertShopProperValue(*/}
+          {/*            new Amount(0, 18).toBOAString(),*/}
+          {/*            userStore.currency,*/}
+          {/*          )}{' '}*/}
+          {/*      {userStore.currency.toUpperCase()}*/}
+          {/*    </Text>*/}
+          {/*    {adjustmentStatus === ShopWithdrawStatus.OPEN ? (*/}
+          {/*      <Button size='xs' h={25} onPress={() => handleComplete()}>*/}
+          {/*        <ButtonText size='xs'>{t('wallet.modal.body.g')}</ButtonText>*/}
+          {/*      </Button>*/}
+          {/*    ) : null}*/}
+          {/*  </HStack>*/}
+          {/*</Box>*/}
 
-        <Box mt={4}>
-          <HStack justifyContent='space-between' alignItems='center'>
-            <Box>
-              <Para3Text>{t('wallet.modal.body.f')}</Para3Text>
-              <HStack mt={4} alignItems='center'>
-                <NumberText>
-                  {convertShopProperValue(
-                    withdrawableAmount.toBOAString(),
-                    userStore.currency,
-                  )}{' '}
-                </NumberText>
-                <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-                  {userStore.currency.toUpperCase()}
-                </Para3Text>
-              </HStack>
-            </Box>
-            <Box>
-              {adjustmentStatus !== ShopWithdrawStatus.OPEN &&
-              withdrawableAmount.value.gt(BigNumber.from(0)) ? (
-                <WrapButton h={36} onPress={() => handleRequest()}>
-                  <PinButtonText
-                    style={{
-                      fontWeight: 500,
-                      lineHeight: 15,
-                      fontSize: 14,
-                      color: '#fff',
-                    }}>
-                    {t('wallet.modal.body.e')}
-                  </PinButtonText>
-                </WrapButton>
-              ) : null}
-            </Box>
-          </HStack>
-        </Box>
-        <WrapDivider></WrapDivider>
+          <Box mt={18}>
+            <HStack justifyContent='space-between' alignItems='center'>
+              <Box>
+                <Para3Text>{t('wallet.modal.body.e')}</Para3Text>
+                <HStack mt={4} alignItems='center'>
+                  <NumberText>
+                    {adjustmentStatus === ShopWithdrawStatus.OPEN
+                      ? convertShopProperValue(
+                          withdrawAmount.toBOAString(),
+                          userStore.currency,
+                        )
+                      : convertShopProperValue(
+                          new Amount(0, 18).toBOAString(),
+                          userStore.currency,
+                        )}{' '}
+                  </NumberText>
+                  <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                    {userStore.currency.toUpperCase()}
+                  </Para3Text>
+                </HStack>
+              </Box>
+              <Box>
+                {adjustmentStatus === ShopWithdrawStatus.OPEN ? (
+                  <WrapWhiteButton h={36} onPress={() => handleComplete()}>
+                    <PinButtonText
+                      style={{
+                        fontWeight: 500,
+                        lineHeight: 15,
+                        fontSize: 14,
+                        color: '#555555',
+                      }}>
+                      {t('wallet.modal.body.g')}
+                    </PinButtonText>
+                  </WrapWhiteButton>
+                ) : null}
+              </Box>
+            </HStack>
+          </Box>
+          <WrapDivider></WrapDivider>
 
-        {/*<Box p='$1'>*/}
-        {/*  <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
-        {/*    {t('wallet.modal.body.g')} :{' '}*/}
-        {/*    {convertShopProperValue(*/}
-        {/*      withdrawnAmount.toBOAString(),*/}
-        {/*      userStore.currency,*/}
-        {/*    )}{' '}*/}
-        {/*    {userStore.currency.toUpperCase()}*/}
-        {/*  </Text>*/}
-        {/*</Box>*/}
+          {/*<Box p='$1'>*/}
+          {/*  <HStack alignItems='center'>*/}
+          {/*    <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
+          {/*      {t('wallet.modal.body.f')} :{' '}*/}
+          {/*      {convertShopProperValue(*/}
+          {/*        withdrawableAmount.toBOAString(),*/}
+          {/*        userStore.currency,*/}
+          {/*      )}{' '}*/}
+          {/*      {userStore.currency.toUpperCase()}*/}
+          {/*    </Text>*/}
+          {/*    {adjustmentStatus !== ShopWithdrawStatus.OPEN &&*/}
+          {/*    withdrawableAmount.value.gt(BigNumber.from(0)) ? (*/}
+          {/*      <Button size='xs' h={25} onPress={() => handleRequest()}>*/}
+          {/*        <ButtonText size='xs'>{t('wallet.modal.body.e')}</ButtonText>*/}
+          {/*      </Button>*/}
+          {/*    ) : null}*/}
+          {/*  </HStack>*/}
+          {/*</Box>*/}
 
-        <Box mt={4}>
-          <Para3Text>{t('wallet.modal.body.g')}</Para3Text>
-          <HStack mt={4} alignItems='center'>
-            <NumberText>
-              {convertShopProperValue(
-                withdrawnAmount.toBOAString(),
-                userStore.currency,
-              )}{' '}
-            </NumberText>
-            <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-              {userStore.currency.toUpperCase()}
-            </Para3Text>
-          </HStack>
-        </Box>
-      </VStack>
+          <Box mt={4}>
+            <HStack justifyContent='space-between' alignItems='center'>
+              <Box>
+                <Para3Text>{t('wallet.modal.body.f')}</Para3Text>
+                <HStack mt={4} alignItems='center'>
+                  <NumberText>
+                    {convertShopProperValue(
+                      withdrawableAmount.toBOAString(),
+                      userStore.currency,
+                    )}{' '}
+                  </NumberText>
+                  <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                    {userStore.currency.toUpperCase()}
+                  </Para3Text>
+                </HStack>
+              </Box>
+              <Box>
+                {adjustmentStatus !== ShopWithdrawStatus.OPEN &&
+                withdrawableAmount.value.gt(BigNumber.from(0)) ? (
+                  <WrapButton h={36} onPress={() => handleRequest()}>
+                    <PinButtonText
+                      style={{
+                        fontWeight: 500,
+                        lineHeight: 15,
+                        fontSize: 14,
+                        color: '#fff',
+                      }}>
+                      {t('wallet.modal.body.e')}
+                    </PinButtonText>
+                  </WrapButton>
+                ) : null}
+              </Box>
+            </HStack>
+          </Box>
+          <WrapDivider></WrapDivider>
 
+          {/*<Box p='$1'>*/}
+          {/*  <Text _dark={{ color: '$textLight200' }} size='sm' mr='$2'>*/}
+          {/*    {t('wallet.modal.body.g')} :{' '}*/}
+          {/*    {convertShopProperValue(*/}
+          {/*      withdrawnAmount.toBOAString(),*/}
+          {/*      userStore.currency,*/}
+          {/*    )}{' '}*/}
+          {/*    {userStore.currency.toUpperCase()}*/}
+          {/*  </Text>*/}
+          {/*</Box>*/}
+
+          <Box mt={4}>
+            <Para3Text>{t('wallet.modal.body.g')}</Para3Text>
+            <HStack mt={4} alignItems='center'>
+              <NumberText>
+                {convertShopProperValue(
+                  withdrawnAmount.toBOAString(),
+                  userStore.currency,
+                )}{' '}
+              </NumberText>
+              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                {userStore.currency.toUpperCase()}
+              </Para3Text>
+            </HStack>
+          </Box>
+        </VStack>
+        <Box h={10}></Box>
+      </ScrollView>
       <Box>
         <Modal
           isOpen={showModal}
