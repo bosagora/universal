@@ -116,3 +116,17 @@ export const RobotoSemiBoldText = styled(BaseText, {
   fontSize: 18,
   color: '#707070',
 });
+export const RobotoRegularText = styled(BaseText, {
+  fontFamily: 'Roboto-Regular',
+  fontWeight: 400,
+  lineHeight: 20,
+  fontSize: 14,
+  color: '#8A8A8A',
+});
+export const RobotoBoldText = styled(BaseText, {
+  fontFamily: 'Roboto-Bold',
+  fontWeight: 600,
+  lineHeight: 25,
+  fontSize: 17,
+  color: '#555555',
+});

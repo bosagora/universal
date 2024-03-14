@@ -29,7 +29,7 @@ export const WrapBase = styled(Box, {
 });
 
 export const WrapBox = styled(WrapBase, {
-  pt: 100,
+  pt: 80,
 });
 export const WrapDivider = styled(Box, {
   h: 1,
