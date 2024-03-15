@@ -77,6 +77,12 @@ const UserWallet = observer(({ navigation }) => {
       .catch((error) => {
         console.log(error);
       });
+    loyaltyStore.setPayment({
+      id: '0x5f59d6b480ff5a30044dcd7fe3b28c69b6d0d725ca469d1b685b57dfc1055d7f',
+      type: 'new',
+      taskId:
+        '0xf7d3c6c310f5b53d62e96e363146b7da517ffaf063866923c6ce60683b154c91',
+    });
   }, []);
   async function fetchClient() {
     try {
@@ -420,7 +426,7 @@ const UserWallet = observer(({ navigation }) => {
               </VStack>
 
               <HStack pt={20} flex={1}>
-                <Box flex={1} mx={3}>
+                <Box flex={1} mr={5}>
                   <WrapWhiteButton
                     onPress={() => {
                       setShowModal(false);
@@ -430,7 +436,7 @@ const UserWallet = observer(({ navigation }) => {
                     </ActiveWhiteButtonText>
                   </WrapWhiteButton>
                 </Box>
-                <Box flex={1} mx={3}>
+                <Box flex={1} ml={5}>
                   <WrapButton
                     onPress={() => {
                       confirmToToken();

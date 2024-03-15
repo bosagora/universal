@@ -519,7 +519,7 @@ const Index = observer(({ navigation }) => {
               {/*</ButtonGroup>*/}
 
               <HStack pt={20} flex={1}>
-                <Box flex={1} mx={5}>
+                <Box flex={1} mr={5}>
                   <WrapWhiteButton
                     onPress={() => {
                       setShowModal(false);
@@ -529,7 +529,7 @@ const Index = observer(({ navigation }) => {
                     </ActiveWhiteButtonText>
                   </WrapWhiteButton>
                 </Box>
-                <Box flex={1} mx={5}>
+                <Box flex={1} ml={5}>
                   <WrapButton
                     onPress={() => {
                       setShowModal(false);

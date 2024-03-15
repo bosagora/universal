@@ -9,6 +9,8 @@ import { convertProperValue, timePadding } from '../../utils/convert';
 import { Amount, BOACoin, LedgerAction } from 'dms-sdk-client';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useTranslation } from 'react-i18next';
+import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import { NumberText, Para3Text, ParaText } from '../../components/styled/text';
 
 const MileageHistory = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -112,7 +114,29 @@ const MileageHistory = observer(({ navigation }) => {
             blockTimestamp: it.blockTimestamp,
           };
         });
-      const history = scheduledHistory.concat(tradeHistory);
+      const history2 = scheduledHistory.concat(tradeHistory);
+      const history = [
+        {
+          action: 1,
+          actionName: 'SAVED',
+          amountPoint: '10000000000000',
+          blockTimestamp: '1710296615',
+          currency: 'krw',
+          id: '0x3312188d36afff93ee6b6784c1372be0bd37db34f94069b1f917e97904193b4901000000',
+          increase: '2500000000000',
+          loyaltyTypeName: 'POINT',
+        },
+        {
+          action: 1,
+          actionName: 'SAVED',
+          amountPoint: '7500000000000',
+          blockTimestamp: '1710296579',
+          currency: 'krw',
+          id: '0x4a0ac844d4f16bfbaa4fa0b01cf17bfa24581496f69c756ae2887ba9a51de19201000000',
+          increase: '7500000000000',
+          loyaltyTypeName: 'POINT',
+        },
+      ];
       history.sort(function (a, b) {
         // 오름차순
         return a.blockTimestamp > b.blockTimestamp
@@ -121,6 +145,7 @@ const MileageHistory = observer(({ navigation }) => {
           ? 1
           : 0;
       });
+
       console.log('history :', history.slice(0, 3));
       setHistoryData(history);
     };
@@ -130,66 +155,34 @@ const MileageHistory = observer(({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <Box
-        sx={{
-          _dark: { bg: '$backgroundDark800' },
-          _web: {
-            height: '100vh',
-            w: '100vw',
-            overflow: 'hidden',
-          },
-        }}
-        height='$full'
-        bg='$backgroundLight0'>
-        <MobileHeader
-          title={t('wallet.history.header.title')}
-          subTitle={
-            historyData && historyData.length > 0
-              ? t('wallet.history.header.subtitle.a') +
-                ' ' +
-                historyData.length +
-                ' ' +
-                t('wallet.history.header.subtitle.b')
-              : t('wallet.history.header.subtitle.nothing')
-          }
-        />
-        {historyData && historyData.length > 0 ? (
-          <FlatList
-            m='$3'
-            data={historyData}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <Box
-                borderBottomWidth='$1'
-                borderColor='$trueGray800'
-                sx={{
-                  _dark: {
-                    borderColor: '$trueGray100',
-                  },
-                  '@base': {
-                    pl: 0,
-                    pr: 0,
-                  },
-                  '@sm': {
-                    pl: '$4',
-                    pr: '$5',
-                  },
-                }}
-                py='$2'>
+    <WrapBox
+      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
+      <MobileHeader
+        title={t('wallet.history.header.title')}
+        subTitle={
+          historyData && historyData.length > 0
+            ? t('wallet.history.header.subtitle.a') +
+              ' ' +
+              historyData.length +
+              ' ' +
+              t('wallet.history.header.subtitle.b')
+            : t('wallet.history.header.subtitle.nothing')
+        }
+      />
+      {historyData && historyData.length > 0 ? (
+        <FlatList
+          mt={40}
+          data={historyData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Box>
+              <VStack>
                 <HStack
                   space='md'
                   alignItems='center'
                   justifyContent='space-between'>
                   <VStack>
-                    <Text
-                      fontSize='$sm'
-                      color='$coolGray600'
-                      sx={{
-                        _dark: {
-                          color: '$warmGray200',
-                        },
-                      }}>
+                    <ParaText fontSize={14} fontWeight={400} lightHeight={20}>
                       {item.actionName === 'SCHEDULED'
                         ? t('user.wallet.history.body.text.e')
                         : item.actionName === 'CANCEL'
@@ -199,20 +192,17 @@ const MileageHistory = observer(({ navigation }) => {
                         : item.actionName === 'USED'
                         ? t('wallet.history.body.text.c')
                         : t('user.wallet.history.body.text.d')}
-                    </Text>
-                    <Text
-                      fontSize='$sm'
-                      color='$coolGray600'
-                      sx={{
-                        _dark: {
-                          color: '$warmGray200',
-                        },
-                      }}>
+                    </ParaText>
+                    <ParaText
+                      fontSize={15}
+                      fontWeight={500}
+                      lightHeight={16}
+                      color='#707070'>
                       {timeConverter(item.blockTimestamp)}
-                    </Text>
+                    </ParaText>
                   </VStack>
-                  <Box>
-                    <Text>
+                  <HStack alignItems='center' justifyContent='flex-end'>
+                    <NumberText>
                       {item.actionName === 'CANCEL' ||
                       item.actionName === 'SAVED' ||
                       item.actionName === 'SCHEDULED'
@@ -232,16 +222,22 @@ const MileageHistory = observer(({ navigation }) => {
                             ).toBOAString(),
                         item.loyaltyType,
                       )}{' '}
+                    </NumberText>
+                    <Para3Text
+                      pt={4}
+                      color='#12121D'
+                      style={{ fontWeight: 400 }}>
                       {item.loyaltyTypeName}
-                    </Text>
-                  </Box>
+                    </Para3Text>
+                  </HStack>
                 </HStack>
-              </Box>
-            )}
-          />
-        ) : null}
-      </Box>
-    </SafeAreaView>
+                <WrapDivider mb={3}></WrapDivider>
+              </VStack>
+            </Box>
+          )}
+        />
+      ) : null}
+    </WrapBox>
   );
 });
 

@@ -23,10 +23,22 @@ import {
 } from '../../utils/convert';
 import * as Clipboard from 'expo-clipboard';
 import { useTranslation } from 'react-i18next';
+import {
+  WrapBase2,
+  WrapBox,
+  WrapDivider,
+} from '../../components/styled/layout';
+import {
+  ActiveButtonText,
+  ActiveWhiteButtonText,
+  RobotoMediumText,
+  RobotoSemiBoldText,
+} from '../../components/styled/text';
+import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
 
 const MileageRedeemNotification = observer(({ navigation }) => {
   const { t } = useTranslation();
-  const { pinStore, loyaltyStore } = useStores();
+  const { pinStore, loyaltyStore, userStore } = useStores();
   const [values, setValues] = useState(['T1', 'T2']);
 
   const [client, setClient] = useState(null);
@@ -149,59 +161,88 @@ const MileageRedeemNotification = observer(({ navigation }) => {
   }
 
   return hasPayment ? (
-    <SafeAreaView>
-      <Box
-        sx={{
-          _dark: { bg: '$backgroundDark800' },
-          _web: {
-            height: '100vh',
-            w: '100vw',
-            overflow: 'hidden',
-          },
-        }}
-        height='$full'
-        bg='$backgroundLight0'>
-        <MobileHeader
-          title={t('wallet.redeem.header.title')}
-          subTitle={t('wallet.redeem.header.subtitle')}
-        />
+    <WrapBase2
+      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}
+      height='$full'>
+      <MobileHeader
+        title={t('wallet.redeem.header.title')}
+        subTitle={t('wallet.redeem.header.subtitle')}
+      />
 
-        <VStack space='lg' pt='$4' m='$7'>
-          <HStack>
-            <Text w='40%'>{t('shop')} :</Text>
-            <Text>{shopName}</Text>
-          </HStack>
-          <HStack>
-            <Text w='40%'>{t('purchase')} ID :</Text>
-            <Text>{purchaseId}</Text>
-          </HStack>
-          <HStack>
-            <Text w='40%'>
-              {t('purchase')} {t('amount')} :
-            </Text>
-            <Text>
-              {convertProperValue(amount.toBOAString())}{' '}
-              {currency.toUpperCase()}
-            </Text>
-          </HStack>
-          <HStack>
-            <Text w='40%'>{t('wallet.redeem.header.body.a')} :</Text>
-            <Text>
-              {convertProperValue(useAmount.toBOAString())}{' '}
-              {loyaltyType === LoyaltyType.POINT ? 'POINT' : 'TOKEN'}
-            </Text>
-          </HStack>
-          <VStack space='lg' pt='$4' m='$7'>
-            <Button py='$2.5' px='$3' onPress={() => confirmRedeem()}>
-              <ButtonText>{t('button.press.a')}</ButtonText>
-            </Button>
-            <Button onPress={() => cancelCancel()}>
-              <ButtonText>{t('button.press.b')}</ButtonText>
-            </Button>
-          </VStack>
-        </VStack>
-      </Box>
-    </SafeAreaView>
+      <VStack pt={50}>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('shop')} :
+          </RobotoMediumText>
+          <RobotoSemiBoldText>
+            {shopName}
+            Shop New 9
+          </RobotoSemiBoldText>
+        </HStack>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('purchase')} ID :
+          </RobotoMediumText>
+          <RobotoSemiBoldText>
+            {purchaseId}
+            892938789
+          </RobotoSemiBoldText>
+        </HStack>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('purchase')} {t('amount')} :
+          </RobotoMediumText>
+          <RobotoSemiBoldText>
+            {convertProperValue(amount.toBOAString())} {currency.toUpperCase()}
+          </RobotoSemiBoldText>
+        </HStack>
+        <WrapDivider mb={12}></WrapDivider>
+        <HStack my={10} alignItems='center' justifyContent='space-between'>
+          <RobotoMediumText
+            fontSize={15}
+            fontWeight={500}
+            lightHeight={16}
+            color='#707070'>
+            {t('wallet.redeem.header.body.a')} :
+          </RobotoMediumText>
+          <RobotoSemiBoldText>
+            {convertProperValue(useAmount.toBOAString())}{' '}
+            {loyaltyType === LoyaltyType.POINT ? 'POINT' : 'TOKEN'}
+          </RobotoSemiBoldText>
+        </HStack>
+        <WrapDivider></WrapDivider>
+
+        <HStack pt={20} flex={1}>
+          <Box flex={1} mr={5}>
+            <WrapWhiteButton onPress={() => cancelCancel()}>
+              <ActiveWhiteButtonText>
+                {t('button.press.b')}
+              </ActiveWhiteButtonText>
+            </WrapWhiteButton>
+          </Box>
+          <Box flex={1} ml={5}>
+            <WrapButton onPress={() => confirmRedeem()}>
+              <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+            </WrapButton>
+          </Box>
+        </HStack>
+      </VStack>
+    </WrapBase2>
   ) : null;
 });
 
