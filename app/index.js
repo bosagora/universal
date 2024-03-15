@@ -267,6 +267,9 @@ const App = observer(() => {
   }, []);
 
   const [fontsLoaded, fontError] = useFonts({
+    'AppleSDGothic-NeoB': require('../assets/fonts/AppleSDGothic/AppleSDGothicNeoB.ttf'),
+    'AppleSDGothic-NeoEB': require('../assets/fonts/AppleSDGothic/AppleSDGothicNeoEB.ttf'),
+    'AppleSDGothic-NeoSB': require('../assets/fonts/AppleSDGothic/AppleSDGothicNeoSB.ttf'),
     'Roboto-Bold': require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
     'Roboto-Medium': require('../assets/fonts/Roboto/Roboto-Medium.ttf'),
     'Roboto-Regular': require('../assets/fonts/Roboto/Roboto-Regular.ttf'),

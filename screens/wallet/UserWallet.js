@@ -8,7 +8,7 @@ import {
   Text,
   HStack,
   View,
-  Divider,
+  Image,
   Button,
   ButtonText,
   Pressable,
@@ -17,12 +17,37 @@ import {
   ModalContent,
   ModalBody,
   ButtonGroup,
+  ButtonIcon,
+  CopyIcon,
 } from '@gluestack-ui/themed';
 import { getClient } from '../../utils/client';
 import { Amount, BOACoin, ContractUtils } from 'dms-sdk-client';
 import { convertProperValue, truncateMiddleString } from '../../utils/convert';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import {
+  ActiveButtonText,
+  ActiveWhiteButtonText,
+  AppleSDGothicNeoBText,
+  AppleSDGothicNeoEBText,
+  AppleSDGothicNeoSBText,
+  HeaderText,
+  NumberText,
+  Para2Text,
+  Para3Text,
+  ParaText,
+  PinButtonText,
+  RobotoMediumText,
+  SubHeaderText,
+} from '../../components/styled/text';
+import {
+  WrapButton,
+  WrapHistoryButton,
+  WrapWhiteButton,
+} from '../../components/styled/button';
+import * as Clipboard from 'expo-clipboard';
+import MobileHeader from '../../components/MobileHeader';
 
 const UserWallet = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -178,129 +203,139 @@ const UserWallet = observer(({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
-      <View
-        h='$full'
-        sx={{
-          _dark: {
-            bg: '$backgroundDark800',
-            borderColor: '$borderDark800',
-          },
-        }}>
-        <Box alignItems='flex-end' pt='$4' px='$5'>
-          <Button
-            variant='link'
-            onPress={async () => {
-              await Clipboard.setStringAsync(address);
-            }}>
-            <ButtonText fontWeight='$medium' fontSize='$sm'>
-              {truncateMiddleString(address || '', 12)}
-            </ButtonText>
-          </Button>
-        </Box>
-        <VStack justifyContent='center' alignItems='center' p='$4'>
-          <HStack>
-            <Box
-              // maxWidth='$64'
-              w='$full'
-              h='$full'
-              borderColor='$backgroundDark900'
-              borderRadius='$xl'
-              borderWidth='$1'
-              p='$4'
-              overflow='hidden'
-              sx={{
-                '@base': {
-                  m: '$3',
-                },
-                _dark: {
-                  bg: '$backgroundDark900',
-                  borderColor: '$backgroundDark600',
-                },
-              }}>
-              <Box>
-                <Text style={[styles.heading]} size='lg'>
-                  {t('user.wallet.heading')}
-                </Text>
-                <Text
-                  _dark={{ color: '$textLight200' }}
-                  fontSize='$xs'
-                  my='$1.5'>
-                  {t('user.wallet.heading.description')}
-                </Text>
-              </Box>
-
-              <Divider my='$5' mr='$1' bg='$violet600' />
+    <WrapBox style={{ backgroundColor: userStore.contentColor, paddingTop: 3 }}>
+      <Box alignItems='flex-end'>
+        <Button
+          bg='#5C66D5'
+          rounded='$xl'
+          h={24}
+          w={138}
+          variant='link'
+          onPress={async () => {
+            await Clipboard.setStringAsync(address);
+          }}>
+          <ParaText style={{ color: '#fff' }}>
+            {truncateMiddleString(address || '', 8)}
+          </ParaText>
+          <ButtonIcon as={CopyIcon} ml={8} />
+        </Button>
+      </Box>
+      <VStack mt={50} alignItems='flex-start'>
+        <HeaderText color='white'>{t('user.wallet.heading')}</HeaderText>
+        <SubHeaderText color='white' mt={7}>
+          {t('user.wallet.heading.description', {
+            appName: t('app.name'),
+          })}
+        </SubHeaderText>
+        <Box mt={20} w='$full'>
+          <Box>
+            <Box bg='white' rounded='$xl'>
+              <HStack
+                mt={20}
+                mx={18}
+                alignItems='center'
+                justifyContent='space-between'>
+                <Image
+                  h={18}
+                  w={87}
+                  alt='alt'
+                  source={
+                    userLoyaltyType === 0
+                      ? require('../../assets/images/mypoint.png')
+                      : require('../../assets/images/mykios.png')
+                  }
+                />
+                <WrapHistoryButton
+                  borderRadius='$full'
+                  h={24}
+                  pt={-2}
+                  onPress={() => navigation.navigate('MileageHistory')}>
+                  <Para2Text style={{ fontSize: 12, color: '#707070' }}>
+                    {t('user.wallet.link.history')}
+                  </Para2Text>
+                </WrapHistoryButton>
+              </HStack>
               {userLoyaltyType === 0 ? (
-                <Box>
-                  <HStack justifyContent='space-between'>
-                    <HStack m='$30'>
-                      <Text
-                        _dark={{ color: '$textLight200' }}
-                        fontSize='$xl'
-                        mr='$1'>
-                        {convertProperValue(payablePoint.toBOAString())}
-                      </Text>
-                      <Text _dark={{ color: '$textLight200' }} fontSize='$sm'>
-                        point
-                      </Text>
-                    </HStack>
-                    <Pressable
-                      onPress={() => navigation.navigate('MileageHistory')}>
-                      <Text fontSize='$sm' color='$violet400'>
-                        {t('user.wallet.link.history')}
-                      </Text>
-                    </Pressable>
+                <>
+                  {/*<HStack justifyContent='space-between'>*/}
+                  {/*  <HStack py={20} px={18}>*/}
+                  {/*    <Text*/}
+                  {/*        _dark={{ color: '$textLight200' }}*/}
+                  {/*        fontSize='$xl'*/}
+                  {/*        mr='$1'>*/}
+                  {/*      {convertProperValue(payablePoint.toBOAString())}*/}
+                  {/*    </Text>*/}
+                  {/*    <Text _dark={{ color: '$textLight200' }} fontSize='$sm'>*/}
+                  {/*      point*/}
+                  {/*    </Text>*/}
+                  {/*  </HStack>*/}
+                  {/*  <WrapHistoryButton*/}
+                  {/*      borderRadius='$full'*/}
+                  {/*      h={24}*/}
+                  {/*      pt={-2}*/}
+                  {/*      onPress={() => navigation.navigate('MileageHistory')}>*/}
+                  {/*    <Para2Text style={{ fontSize: 12, color: '#707070' }}>*/}
+                  {/*      {t('user.wallet.link.history')}*/}
+                  {/*    </Para2Text>*/}
+                  {/*  </WrapHistoryButton>*/}
+                  {/*</HStack>*/}
+                  <HStack justifyContent='center' pt={50}>
+                    <AppleSDGothicNeoSBText
+                      pt={10}
+                      fontSize={56}
+                      lineHeight={48}
+                      fontWeight={400}>
+                      {convertProperValue(payablePoint.toBOAString())}
+                    </AppleSDGothicNeoSBText>
+                    {/*<Text _dark={{ color: '$textLight200' }} fontSize='$sm'>*/}
+                    {/*  point*/}
+                    {/*</Text>*/}
                   </HStack>
-                  <HStack m='$2'>
-                    <Text
-                      _dark={{ color: '$textLight200' }}
-                      fontSize='$sm'
-                      mr='$1'>
+                  <VStack alignItems='center' pt={10}>
+                    <AppleSDGothicNeoSBText
+                      color='#555555'
+                      fontSize={16}
+                      lineHeight={22}
+                      fontWeight={400}>
                       ≒ {convertProperValue(payablePointRate.toBOAString())}{' '}
                       {userStore.currency}
-                    </Text>
-                    <Text _dark={{ color: '$textLight200' }} fontSize='$sm'>
-                      (1 point ≒{' '}
+                    </AppleSDGothicNeoSBText>
+                    <AppleSDGothicNeoSBText
+                      color='#555555'
+                      fontSize={16}
+                      lineHeight={22}
+                      fontWeight={400}>
+                      (1 Point ≒{' '}
                       {convertProperValue(
                         onePointRate.toBOAString(),
                         userStore.currency.toLowerCase() === 'krw' ? 0 : 1,
                         userStore.currency.toLowerCase() === 'krw' ? 0 : 5,
                       )}{' '}
                       {userStore.currency} )
-                    </Text>
-                  </HStack>
-                  <Button mt='$12' onPress={() => handleQRSheet()}>
-                    <ButtonText>{t('user.wallet.use.qr')}</ButtonText>
-                  </Button>
-                  <Box mt='$4' alignItems='flex-end'>
-                    <Pressable onPress={() => convertToToken()}>
-                      <Text fontSize='$sm' color='$violet400'>
-                        {t('user.wallet.link.convert')}
-                      </Text>
-                    </Pressable>
-                  </Box>
-                </Box>
+                    </AppleSDGothicNeoSBText>
+                  </VStack>
+                </>
               ) : (
-                <Box>
-                  <HStack justifyContent='space-between'>
-                    <HStack m='$30'>
-                      <Text
-                        _dark={{ color: '$textLight200' }}
-                        fontSize='$xl'
-                        mr='$1'>
-                        {convertProperValue(userTokenBalance.toBOAString())}
-                      </Text>
-                      <Text _dark={{ color: '$textLight200' }} fontSize='$sm'>
-                        KIOS
-                      </Text>
-                    </HStack>
-                    <Pressable
-                      onPress={() => navigation.navigate('MileageHistory')}>
-                      <Text fontSize='$sm' color='$pink600'>
-                        {t('user.wallet.link.history')}
-                      </Text>
-                    </Pressable>
+                <>
+                  {/*<HStack justifyContent='space-between'>*/}
+
+                  {/*  <Pressable*/}
+                  {/*    onPress={() => navigation.navigate('MileageHistory')}>*/}
+                  {/*    <Text fontSize='$sm' color='$pink600'>*/}
+                  {/*      {t('user.wallet.link.history')}*/}
+                  {/*    </Text>*/}
+                  {/*  </Pressable>*/}
+                  {/*</HStack>*/}
+                  <HStack m='$30'>
+                    <Text
+                      _dark={{ color: '$textLight200' }}
+                      fontSize='$xl'
+                      mr='$1'>
+                      {convertProperValue(userTokenBalance.toBOAString())}
+                    </Text>
+                    <Text _dark={{ color: '$textLight200' }} fontSize='$sm'>
+                      KIOS
+                    </Text>
                   </HStack>
                   <HStack m='$2'>
                     <Text
@@ -325,64 +360,90 @@ const UserWallet = observer(({ navigation }) => {
                       {userStore.currency})
                     </Text>
                   </HStack>
-                  <Button mt='$12' onPress={() => handleQRSheet()}>
-                    <ButtonText>{t('user.wallet.use.qr')}</ButtonText>
-                  </Button>
-                </Box>
+                </>
               )}
+              <WrapButton
+                mt={70}
+                mx={18}
+                mb={18}
+                onPress={() => handleQRSheet()}>
+                <RobotoMediumText
+                  style={{
+                    fontWeight: 500,
+                    lineHeight: 16,
+                    fontSize: 15,
+                    color: '#fff',
+                  }}>
+                  {t('user.wallet.use.qr')}
+                </RobotoMediumText>
+              </WrapButton>
             </Box>
-          </HStack>
-        </VStack>
+          </Box>
+        </Box>
+        {userLoyaltyType === 0 ? (
+          <Box mt='$6' w='$full'>
+            <WrapButton
+              bg='black'
+              borderColor='#8A8A8A'
+              borderRadius='$lg'
+              borderWidth='$1'
+              onPress={() => convertToToken()}>
+              <RobotoMediumText
+                style={{
+                  fontWeight: 500,
+                  lineHeight: 16,
+                  fontSize: 15,
+                  color: '#fff',
+                }}>
+                {t('user.wallet.link.convert')}
+              </RobotoMediumText>
+            </WrapButton>
+          </Box>
+        ) : null}
+      </VStack>
+      <Box>
+        <Modal
+          isOpen={showModal}
+          size='lg'
+          onClose={() => {
+            setShowModal(false);
+          }}>
+          <ModalBackdrop />
+          <ModalContent bg='#FFFFFF'>
+            <ModalBody mt={30} mb={10} mx={10}>
+              <VStack>
+                <HeaderText>{t('user.wallet.link.convert')}</HeaderText>
+                <ParaText mt={7}>
+                  {t('user.wallet.modal.heading.description')}
+                </ParaText>
+                <ParaText mt={7}>{t('user.wallet.modal.body.a')}</ParaText>
+              </VStack>
 
-        <Box>
-          <Modal
-            isOpen={showModal}
-            size='lg'
-            onClose={() => {
-              setShowModal(false);
-            }}>
-            <ModalBackdrop />
-            <ModalContent maxWidth='$96'>
-              <ModalBody p='$5'>
-                <VStack space='lg' mb='$4'>
-                  <Heading>{t('user.wallet.link.convert')}</Heading>
-                  <Text size='sm'>
-                    {t('user.wallet.modal.heading.description')}
-                  </Text>
-                  <Text size='sm'>{t('user.wallet.modal.body.a')}</Text>
-                </VStack>
-
-                <ButtonGroup space='md' alignSelf='center'>
-                  <Button
-                    variant='outline'
-                    py='$2.5'
-                    action='secondary'
+              <HStack pt={20} flex={1}>
+                <Box flex={1} mx={3}>
+                  <WrapWhiteButton
                     onPress={() => {
                       setShowModal(false);
                     }}>
-                    <ButtonText fontSize='$sm' fontWeight='$medium'>
+                    <ActiveWhiteButtonText>
                       {t('button.press.b')}
-                    </ButtonText>
-                  </Button>
-                  <Button
-                    variant='solid'
-                    bg='$success700'
-                    borderColor='$success700'
+                    </ActiveWhiteButtonText>
+                  </WrapWhiteButton>
+                </Box>
+                <Box flex={1} mx={3}>
+                  <WrapButton
                     onPress={() => {
                       confirmToToken();
                     }}>
-                    <ButtonText fontSize='$sm' fontWeight='$medium'>
-                      {t('button.press.a')}
-                    </ButtonText>
-                  </Button>
-                </ButtonGroup>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
-        </Box>
-        <StatusBar style='dark-content' backgroundColor='black' />
-      </View>
-    </SafeAreaView>
+                    <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+                  </WrapButton>
+                </Box>
+              </HStack>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </WrapBox>
   );
 });
 const styles = StyleSheet.create({
