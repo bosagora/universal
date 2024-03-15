@@ -130,3 +130,25 @@ export const RobotoBoldText = styled(BaseText, {
   fontSize: 17,
   color: '#555555',
 });
+
+export const AppleSDGothicNeoEBText = styled(BaseText, {
+  fontFamily: 'AppleSDGothic-NeoEB',
+  fontWeight: 600,
+  lineHeight: 25,
+  fontSize: 17,
+  color: '#12121D',
+});
+export const AppleSDGothicNeoBText = styled(BaseText, {
+  fontFamily: 'AppleSDGothic-NeoB',
+  fontWeight: 600,
+  lineHeight: 25,
+  fontSize: 17,
+  color: '#555555',
+});
+export const AppleSDGothicNeoSBText = styled(BaseText, {
+  fontFamily: 'AppleSDGothic-NeoSB',
+  fontWeight: 600,
+  lineHeight: 25,
+  fontSize: 17,
+  color: '#12121D',
+});

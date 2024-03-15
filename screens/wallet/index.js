@@ -40,6 +40,8 @@ import { getSecureValue, saveSecureValue } from '../../utils/secure.store';
 import '@ethersproject/shims';
 import { Wallet } from 'ethers';
 import * as Device from 'expo-device';
+
+import MobileHeader from '../../components/MobileHeader';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
 import {
   ActiveButtonText,
@@ -51,7 +53,6 @@ import {
   ParaText,
   PinButtonText,
 } from '../../components/styled/text';
-import MobileHeader from '../../components/MobileHeader';
 import {
   WrapButton,
   WrapHistoryButton,
