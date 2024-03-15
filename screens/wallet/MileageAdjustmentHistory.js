@@ -150,7 +150,7 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
                     {timeConverter(item.blockTimestamp)}
                   </ParaText>
                 </VStack>
-                <HStack alignItems='center'>
+                <HStack alignItems='center' justifyContent='flex-end'>
                   <NumberText>
                     {convertShopProperValue(
                       new Amount(
