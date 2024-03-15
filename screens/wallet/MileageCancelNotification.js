@@ -70,7 +70,6 @@ const MileageCancelNotification = observer(() => {
             setExpired(false);
           } else {
             setExpired(true);
-            alert(t('wallet.expired.alert'));
           }
           setHasPayment(true);
           await savePaymentInfo(client1, loyaltyStore.payment.id);
@@ -203,18 +202,39 @@ const MileageCancelNotification = observer(() => {
 
           <WrapDivider></WrapDivider>
           <HStack pt={20} flex={1}>
-            <Box flex={1} mr={5}>
-              <WrapWhiteButton onPress={() => cancelCancel()}>
-                <ActiveWhiteButtonText>
-                  {t('button.press.b')}
-                </ActiveWhiteButtonText>
-              </WrapWhiteButton>
-            </Box>
-            <Box flex={1} ml={5}>
-              <WrapButton onPress={() => confirmCancel()}>
-                <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
-              </WrapButton>
-            </Box>
+            {expired === true ? (
+              <VStack flex={1} h={50}>
+                <Box>
+                  <RobotoSemiBoldText
+                    fontSize={15}
+                    fontWeight={500}
+                    lightHeight={20}
+                    color='red'>
+                    {t('wallet.expired.alert')}
+                  </RobotoSemiBoldText>
+                </Box>
+                <Box mt={3}>
+                  <WrapButton onPress={() => cancelCancel()}>
+                    <ActiveButtonText>{t('button.press.c')}</ActiveButtonText>
+                  </WrapButton>
+                </Box>
+              </VStack>
+            ) : (
+              <>
+                <Box flex={1} mr={5}>
+                  <WrapWhiteButton onPress={() => cancelCancel()}>
+                    <ActiveWhiteButtonText>
+                      {t('button.press.b')}
+                    </ActiveWhiteButtonText>
+                  </WrapWhiteButton>
+                </Box>
+                <Box flex={1} ml={5}>
+                  <WrapButton onPress={() => confirmCancel()}>
+                    <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+                  </WrapButton>
+                </Box>
+              </>
+            )}
           </HStack>
         </VStack>
       </WrapBase2>

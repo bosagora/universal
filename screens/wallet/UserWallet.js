@@ -77,12 +77,12 @@ const UserWallet = observer(({ navigation }) => {
       .catch((error) => {
         console.log(error);
       });
-    loyaltyStore.setPayment({
-      id: '0x5f59d6b480ff5a30044dcd7fe3b28c69b6d0d725ca469d1b685b57dfc1055d7f',
-      type: 'new',
-      taskId:
-        '0xf7d3c6c310f5b53d62e96e363146b7da517ffaf063866923c6ce60683b154c91',
-    });
+    // loyaltyStore.setPayment({
+    //   id: '0x5f59d6b480ff5a30044dcd7fe3b28c69b6d0d725ca469d1b685b57dfc1055d7f',
+    //   type: 'new',
+    //   taskId:
+    //     '0xf7d3c6c310f5b53d62e96e363146b7da517ffaf063866923c6ce60683b154c91',
+    // });
   }, []);
   async function fetchClient() {
     try {
@@ -332,22 +332,21 @@ const UserWallet = observer(({ navigation }) => {
                   {/*    </Text>*/}
                   {/*  </Pressable>*/}
                   {/*</HStack>*/}
-                  <HStack m='$30'>
-                    <Text
-                      _dark={{ color: '$textLight200' }}
-                      fontSize='$xl'
-                      mr='$1'>
+                  <HStack justifyContent='center' pt={50}>
+                    <AppleSDGothicNeoSBText
+                      pt={10}
+                      fontSize={56}
+                      lineHeight={48}
+                      fontWeight={400}>
                       {convertProperValue(userTokenBalance.toBOAString())}
-                    </Text>
-                    <Text _dark={{ color: '$textLight200' }} fontSize='$sm'>
-                      KIOS
-                    </Text>
+                    </AppleSDGothicNeoSBText>
                   </HStack>
-                  <HStack m='$2'>
-                    <Text
-                      _dark={{ color: '$textLight200' }}
-                      fontSize='$sm'
-                      mr='$1'>
+                  <VStack alignItems='center' pt={10}>
+                    <AppleSDGothicNeoSBText
+                      color='#555555'
+                      fontSize={16}
+                      lineHeight={22}
+                      fontWeight={400}>
                       ≒{' '}
                       {convertProperValue(
                         userTokenRate.toBOAString(),
@@ -355,17 +354,21 @@ const UserWallet = observer(({ navigation }) => {
                         userStore.currency.toLowerCase() === 'krw' ? 0 : 2,
                       )}{' '}
                       {userStore.currency}
-                    </Text>
-                    <Text _dark={{ color: '$textLight200' }} fontSize='$sm'>
-                      (1 KIOS ≒{' '}
+                    </AppleSDGothicNeoSBText>
+                    <AppleSDGothicNeoSBText
+                      color='#555555'
+                      fontSize={16}
+                      lineHeight={22}
+                      fontWeight={400}>
+                      (1 {t('token.name')} ≒{' '}
                       {convertProperValue(
                         oneTokenRate.toBOAString(),
                         userStore.currency.toLowerCase() === 'krw' ? 0 : 1,
                         userStore.currency.toLowerCase() === 'krw' ? 0 : 5,
                       )}{' '}
                       {userStore.currency})
-                    </Text>
-                  </HStack>
+                    </AppleSDGothicNeoSBText>
+                  </VStack>
                 </>
               )}
               <WrapButton
