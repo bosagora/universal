@@ -28,6 +28,7 @@ import {
   RobotoSemiBoldText,
 } from '../../components/styled/text';
 import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
+import RootPaddingBox2 from '../../components/RootPaddingBox2';
 
 const ShopNotification = observer(() => {
   const { t } = useTranslation();
@@ -143,54 +144,57 @@ const ShopNotification = observer(() => {
   }
 
   return hasPayment ? (
-    <WrapBase2
-      style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}
-      height='$full'>
-      <MobileHeader
-        title={t('wallet.shop.update.header.title')}
-        subTitle={t('wallet.shop.update.header.subtitle')}
-      />
+    <>
+      <RootPaddingBox2></RootPaddingBox2>
+      <WrapBase2
+        style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}
+        height='$full'>
+        <MobileHeader
+          title={t('wallet.shop.update.header.title')}
+          subTitle={t('wallet.shop.update.header.subtitle')}
+        />
 
-      <VStack pt={50}>
-        <WrapDivider mb={12}></WrapDivider>
-        <HStack my={10} alignItems='center' justifyContent='space-between'>
-          <RobotoMediumText
-            fontSize={15}
-            fontWeight={500}
-            lightHeight={16}
-            color='#707070'>
-            {t('shop')} :
-          </RobotoMediumText>
-          <RobotoSemiBoldText>{shopName}</RobotoSemiBoldText>
-        </HStack>
-        <WrapDivider mb={12}></WrapDivider>
-        <HStack my={10} alignItems='center' justifyContent='space-between'>
-          <RobotoMediumText
-            fontSize={15}
-            fontWeight={500}
-            lightHeight={16}
-            color='#707070'>
-            {t('shop.body.text.b')} :
-          </RobotoMediumText>
-          <RobotoSemiBoldText>{currency.toUpperCase()}</RobotoSemiBoldText>
-        </HStack>
-        <WrapDivider></WrapDivider>
-        <HStack pt={20} flex={1}>
-          <Box flex={1} mr={5}>
-            <WrapWhiteButton onPress={() => cancelUpdate()}>
-              <ActiveWhiteButtonText>
-                {t('button.press.b')}
-              </ActiveWhiteButtonText>
-            </WrapWhiteButton>
-          </Box>
-          <Box flex={1} ml={5}>
-            <WrapButton onPress={() => confirmUpdate()}>
-              <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
-            </WrapButton>
-          </Box>
-        </HStack>
-      </VStack>
-    </WrapBase2>
+        <VStack pt={50}>
+          <WrapDivider mb={12}></WrapDivider>
+          <HStack my={10} alignItems='center' justifyContent='space-between'>
+            <RobotoMediumText
+              fontSize={15}
+              fontWeight={500}
+              lightHeight={16}
+              color='#707070'>
+              {t('shop')} :
+            </RobotoMediumText>
+            <RobotoSemiBoldText>{shopName}</RobotoSemiBoldText>
+          </HStack>
+          <WrapDivider mb={12}></WrapDivider>
+          <HStack my={10} alignItems='center' justifyContent='space-between'>
+            <RobotoMediumText
+              fontSize={15}
+              fontWeight={500}
+              lightHeight={16}
+              color='#707070'>
+              {t('shop.body.text.b')} :
+            </RobotoMediumText>
+            <RobotoSemiBoldText>{currency.toUpperCase()}</RobotoSemiBoldText>
+          </HStack>
+          <WrapDivider></WrapDivider>
+          <HStack pt={20} flex={1}>
+            <Box flex={1} mr={5}>
+              <WrapWhiteButton onPress={() => cancelUpdate()}>
+                <ActiveWhiteButtonText>
+                  {t('button.press.b')}
+                </ActiveWhiteButtonText>
+              </WrapWhiteButton>
+            </Box>
+            <Box flex={1} ml={5}>
+              <WrapButton onPress={() => confirmUpdate()}>
+                <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+              </WrapButton>
+            </Box>
+          </HStack>
+        </VStack>
+      </WrapBase2>
+    </>
   ) : null;
 });
 
