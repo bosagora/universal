@@ -48,11 +48,6 @@ import 'react-native-url-polyfill/auto';
 import { usePushNotification } from '../hooks/usePushNotification';
 import Permissions from '../screens/initScreens/Permissions';
 
-const InitStack = createNativeStackNavigator();
-const MainStack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-const routeNameRef = React.createRef();
-
 import ko from '../langs/ko.json';
 import en from '../langs/en.json';
 
@@ -78,6 +73,10 @@ import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import RootPaddingBox from '../components/RootPaddingBox';
 
+const InitStack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+const routeNameRef = React.createRef();
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
@@ -342,11 +341,26 @@ const App = observer(() => {
             </GluestackUIProvider>
           </NavigationContainer>
           <PinCodeScreen />
-          <ModalActivityIndicator
-            visible={userStore.loading}
-            size='large'
-            color='white'
-          />
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#00000044',
+              zIndex: userStore.loading ? 999999 : -99999,
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: userStore.loading ? '100%' : 0,
+              height: userStore.loading ? '120%' : 0,
+            }}>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <ActivityIndicator size={'large'} color={'white'} />
+            </View>
+          </View>
         </BottomSheetModalProvider>
       </>
     );

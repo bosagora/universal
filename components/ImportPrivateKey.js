@@ -16,6 +16,7 @@ import {
   FormControlHelperText,
   ButtonGroup,
   Box,
+  HStack,
 } from '@gluestack-ui/themed';
 import { useTranslation } from 'react-i18next';
 import {
@@ -79,33 +80,29 @@ const ImportPrivateKey = ({ saveKey }) => {
               </FormControl>
             </VStack>
 
-            <ButtonGroup space='md' alignSelf='center'>
-              <Button
-                variant='outline'
-                py='$2.5'
-                action='secondary'
-                onPress={() => {
-                  setShowModal(false);
-                  setPrivateKey('');
-                }}>
-                <ButtonText fontSize='$sm' fontWeight='$medium'>
-                  {t('button.press.b')}
-                </ButtonText>
-              </Button>
-              <Button
-                variant='solid'
-                bg='$success700'
-                borderColor='$success700'
-                onPress={() => {
-                  setShowModal(false);
-                  saveKey(privateKey);
-                  setPrivateKey('');
-                }}>
-                <ButtonText fontSize='$sm' fontWeight='$medium'>
-                  {t('button.press.a')}
-                </ButtonText>
-              </Button>
-            </ButtonGroup>
+            <HStack flex={1}>
+              <Box flex={1} mr={5}>
+                <WrapWhiteButton
+                  onPress={() => {
+                    setShowModal(false);
+                    setPrivateKey('');
+                  }}>
+                  <ActiveWhiteButtonText>
+                    {t('button.press.b')}
+                  </ActiveWhiteButtonText>
+                </WrapWhiteButton>
+              </Box>
+              <Box flex={1} ml={5}>
+                <WrapButton
+                  onPress={() => {
+                    setShowModal(false);
+                    saveKey(privateKey);
+                    setPrivateKey('');
+                  }}>
+                  <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+                </WrapButton>
+              </Box>
+            </HStack>
           </ModalBody>
         </ModalContent>
       </Modal>
