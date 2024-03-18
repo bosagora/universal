@@ -119,6 +119,7 @@ I18N.use(initReactI18next) // passes i18n down to react-i18next
   });
 
 // SplashScreen.preventAutoHideAsync();
+global.Buffer = require('buffer').Buffer;
 
 const App = observer(() => {
   const [isStoreLoaded, setIsStoreLoaded] = useState(false);

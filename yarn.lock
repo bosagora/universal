@@ -1376,14 +1376,14 @@
   resolved "https://registry.yarnpkg.com/@ethersproject/logger/-/logger-5.7.0.tgz#6ce9ae168e74fecf287be17062b590852c311892"
   integrity sha512-0odtFdXu/XHtjQXJYA3u9G0G8btm0ND5Cu8M7i5vhEcE8/HmF4Lbdqanwyv4uQTr2tx6b7fQRmgLrsnpQlmnig==
 
-"@ethersproject/networks@^5.7.0":
+"@ethersproject/networks@5.7.1", "@ethersproject/networks@^5.7.0":
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/@ethersproject/networks/-/networks-5.7.1.tgz#118e1a981d757d45ccea6bb58d9fd3d9db14ead6"
   integrity sha512-n/MufjFYv3yFcUyfhnXotyDlNdFb7onmkSy8aQERi2PjNcnWQ66xXxa3XlS8nCcA8aJKJjIIMNJTC7tu80GwpQ==
   dependencies:
     "@ethersproject/logger" "^5.7.0"
 
-"@ethersproject/networks@npm:boa-networks@5.7.2", "@ethersproject/networks@npm:boa-networks@^5.7.2":
+"@ethersproject/networks@npm:boa-networks@5.7.2":
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/boa-networks/-/boa-networks-5.7.2.tgz#eb8f8c1d27f10f1bfd987c25898116376d85e44f"
   integrity sha512-vIowYIROUFXTjSB2W+ouxVCHtLAbe/w1Aff314rGtgIZgPcsmSLP056RWi5Iu0jyX/fU6YDs9w5lJ+rNCsmbgQ==
@@ -4759,10 +4759,10 @@ define-properties@^1.1.3, define-properties@^1.1.4:
     has-property-descriptors "^1.0.0"
     object-keys "^1.1.1"
 
-del-osx-lib@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/del-osx-lib/-/del-osx-lib-2.2.0.tgz#d76e1ac54da1c5a8c7b38d3b015ec0e32a856422"
-  integrity sha512-KQOaVWvY1dU8OqWhe5RuR+2TrouFKWb9An2g4iKorVVWBaC8zTgT6qBlYV3Gkr3qHZwMCnRhbFLeiHjAoIBLLw==
+del-osx-lib@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/del-osx-lib/-/del-osx-lib-2.3.0.tgz#800321f8fc3174b901f4bce2d97f08026ef87443"
+  integrity sha512-I1I4IlfnFcaSZTQU+7axtAu+NpkKHj++8AD0Cvx2Rs7Vx+GqpKEL+Tpq2w+Y3XuCtV5ZPp7KuhvgKZmtk17yRg==
   dependencies:
     ethers "npm:boa-ethers2@^5.7.9"
 
@@ -4826,17 +4826,17 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-dms-osx-lib@^2.8.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/dms-osx-lib/-/dms-osx-lib-2.8.1.tgz#f6f6b464da9062236c1757aa50874210c4009a71"
-  integrity sha512-ngimYTQUKhEoN6DTTw9/rTTQjOlREaRwcB0A7wsjXy2ZfSjJkawT/ZibjeWlytZ7eVhTXqbU9hmcfqUWq8QsZw==
+dms-osx-lib@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/dms-osx-lib/-/dms-osx-lib-2.10.0.tgz#d0b4c83f869ab33e53d8148769a216bb73d560d3"
+  integrity sha512-fLb6j7KW8kDbC1VSiop59LUmnsbIdXjBMK3WShvisKqkWkQKnQZ52+K2UAlSs8+Lro0pRnyQVEZJ+fh//yeurQ==
   dependencies:
     ethers "npm:boa-ethers2@^5.7.9"
 
-dms-sdk-client@^2.8.5:
-  version "2.8.5"
-  resolved "https://registry.yarnpkg.com/dms-sdk-client/-/dms-sdk-client-2.8.5.tgz#ed8712cd681f37840bf8dc3ba229729e8970a5d0"
-  integrity sha512-0q3c82Wb7SBBAS1nz+B/V/ewGjAA5PNQSX3p3+ocq8VdYJB+fYH+nX0OjxNW3gPfQ+cT39TgCvWT08FQG8MHBQ==
+dms-sdk-client@^2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/dms-sdk-client/-/dms-sdk-client-2.9.3.tgz#b8a38595c37317e5f6d3f1f82042996403dd3b00"
+  integrity sha512-pGhmjSEmLiDw852/fEAOjGiimFGdmDtVvmNGNcT0dLnu9/b8/RlEW5jmO1bQVXcacQUfL+1ZpU+DVMW5aULQww==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/abstract-signer" "^5.7.0"
@@ -4846,23 +4846,23 @@ dms-sdk-client@^2.8.5:
     "@ethersproject/contracts" "^5.7.0"
     "@ethersproject/hash" "^5.7.0"
     "@ethersproject/keccak256" "^5.7.0"
-    "@ethersproject/networks" "npm:boa-networks@^5.7.2"
+    "@ethersproject/networks" "^5.7.0"
     "@ethersproject/providers" "^5.7.0"
     "@ethersproject/random" "^5.7.0"
     "@ethersproject/wallet" "^5.7.0"
-    del-osx-lib "^2.2.0"
-    dms-osx-lib "^2.8.1"
-    dms-sdk-common "^1.0.3"
+    del-osx-lib "^2.3.0"
+    dms-osx-lib "^2.10.0"
+    dms-sdk-common "^1.1.0"
     graphql "^16.5.0"
     graphql-request "^4.3.0"
     unfetch "^5.0.0"
 
-dms-sdk-common@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/dms-sdk-common/-/dms-sdk-common-1.0.3.tgz#7c43834cb2471cd128c6087cb7e45a707aae29fa"
-  integrity sha512-MrsWWPHzR9IEMseoVmu3sx07jxQLPPO3dgqNo5cuqpGV5nqTpTaDw9I4bxXqhqAUkN7oL+cJ0IxsNUBqpdKmDw==
+dms-sdk-common@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/dms-sdk-common/-/dms-sdk-common-1.1.0.tgz#27d2ccbb2d086e08b8a283e0a2e550867add8ea6"
+  integrity sha512-z4EBf6nHjPaCFhYN0+wNeqg/9tIwXj9STcwH9hhGjiHmf/T6ferfz5GMp+SWmvdx5D+0e0QntjasbHRDePuGOQ==
   dependencies:
-    ethers "npm:boa-ethers2@^5.7.9"
+    ethers "^5.7.0"
 
 dom-helpers@^5.0.0:
   version "5.2.1"
@@ -5038,6 +5038,42 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
+
+ethers@^5.7.0:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
+  integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
+  dependencies:
+    "@ethersproject/abi" "5.7.0"
+    "@ethersproject/abstract-provider" "5.7.0"
+    "@ethersproject/abstract-signer" "5.7.0"
+    "@ethersproject/address" "5.7.0"
+    "@ethersproject/base64" "5.7.0"
+    "@ethersproject/basex" "5.7.0"
+    "@ethersproject/bignumber" "5.7.0"
+    "@ethersproject/bytes" "5.7.0"
+    "@ethersproject/constants" "5.7.0"
+    "@ethersproject/contracts" "5.7.0"
+    "@ethersproject/hash" "5.7.0"
+    "@ethersproject/hdnode" "5.7.0"
+    "@ethersproject/json-wallets" "5.7.0"
+    "@ethersproject/keccak256" "5.7.0"
+    "@ethersproject/logger" "5.7.0"
+    "@ethersproject/networks" "5.7.1"
+    "@ethersproject/pbkdf2" "5.7.0"
+    "@ethersproject/properties" "5.7.0"
+    "@ethersproject/providers" "5.7.2"
+    "@ethersproject/random" "5.7.0"
+    "@ethersproject/rlp" "5.7.0"
+    "@ethersproject/sha2" "5.7.0"
+    "@ethersproject/signing-key" "5.7.0"
+    "@ethersproject/solidity" "5.7.0"
+    "@ethersproject/strings" "5.7.0"
+    "@ethersproject/transactions" "5.7.0"
+    "@ethersproject/units" "5.7.0"
+    "@ethersproject/wallet" "5.7.0"
+    "@ethersproject/web" "5.7.1"
+    "@ethersproject/wordlists" "5.7.0"
 
 "ethers@npm:boa-ethers2@^5.7.9":
   version "5.7.9"

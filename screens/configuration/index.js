@@ -44,7 +44,8 @@ const Configuration = observer(({ navigation }) => {
   const [walletAddress, setWalletAddress] = useState('');
 
   const fetchClient = async () => {
-    const { client: client1, address: userAddress } = await getClient();
+    const { client: client1, address: userAddress } =
+      await getClient('configIndex');
     console.log('>>>>>>> userAddress :', userAddress);
     setClient(client1);
     setWalletAddress(userAddress);

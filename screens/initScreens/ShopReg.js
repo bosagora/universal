@@ -34,7 +34,7 @@ import { observer } from 'mobx-react';
 import { AUTH_STATE } from '../../stores/user.store';
 import { useStores } from '../../stores';
 import '@ethersproject/shims';
-import { ContractUtils } from 'dms-sdk-client';
+import { ContractUtils, LoyaltyNetworkID } from 'dms-sdk-client';
 import * as Clipboard from 'expo-clipboard';
 import { getLocales, getCalendars } from 'expo-localization';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -63,7 +63,7 @@ const ShopReg = observer(({ navigation }) => {
   useEffect(() => {
     async function fetchClient() {
       console.log('ShopReg > fetchClient');
-      const { client, address } = await getClient();
+      const { client, address } = await getClient('shopReg');
       setClient(client);
       setAddress(address);
 
@@ -92,18 +92,23 @@ const ShopReg = observer(({ navigation }) => {
 
   async function regShop() {
     userStore.setLoading(true);
-    const shopId = ContractUtils.getShopId(address);
-    userStore.setShopId(shopId);
-    userStore.setShopName(formik.values?.n1);
-    const shopData = {
-      shopId,
-      name: formik.values?.n1,
-      currency: userStore.currency,
-      address: address,
-    };
-    console.log('ShopData : ', shopData);
     const steps = [];
     try {
+      // const shopId = await client.shop.makeShopId(
+      //   address,
+      //   LoyaltyNetworkID.KIOS,
+      // );
+      const shopId = ContractUtils.getShopId(address, LoyaltyNetworkID.KIOS);
+      console.log('shopId :', shopId);
+      userStore.setShopId(shopId);
+      userStore.setShopName(formik.values?.n1);
+      const shopData = {
+        shopId,
+        name: formik.values?.n1,
+        currency: userStore.currency,
+      };
+      console.log('ShopData : ', shopData);
+
       for await (const step of client.shop.add(
         shopData.shopId,
         shopData.name,

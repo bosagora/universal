@@ -83,7 +83,8 @@ const WalletManager = observer(({ navigation }) => {
     setNextScreen(nc);
   }, []);
   const fetchClient = async () => {
-    const { client: client1, address: userAddress } = await getClient();
+    const { client: client1, address: userAddress } =
+      await getClient('walletManager');
     setClient(client1);
     setAddress(userAddress);
 
