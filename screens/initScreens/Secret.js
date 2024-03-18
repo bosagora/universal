@@ -34,7 +34,7 @@ const Secret = observer(({ navigation }) => {
     setNextScreen(nc);
   }, []);
   const fetchClient = async () => {
-    const { client: client1, address: userAddress } = await getClient();
+    const { client: client1, address: userAddress } = await getClient('secret');
     console.log('>>>>>>> userAddress :', userAddress);
     setClient(client1);
     setWalletAddress(userAddress);

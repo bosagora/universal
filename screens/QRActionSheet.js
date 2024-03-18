@@ -52,7 +52,8 @@ const QRActionSheet = observer(() => {
   useEffect(() => {
     try {
       async function fetchTemporaryAccount() {
-        const { client: client1, address: userAddress } = await getClient();
+        const { client: client1, address: userAddress } =
+          await getClient('qrsheet');
         console.log('userAddress >> :', userAddress);
         console.log('client1 >> :', client1);
         const web3Status = await client1.web3.isUp();

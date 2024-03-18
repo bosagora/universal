@@ -1,117 +1,28 @@
 import { getSecureValue } from './secure.store';
-import { Client, Context, LIVE_CONTRACTS } from 'dms-sdk-client';
+import {
+  Client,
+  Context,
+  LIVE_CONTRACTS,
+  SupportedNetwork,
+} from 'dms-sdk-client';
 import '@ethersproject/shims';
 import { Wallet } from 'ethers';
 
-export async function getClient() {
+export async function getClient(screen = 'unknown') {
   const DMS_SDK_LINK = {
-    development: 'bosagora_devnet',
-    preview: 'bosagora_devnet',
-    product: 'bosagora_mainnet',
-  };
-
-  const Networks = {
-    development: 24680,
-    preview: 24680,
-    product: 24680,
-  };
-  const web3EndpointsMainnet = {
-    working: ['https://mainnet.bosagora.org/'],
-    failing: ['https://bad-url-gateway.io/'],
-  };
-
-  const web3EndpointsDevnet = {
-    working: ['http://rpc.devnet.bosagora.org:8545/'],
-    failing: ['https://bad-url-gateway.io/'],
-  };
-  const Web3EndPoint = {
-    development: web3EndpointsDevnet,
-    preview: web3EndpointsDevnet,
-    product: web3EndpointsMainnet,
-  };
-  const grapqhlEndpointsMainnet = {
-    working: [
-      {
-        url: 'http://subgraph.devnet.bosagora.org:8000/subgraphs/name/bosagora/dms-osx-devnet',
-      },
-    ],
-    timeout: [
-      {
-        url: 'https://httpstat.us/504?sleep=100',
-      },
-      {
-        url: 'https://httpstat.us/504?sleep=200',
-      },
-      {
-        url: 'https://httpstat.us/504?sleep=300',
-      },
-    ],
-    failing: [{ url: 'https://bad-url-gateway.io/' }],
-  };
-
-  const grapqhlEndpointsDevnet = {
-    working: [
-      {
-        url: 'http://subgraph.devnet.bosagora.org:8000/subgraphs/name/bosagora/dms-osx-devnet',
-      },
-    ],
-    timeout: [
-      {
-        url: 'https://httpstat.us/504?sleep=100',
-      },
-      {
-        url: 'https://httpstat.us/504?sleep=200',
-      },
-      {
-        url: 'https://httpstat.us/504?sleep=300',
-      },
-    ],
-    failing: [{ url: 'https://bad-url-gateway.io/' }],
-  };
-
-  const GraphqlEndPoint = {
-    development: grapqhlEndpointsDevnet,
-    preview: grapqhlEndpointsDevnet,
-    product: grapqhlEndpointsMainnet,
-  };
-
-  const relayEndpointsMainnet = {
-    working: 'http://relay.devnet.bosagora.org:7070/',
-    failing: 'https://bad-url-gateway.io/',
-  };
-
-  const relayEndpointsDevnet = {
-    working: 'http://relay.devnet.bosagora.org:7070/',
-    failing: 'https://bad-url-gateway.io/',
-  };
-
-  const RelayEndPoint = {
-    development: relayEndpointsDevnet,
-    preview: relayEndpointsDevnet,
-    product: relayEndpointsMainnet,
+    development: SupportedNetwork.KIOS_TESTNET,
+    preview: SupportedNetwork.KIOS_TESTNET,
+    product: SupportedNetwork.KIOS_MAINNET,
   };
 
   const sdkLink =
     DMS_SDK_LINK[process.env.EXPO_PUBLIC_ENV || process.env.ENVIRONMENT];
 
-  const relayEndPoint =
-    RelayEndPoint[process.env.EXPO_PUBLIC_ENV || process.env.ENVIRONMENT];
-
-  const web3EndPoint =
-    Web3EndPoint[process.env.EXPO_PUBLIC_ENV || process.env.ENVIRONMENT];
-
-  const graphqlEndPoint =
-    GraphqlEndPoint[process.env.EXPO_PUBLIC_ENV || process.env.ENVIRONMENT];
-
-  const network =
-    Networks[process.env.EXPO_PUBLIC_ENV || process.env.ENVIRONMENT];
-
   async function fetchKey() {
-    console.log('getClient > fetchKey');
     let pKey = await getSecureValue('privateKey');
     if (pKey.includes('0x')) {
       // pKey = pKey.split('0x')[1];
-      console.log('pKey :', pKey);
+      console.log(screen, ' client pKey :', pKey);
     }
     const address = await getSecureValue('address');
 
@@ -120,11 +31,11 @@ export async function getClient() {
   const { pKey, address } = await fetchKey();
   function createClient(privateKey) {
     const ctx = new Context({
-      network: network,
+      network: LIVE_CONTRACTS[sdkLink].network,
       signer: new Wallet(privateKey),
-      web3Providers: web3EndPoint.working,
-      relayEndpoint: relayEndPoint.working,
-      graphqlNodes: graphqlEndPoint.working,
+      web3Providers: LIVE_CONTRACTS[sdkLink].web3Endpoint,
+      relayEndpoint: LIVE_CONTRACTS[sdkLink].relayEndpoint,
+      graphqlNodes: [{ url: LIVE_CONTRACTS[sdkLink].graphqlEndpoint }],
       ledgerAddress: LIVE_CONTRACTS[sdkLink].LedgerAddress,
       tokenAddress: LIVE_CONTRACTS[sdkLink].LoyaltyTokenAddress,
       phoneLinkAddress: LIVE_CONTRACTS[sdkLink].PhoneLinkCollectionAddress,
@@ -140,7 +51,5 @@ export async function getClient() {
     return new Client(ctx);
   }
   const client = createClient(pKey);
-  console.log('client :', client);
-  console.log('>> address :', address);
   return { client, address };
 }

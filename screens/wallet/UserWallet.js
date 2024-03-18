@@ -86,7 +86,8 @@ const UserWallet = observer(({ navigation }) => {
   }, []);
   async function fetchClient() {
     try {
-      const { client: client1, address: userAddress } = await getClient();
+      const { client: client1, address: userAddress } =
+        await getClient('wallet');
       setClient(client1);
       setAddress(userAddress);
 

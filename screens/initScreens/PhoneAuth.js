@@ -105,7 +105,7 @@ const PhoneAuth = observer(({ navigation }) => {
   useEffect(() => {
     async function fetchClient() {
       console.log('PhoneAuth > fetchClient');
-      const { client, address } = await getClient();
+      const { client, address } = await getClient('phoneAuth');
       setClient(client);
       setAddress(address);
 

@@ -110,7 +110,7 @@ const Index = observer(({ navigation }) => {
 
   async function fetchClient() {
     console.log('Wallet > fetchClient', 'userStore', userStore);
-    const { client: client1, address: userAddress } = await getClient();
+    const { client: client1, address: userAddress } = await getClient('wallet');
     console.log('>>>>>>> userAddress :', userAddress);
     setClient(client1);
     setAddress(userAddress);
