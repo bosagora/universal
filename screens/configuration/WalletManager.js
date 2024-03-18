@@ -280,31 +280,33 @@ const WalletManager = observer(({ navigation }) => {
                         />
                       </Input>
                     </FormControl>
-                    <FormControl>
-                      <FormControlHelper>
-                        <SubHeaderText style={{ color: '#555555' }}>
-                          {t('config.wallet.modal.body.text.d')}
-                        </SubHeaderText>
-                      </FormControlHelper>
-                      <Input h={60}>
-                        <InputField
-                          bg='#C0C0C0'
-                          style={{
-                            fontFamily: 'Roboto-Medium',
-                            lineHeight: 16,
-                            fontSize: 15,
-                            color: '#12121D',
-                            borderWidth: 1,
-                            borderColor: '#8A8A8A',
-                          }}
-                          value={userStore.shopId}
-                        />
-                      </Input>
-                    </FormControl>
+                    {nextScreen === 'ShopReg' ? (
+                      <FormControl>
+                        <FormControlHelper>
+                          <SubHeaderText style={{ color: '#555555' }}>
+                            {t('config.wallet.modal.body.text.d')}
+                          </SubHeaderText>
+                        </FormControlHelper>
+                        <Input h={60}>
+                          <InputField
+                            bg='#C0C0C0'
+                            style={{
+                              fontFamily: 'Roboto-Medium',
+                              lineHeight: 16,
+                              fontSize: 15,
+                              color: '#12121D',
+                              borderWidth: 1,
+                              borderColor: '#8A8A8A',
+                            }}
+                            value={userStore.shopId}
+                          />
+                        </Input>
+                      </FormControl>
+                    ) : null}
                   </VStack>
 
                   <HStack flex={1}>
-                    <Box flex={1} mr={5}>
+                    <Box flex={1}>
                       <WrapButton
                         onPress={async () => {
                           await Clipboard.setStringAsync(privateKey);
@@ -315,17 +317,19 @@ const WalletManager = observer(({ navigation }) => {
                         </ActiveButtonText>
                       </WrapButton>
                     </Box>
-                    <Box flex={1} ml={5}>
-                      <WrapButton
-                        onPress={async () => {
-                          await Clipboard.setStringAsync(userStore.shopId);
-                          setShowModal(false);
-                        }}>
-                        <ActiveButtonText fontSize={15}>
-                          {t('config.wallet.modal.body.text.f')}
-                        </ActiveButtonText>
-                      </WrapButton>
-                    </Box>
+                    {nextScreen === 'ShopReg' ? (
+                      <Box flex={1} ml={10}>
+                        <WrapButton
+                          onPress={async () => {
+                            await Clipboard.setStringAsync(userStore.shopId);
+                            setShowModal(false);
+                          }}>
+                          <ActiveButtonText fontSize={15}>
+                            {t('config.wallet.modal.body.text.f')}
+                          </ActiveButtonText>
+                        </WrapButton>
+                      </Box>
+                    ) : null}
                   </HStack>
                 </ModalBody>
               </ModalContent>
