@@ -62,6 +62,7 @@ import {
   SubHeaderText,
 } from '../../components/styled/text';
 import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
+import { registerPushTokenWithClient } from '../../utils/push.token';
 const { Wallet } = ethers;
 
 const WalletManager = observer(({ navigation }) => {
