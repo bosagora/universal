@@ -145,15 +145,37 @@ const WalletManager = observer(({ navigation }) => {
 
   async function saveKey(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
+    let ret = false;
+    try {
+      const cc = await fetchClient();
 
-    await fetchClient();
+      if (Device.isDevice) {
+        ret = await registerPushTokenWithClient(
+          cc,
+          userStore,
+          process.env.EXPO_PUBLIC_APP_KIND,
+        );
+      } else {
+        ret = true;
+        console.log('Not on device.');
+      }
+    } catch (e) {
+      ret = false;
+    }
+
+    if (ret) {
+      alert(t('config.wallet.alert.import.done'));
+      navigation.navigate('Wallet');
+    } else {
+      alert(t('config.wallet.alert.import.fail'));
+    }
+
     userStore.setLoading(false);
     setFromOtherWallet(true);
   }
   async function saveKeyForShop(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
 
-    await fetchClient();
     userStore.setLoading(false);
     setFromOtherWallet(true);
   }
