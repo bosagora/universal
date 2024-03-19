@@ -242,7 +242,7 @@ const Index = observer(({ navigation }) => {
   };
 
   return (
-    <WrapBox style={{ backgroundColor: userStore.contentColor, paddingTop: 3 }}>
+    <WrapBox style={{ backgroundColor: '#F3F3F4', paddingTop: 3 }}>
       <Box alignItems='flex-end'>
         <Button
           bg='#5C66D5'
