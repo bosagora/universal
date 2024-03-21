@@ -84,6 +84,7 @@
   "shop.body.text.a": "Store/shop name",
   "shop.body.text.b": "Currency",
 
+  "wallet.toast.copy": "You've copied your wallet address.",
   "wallet.heading.description": "{{appName}} Store/shop Loyalty status and settlement history",
   "wallet.link.history.redemption": "history",
   "wallet.link.history.settlement": "history",
