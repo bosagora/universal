@@ -20,6 +20,10 @@ import {
   AddIcon,
   CopyIcon,
   ButtonIcon,
+  useToast,
+  Toast,
+  ToastTitle,
+  ToastDescription,
 } from '@gluestack-ui/themed';
 import { getClient } from '../../utils/client';
 import {
@@ -80,6 +84,9 @@ const Index = observer(({ navigation }) => {
   const [userLoyaltyType, setUserLoyaltyType] = useState(0);
   const [phone, setPhone] = useState('');
   const { t } = useTranslation();
+
+  const toast = useToast();
+
   useEffect(() => {
     console.log('================= userStore', userStore);
 
@@ -252,6 +259,23 @@ const Index = observer(({ navigation }) => {
           variant='link'
           onPress={async () => {
             await Clipboard.setStringAsync(address);
+
+            toast.show({
+              placement: 'top',
+              duration: 500,
+              render: ({ id }) => {
+                const toastId = 'toast-' + id;
+                return (
+                  <Toast nativeID={toastId} action='attention' variant='solid'>
+                    <VStack space='xs'>
+                      <ToastDescription>
+                        {t('wallet.toast.copy')}
+                      </ToastDescription>
+                    </VStack>
+                  </Toast>
+                );
+              },
+            });
           }}>
           <ParaText style={{ color: '#fff' }}>
             {truncateMiddleString(address || '', 8)}

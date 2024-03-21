@@ -19,6 +19,9 @@ import {
   ButtonGroup,
   ButtonIcon,
   CopyIcon,
+  Toast,
+  ToastDescription,
+  useToast,
 } from '@gluestack-ui/themed';
 import { getClient } from '../../utils/client';
 import { Amount, BOACoin, ContractUtils } from 'dms-sdk-client';
@@ -63,6 +66,8 @@ const UserWallet = observer(({ navigation }) => {
   const [oneTokenRate, setOneTokenRate] = useState(new BOACoin(0));
   const [userLoyaltyType, setUserLoyaltyType] = useState(0);
   const [phone, setPhone] = useState('');
+
+  const toast = useToast();
 
   useEffect(() => {
     console.log('================= userStore', userStore);
@@ -220,6 +225,23 @@ const UserWallet = observer(({ navigation }) => {
           variant='link'
           onPress={async () => {
             await Clipboard.setStringAsync(address);
+
+            toast.show({
+              placement: 'top',
+              duration: 500,
+              render: ({ id }) => {
+                const toastId = 'toast-' + id;
+                return (
+                  <Toast nativeID={toastId} action='attention' variant='solid'>
+                    <VStack space='xs'>
+                      <ToastDescription>
+                        {t('wallet.toast.copy')}
+                      </ToastDescription>
+                    </VStack>
+                  </Toast>
+                );
+              },
+            });
           }}>
           <ParaText style={{ color: '#fff' }}>
             {truncateMiddleString(address || '', 8)}
