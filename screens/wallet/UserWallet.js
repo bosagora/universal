@@ -3,20 +3,14 @@ import { observer } from 'mobx-react';
 import { useStores } from '../../stores';
 import {
   Box,
-  Heading,
   VStack,
-  Text,
   HStack,
-  View,
   Image,
   Button,
-  ButtonText,
-  Pressable,
   Modal,
   ModalBackdrop,
   ModalContent,
   ModalBody,
-  ButtonGroup,
   ButtonIcon,
   CopyIcon,
   Toast,
@@ -220,7 +214,7 @@ const UserWallet = observer(({ navigation }) => {
         <Button
           bg='#5C66D5'
           rounded='$xl'
-          h={24}
+          h={26}
           w={138}
           variant='link'
           onPress={async () => {
@@ -246,7 +240,14 @@ const UserWallet = observer(({ navigation }) => {
           <ParaText style={{ color: '#fff' }}>
             {truncateMiddleString(address || '', 8)}
           </ParaText>
-          <ButtonIcon as={CopyIcon} ml={8} />
+          <Image
+            ml={9}
+            my={3}
+            h={13.3}
+            w={13.3}
+            alt='alt'
+            source={require('../../assets/images/copy.png')}
+          />
         </Button>
       </Box>
       <VStack mt={50} alignItems='flex-start'>
