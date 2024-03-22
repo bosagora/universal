@@ -10,8 +10,7 @@ import {
   View,
   Divider,
   Button,
-  ButtonText,
-  Pressable,
+  Image,
   Modal,
   ModalBackdrop,
   ModalContent,
@@ -254,7 +253,7 @@ const Index = observer(({ navigation }) => {
         <Button
           bg='#5C66D5'
           rounded='$xl'
-          h={24}
+          h={26}
           w={138}
           variant='link'
           onPress={async () => {
@@ -280,7 +279,15 @@ const Index = observer(({ navigation }) => {
           <ParaText style={{ color: '#fff' }}>
             {truncateMiddleString(address || '', 8)}
           </ParaText>
-          <ButtonIcon as={CopyIcon} ml={5} />
+          {/*<ButtonIcon as={CopyIcon} ml={5} />*/}
+          <Image
+            ml={9}
+            my={3}
+            h={13.3}
+            w={13.3}
+            alt='alt'
+            source={require('../../assets/images/copy.png')}
+          />
         </Button>
       </Box>
       <ScrollView showsVerticalScrollIndicator={false}>
