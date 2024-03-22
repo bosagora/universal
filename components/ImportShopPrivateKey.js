@@ -198,16 +198,19 @@ const ImportShopPrivateKey = observer(
                     </SubHeaderText>
                   </FormControlHelper>
 
-                  <Input>
+                  <Input h={50} borderWidth={0}>
                     <InputField
-                      bg='#C0C0C0'
+                      pb={5}
+                      fontSize={15}
+                      fontWeight={500}
+                      lightHeight={16}
+                      fontFamily='Roboto-Medium'
+                      color='#12121D'
                       style={{
-                        fontFamily: 'Roboto-Medium',
-                        lineHeight: 16,
-                        fontSize: 15,
-                        color: '#12121D',
                         borderWidth: 1,
-                        borderColor: '#8A8A8A',
+                        borderRadius: 6,
+                        borderColor: '#C0C0C0',
+                        backgroundColor: '#E4E4E450',
                       }}
                       value={privateKey}
                       onChangeText={setPrivateKey}

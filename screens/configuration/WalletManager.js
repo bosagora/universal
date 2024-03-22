@@ -63,6 +63,7 @@ import {
 } from '../../components/styled/text';
 import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
 import { registerPushTokenWithClient } from '../../utils/push.token';
+import { truncateMiddleString } from '../../utils/convert';
 const { Wallet } = ethers;
 
 const WalletManager = observer(({ navigation }) => {
@@ -175,7 +176,8 @@ const WalletManager = observer(({ navigation }) => {
   }
   async function saveKeyForShop(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
-
+    console.log('saveKeyForShop');
+    await fetchClient();
     userStore.setLoading(false);
     setFromOtherWallet(true);
   }
@@ -288,18 +290,21 @@ const WalletManager = observer(({ navigation }) => {
                           {t('config.wallet.modal.body.text.c')}
                         </SubHeaderText>
                       </FormControlHelper>
-                      <Input h={60}>
+                      <Input h={50} borderWidth={0}>
                         <InputField
-                          bg='#C0C0C0'
+                          pb={5}
+                          fontSize={15}
+                          fontWeight={500}
+                          lightHeight={16}
+                          fontFamily='Roboto-Medium'
+                          color='#12121D'
                           style={{
-                            fontFamily: 'Roboto-Medium',
-                            lineHeight: 16,
-                            fontSize: 15,
-                            color: '#12121D',
                             borderWidth: 1,
-                            borderColor: '#8A8A8A',
+                            borderRadius: 6,
+                            borderColor: '#C0C0C0',
+                            backgroundColor: '#E4E4E450',
                           }}
-                          value={privateKey}
+                          value={truncateMiddleString(privateKey || '', 30)}
                         />
                       </Input>
                     </FormControl>
@@ -310,25 +315,31 @@ const WalletManager = observer(({ navigation }) => {
                             {t('config.wallet.modal.body.text.d')}
                           </SubHeaderText>
                         </FormControlHelper>
-                        <Input h={60}>
+                        <Input h={50} borderWidth={0}>
                           <InputField
-                            bg='#C0C0C0'
+                            pb={5}
+                            fontSize={15}
+                            fontWeight={500}
+                            lightHeight={16}
+                            fontFamily='Roboto-Medium'
+                            color='#12121D'
                             style={{
-                              fontFamily: 'Roboto-Medium',
-                              lineHeight: 16,
-                              fontSize: 15,
-                              color: '#12121D',
                               borderWidth: 1,
-                              borderColor: '#8A8A8A',
+                              borderRadius: 6,
+                              borderColor: '#C0C0C0',
+                              backgroundColor: '#E4E4E450',
                             }}
-                            value={userStore.shopId}
+                            value={truncateMiddleString(
+                              userStore.shopId || '',
+                              30,
+                            )}
                           />
                         </Input>
                       </FormControl>
                     ) : null}
                   </VStack>
 
-                  <HStack flex={1}>
+                  <HStack flex={1} mt={10}>
                     <Box flex={1}>
                       <WrapButton
                         onPress={async () => {
