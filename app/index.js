@@ -72,6 +72,7 @@ import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import RootPaddingBox from '../components/RootPaddingBox';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const InitStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -521,7 +522,6 @@ const TabScreens = observer(() => {
       initialRouteName='Wallet'
       screenOptions={{
         headerShown: false,
-
         tabBarShowLabel: true,
         tabBarStyle: {
           height: 80,
@@ -539,6 +539,21 @@ const TabScreens = observer(() => {
           margin: 3,
           color: 'pink',
         },
+        position: 'absolute',
+        tabBarBackground: () => (
+          <View style={{ flex: 1 }}>
+            <LinearGradient
+              start={{ x: 0.0, y: 0.5 }}
+              end={{ x: 0, y: 1 }}
+              style={{
+                height: 3,
+                // borderTopLeftRadius: 15,
+                // borderTopRightRadius: 15,
+              }}
+              colors={['#1C1B1F20', '#FFFFFF']}
+            />
+          </View>
+        ),
       }}>
       <Tab.Screen
         name='Wallet'
