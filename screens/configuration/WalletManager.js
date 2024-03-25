@@ -294,11 +294,11 @@ const WalletManager = observer(({ navigation }) => {
                         <InputField
                           pb={5}
                           fontSize={15}
-                          fontWeight={500}
                           lightHeight={16}
                           fontFamily='Roboto-Medium'
                           color='#12121D'
                           style={{
+                            fontWeight: '500',
                             borderWidth: 1,
                             borderRadius: 6,
                             borderColor: '#C0C0C0',
@@ -319,11 +319,11 @@ const WalletManager = observer(({ navigation }) => {
                           <InputField
                             pb={5}
                             fontSize={15}
-                            fontWeight={500}
                             lightHeight={16}
                             fontFamily='Roboto-Medium'
                             color='#12121D'
                             style={{
+                              fontWeight: '500',
                               borderWidth: 1,
                               borderRadius: 6,
                               borderColor: '#C0C0C0',
@@ -346,7 +346,7 @@ const WalletManager = observer(({ navigation }) => {
                           await Clipboard.setStringAsync(privateKey);
                           setShowModal(false);
                         }}>
-                        <ActiveButtonText fontSize={15}>
+                        <ActiveButtonText>
                           {t('config.wallet.modal.body.text.e')}
                         </ActiveButtonText>
                       </WrapButton>
