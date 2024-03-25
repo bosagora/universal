@@ -202,12 +202,12 @@ const ImportShopPrivateKey = observer(
                     <InputField
                       pb={5}
                       fontSize={15}
-                      fontWeight={500}
                       lightHeight={16}
                       fontFamily='Roboto-Medium'
                       color='#12121D'
                       style={{
                         borderWidth: 1,
+                        fontWeight: '500',
                         borderRadius: 6,
                         borderColor: '#C0C0C0',
                         backgroundColor: '#E4E4E450',
