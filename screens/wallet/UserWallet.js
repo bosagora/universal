@@ -402,6 +402,7 @@ const UserWallet = observer(({ navigation }) => {
                 onPress={() => handleQRSheet()}>
                 <Image
                   mr={9}
+                  mt={-3}
                   h={17}
                   w={17}
                   alt='alt'
