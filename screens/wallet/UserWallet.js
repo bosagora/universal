@@ -400,6 +400,13 @@ const UserWallet = observer(({ navigation }) => {
                 mx={18}
                 mb={18}
                 onPress={() => handleQRSheet()}>
+                <Image
+                  mr={9}
+                  h={17}
+                  w={17}
+                  alt='alt'
+                  source={require('../../assets/images/qr_code.png')}
+                />
                 <RobotoMediumText
                   style={{
                     fontWeight: 500,
