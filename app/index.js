@@ -73,6 +73,9 @@ import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import RootPaddingBox from '../components/RootPaddingBox';
 import { LinearGradient } from 'expo-linear-gradient';
+import DepositHistory from '../screens/wallet/DepositHistory';
+import Deposit from '../screens/wallet/Deposit';
+import Transfer from '../screens/wallet/Transfer';
 
 const InitStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -433,6 +436,27 @@ function MainStackScreen(userStore) {
         />
         <MainStack.Screen name='QRActionSheet' component={QRActionSheet} />
         <MainStack.Screen
+          name='DepositHistory'
+          component={DepositHistory}
+          options={{
+            title: '',
+          }}
+        />
+        <MainStack.Screen
+          name='Deposit'
+          component={Deposit}
+          options={{
+            title: '',
+          }}
+        />
+        <MainStack.Screen
+          name='Transfer'
+          component={Transfer}
+          options={{
+            title: '',
+          }}
+        />
+        <MainStack.Screen
           name='MileageHistory'
           component={MileageHistory}
           options={{
@@ -453,7 +477,6 @@ function MainStackScreen(userStore) {
             title: '',
           }}
         />
-
         <MainStack.Screen
           name='LocalNotification'
           component={LocalNotification}
