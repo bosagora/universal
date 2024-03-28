@@ -37,6 +37,8 @@ class UserStore {
   quickApproval = false;
   contentColor = '#ffffff';
   backgroundColor = '#ffffff';
+  isDeposit = true;
+  isMainChainTransfer = true;
 
   constructor() {
     makeAutoObservable(this);
@@ -65,6 +67,8 @@ class UserStore {
     this.quickApproval = false;
     this.contentColor = '#ffffff';
     this.backgroundColor = '#ffffff';
+    this.isDeposit = true;
+    this.isMainChainTransfer = true;
   }
 
   setAuthState = (state) => {
@@ -140,6 +144,13 @@ class UserStore {
   };
   setBackgroundColor = (color) => {
     this.backgroundColor = color;
+  };
+
+  setIsDeposit = (flag) => {
+    this.isDeposit = flag;
+  };
+  setIsMainChainTransfer = (flag) => {
+    this.isMainChainTransfer = flag;
   };
 }
 export default UserStore;

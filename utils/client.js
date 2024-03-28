@@ -10,9 +10,9 @@ import { Wallet } from 'ethers';
 
 export async function getClient(screen = 'unknown') {
   const DMS_SDK_LINK = {
-    development: SupportedNetwork.KIOS_TESTNET,
-    preview: SupportedNetwork.KIOS_TESTNET,
-    product: SupportedNetwork.KIOS_MAINNET,
+    development: SupportedNetwork.LOYALTY_TESTNET,
+    preview: SupportedNetwork.LOYALTY_TESTNET,
+    product: SupportedNetwork.LOYALTY_MAINNET,
   };
 
   const sdkLink =
@@ -48,8 +48,12 @@ export async function getClient(screen = 'unknown') {
       loyaltyTransferAddress: LIVE_CONTRACTS[sdkLink].LoyaltyTransferAddress,
       loyaltyBridgeAddress: LIVE_CONTRACTS[sdkLink].LoyaltyBridgeAddress,
     });
+    console.log('web3Endpoint :', LIVE_CONTRACTS[sdkLink].web3Endpoint,)
+    console.log('network :', LIVE_CONTRACTS[sdkLink].network,)
+    console.log('LoyaltyTokenAddress :', LIVE_CONTRACTS[sdkLink].LoyaltyTokenAddress,)
     return new Client(ctx);
   }
   const client = createClient(pKey);
+  console.log('client :', client)
   return { client, address };
 }
