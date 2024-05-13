@@ -43,6 +43,7 @@ import Svg, { WithLocalSvg } from 'react-native-svg';
 import bs from '../../assets/images/bosagora.svg';
 import * as Clipboard from 'expo-clipboard';
 import TransferTab from '../../components/TransferTab';
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 const registerInitialValues = {
   amount: '',
@@ -244,6 +245,17 @@ const Transfer = observer(({ navigation }) => {
   return (
     <WrapBox
       style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
+
+      <KeyboardAwareScrollView
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          enableOnAndroid={true}
+          scrollEnabled={true}
+          extraScrollHeight={100}
+          keyboardShouldPersistTaps='handled'
+          scrollToOverflowEnabled={true}
+          enableAutomaticScroll={true}>
+
       <MobileHeader title={t('Transfer')} subTitle='' />
       <TransferTab userStore={userStore} />
       <Box mt={20} w='$full'>
@@ -447,7 +459,7 @@ const Transfer = observer(({ navigation }) => {
 
             <WrapButton
               // isDisabled={formik.isValid}
-              bg={ableToDo ? '#5C66D5' : '#E4E4E4'}
+              bg={ableToDo && receiveAddress !== '' ? '#5C66D5' : '#E4E4E4'}
               onPress={formik.handleSubmit}
               my='$4'>
               <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
@@ -455,6 +467,8 @@ const Transfer = observer(({ navigation }) => {
           </VStack>
         </Box>
       </Box>
+
+      </KeyboardAwareScrollView>
     </WrapBox>
   );
 });

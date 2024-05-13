@@ -42,6 +42,7 @@ import Svg, { WithLocalSvg } from 'react-native-svg';
 
 import bs from '../../assets/images/bosagora.svg';
 import * as Clipboard from 'expo-clipboard';
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 const registerInitialValues = {
   n1: '',
@@ -237,6 +238,18 @@ const Deposit = observer(({ navigation }) => {
   return (
     <WrapBox
       style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
+
+
+      <KeyboardAwareScrollView
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          enableOnAndroid={true}
+          scrollEnabled={true}
+          extraScrollHeight={100}
+          keyboardShouldPersistTaps='handled'
+          scrollToOverflowEnabled={true}
+          enableAutomaticScroll={true}>
+
       <MobileHeader title={t('Deposit / Withdraw')} subTitle='' />
       <DepositTabs userStore={userStore} />
       <Box mt={20} w='$full'>
@@ -398,6 +411,8 @@ const Deposit = observer(({ navigation }) => {
           </VStack>
         </Box>
       </Box>
+
+      </KeyboardAwareScrollView>
     </WrapBox>
   );
 });
