@@ -397,7 +397,7 @@ const Transfer = observer(({ navigation }) => {
                       lineHeight={18}
                       fontWeight={400}>
                       {' '}
-                      가능 금액 :{' '}
+                      {t('available')} :{' '}
                       {convertProperValue(
                         userStore.isMainChainTransfer
                           ? balanceMainChain.toBOAString()
@@ -411,7 +411,7 @@ const Transfer = observer(({ navigation }) => {
                       ml={10}
                       onPress={takeMaxAmount}>
                       <Para2Text style={{ fontSize: 12, color: '#707070' }}>
-                        Max
+                        {t('max')}
                       </Para2Text>
                     </WrapHistoryButton>
                   </HStack>
@@ -426,7 +426,7 @@ const Transfer = observer(({ navigation }) => {
                 fontWeight={500}
                 lightHeight={16}
                 color='#707070'>
-                {userStore.isDeposit ? '예치' : '인출'} 금액 :
+                {t('received.amount')}  :
               </RobotoMediumText>
               <RobotoSemiBoldText>{receiveAmount}</RobotoSemiBoldText>
             </HStack>
@@ -437,7 +437,7 @@ const Transfer = observer(({ navigation }) => {
                 fontWeight={500}
                 lightHeight={16}
                 color='#707070'>
-                수수료 :
+                {t('fee')} :
               </RobotoMediumText>
               <RobotoSemiBoldText>
                 {convertProperValue(sideChainFee.toBOAString())}
@@ -450,7 +450,7 @@ const Transfer = observer(({ navigation }) => {
               bg={ableToDo ? '#5C66D5' : '#E4E4E4'}
               onPress={formik.handleSubmit}
               my='$4'>
-              <ActiveButtonText>{t('authenticate')}</ActiveButtonText>
+              <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
             </WrapButton>
           </VStack>
         </Box>
