@@ -61,24 +61,8 @@ const DepositHistory = observer(({ navigation }) => {
       console.log('>>>>>>> userAddress :', userAddress);
       setClient(client1);
       setAddress(userAddress);
-      const resEst = await client1.ledger.getEstimatedSaveHistory(userAddress);
-      console.log('resEst:', resEst);
 
-      const scheduledHistory = resEst.map((it) => {
-        return {
-          id: it.timestamp + it.purchaseId,
-          action: LedgerAction.SAVED,
-          actionName: 'SCHEDULED',
-          loyaltyType: it.loyaltyType,
-          loyaltyTypeName: it.loyaltyType === 0 ? 'POINT' : 'TOKEN',
-          amountPoint: it.providePoint.substring(0, it.providePoint.length - 9),
-          amountToken: it.provideToken.substring(0, it.provideToken.length - 9),
-          amountValue: it.provideValue,
-          blockTimestamp: it.timestamp,
-        };
-      });
-      console.log('scheduledHistory :', scheduledHistory);
-      const res = await client1.ledger.getSaveAndUseHistory(userAddress, {
+      const res = await client1.ledger.getDepositAndWithdrawHistory(userAddress, {
         limit: 100,
         skip: 0,
         sortDirection: 'desc',
@@ -89,9 +73,9 @@ const DepositHistory = observer(({ navigation }) => {
       const tradeHistory = res.userTradeHistories
         .filter((it) => {
           return (
-            it.action === LedgerAction.SAVED ||
-            it.action === LedgerAction.USED ||
-            it.action === LedgerAction.CHANGED
+            it.action === LedgerAction.DEPOSITED ||
+
+            it.action === LedgerAction.WITHDRAWN
           );
         })
         .map((it) => {
@@ -99,22 +83,18 @@ const DepositHistory = observer(({ navigation }) => {
             id: it.id,
             action: it.action,
             actionName:
-              it.cancel === true
-                ? 'CANCEL'
-                : it.action === LedgerAction.SAVED
-                ? 'SAVED'
-                : it.action === LedgerAction.CHANGED
-                ? 'CHANGED'
-                : 'USED',
+             it.action === LedgerAction.WITHDRAWN
+                ? 'WITHDRAWN'
+                : 'DEPOSITED',
             loyaltyType: it.loyaltyType,
-            loyaltyTypeName: it.loyaltyType === 0 ? 'POINT' : 'TOKEN',
+            loyaltyTypeName:  'TOKEN',
             amountPoint: it.amountPoint,
             amountToken: it.amountToken,
             amountValue: it.amountValue,
             blockTimestamp: it.blockTimestamp,
           };
         });
-      const history = scheduledHistory.concat(tradeHistory);
+      // const history = scheduledHistory.concat(tradeHistory);
       // const history = [
       //   {
       //     action: 1,
@@ -137,17 +117,17 @@ const DepositHistory = observer(({ navigation }) => {
       //     loyaltyTypeName: 'POINT',
       //   },
       // ];
-      history.sort(function (a, b) {
-        // 오름차순
-        return a.blockTimestamp > b.blockTimestamp
-          ? -1
-          : a.blockTimestamp < b.blockTimestamp
-          ? 1
-          : 0;
-      });
+      // history.sort(function (a, b) {
+      //   // 오름차순
+      //   return a.blockTimestamp > b.blockTimestamp
+      //     ? -1
+      //     : a.blockTimestamp < b.blockTimestamp
+      //     ? 1
+      //     : 0;
+      // });
 
-      console.log('history :', history.slice(0, 3));
-      setHistoryData(history);
+      console.log('history :', tradeHistory.slice(0, 3));
+      setHistoryData(tradeHistory);
     };
     fetchHistory()
       .then()
@@ -183,15 +163,9 @@ const DepositHistory = observer(({ navigation }) => {
                   justifyContent='space-between'>
                   <VStack>
                     <ParaText fontSize={14} fontWeight={400} lightHeight={20}>
-                      {item.actionName === 'SCHEDULED'
-                        ? t('user.wallet.history.body.text.e')
-                        : item.actionName === 'CANCEL'
-                        ? t('wallet.history.body.text.a')
-                        : item.actionName === 'SAVED'
-                        ? t('wallet.history.body.text.b')
-                        : item.actionName === 'USED'
-                        ? t('wallet.history.body.text.c')
-                        : t('user.wallet.history.body.text.d')}
+                      {item.actionName === 'WITHDRAWN'
+                        ? t('withdraw')
+                        : t('deposit')}
                     </ParaText>
                     <ParaText
                       fontSize={15}
