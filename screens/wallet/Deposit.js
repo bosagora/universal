@@ -177,8 +177,12 @@ const Deposit = observer(({ navigation }) => {
   }
 
   const takeMaxAmount = () => {
-    console.log('max :', convertProperValue(balanceMainChain.toBOAString()));
-    const vv = convertProperValue(balanceMainChain.toBOAString())
+    // console.log('max :', convertProperValue(balanceMainChain.toBOAString()));
+    // const vv = convertProperValue(balanceMainChain.toBOAString())
+
+    const balance = userStore.isMainChainTransfer ? balanceMainChain.toBOAString() : balanceSideChain.toBOAString()
+    console.log('max :', convertProperValue(balance));
+    const vv = convertProperValue(balance)
       .split(',')
       .join('');
     changeAmount(vv);
