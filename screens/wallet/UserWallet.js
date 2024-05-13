@@ -500,7 +500,7 @@ const UserWallet = observer(({ navigation }) => {
                             fontSize: 15,
                             color: '#fff',
                           }}>
-                          전송
+                          {t('transfer')}
                         </RobotoMediumText>
                       </WrapButton>
                     </Box>
@@ -518,7 +518,7 @@ const UserWallet = observer(({ navigation }) => {
                             fontSize: 15,
                             color: '#fff',
                           }}>
-                          인출
+                          {t('withdraw')}
                         </RobotoMediumText>
                       </WrapButton>
                     </Box>
@@ -579,7 +579,7 @@ const UserWallet = observer(({ navigation }) => {
                   <VStack mt={50} alignItems='flex-start'>
                     <HeaderText color='white'>BosAgora</HeaderText>
                     <SubHeaderText color='white' mt={7}>
-                      거래소 출금이 가능한 메인 체인
+                      {t('wallet.heading.description.mainchain')}
                     </SubHeaderText>
                     <Box mt={20} w='$full'>
                       <Box>
@@ -740,7 +740,7 @@ const UserWallet = observer(({ navigation }) => {
                               fontSize: 15,
                               color: '#fff',
                             }}>
-                            전송
+                            {t('transfer')}
                           </RobotoMediumText>
                         </WrapButton>
                       </Box>
@@ -758,7 +758,7 @@ const UserWallet = observer(({ navigation }) => {
                               fontSize: 15,
                               color: '#fff',
                             }}>
-                            예치
+                            {t('deposit')}
                           </RobotoMediumText>
                         </WrapButton>
                       </Box>
