@@ -483,46 +483,48 @@ const UserWallet = observer(({ navigation }) => {
                       </WrapButton>
                     </Box>
                   ) : null}
-                  <HStack pt={20} flex={1} space='md'>
-                    <Box flex={1} ml={5}>
-                      <WrapButton
-                        bg='black'
-                        borderColor='#8A8A8A'
-                        borderRadius='$lg'
-                        borderWidth='$1'
-                        onPress={() => {
-                          goToTransfer('sideChainTransfer');
-                        }}>
-                        <RobotoMediumText
-                          style={{
-                            fontWeight: 500,
-                            lineHeight: 16,
-                            fontSize: 15,
-                            color: '#fff',
+                  {userLoyaltyType === 0 ? null : (
+                    <HStack pt={20} flex={1} space='md'>
+                      <Box flex={1} ml={5}>
+                        <WrapButton
+                          bg='black'
+                          borderColor='#8A8A8A'
+                          borderRadius='$lg'
+                          borderWidth='$1'
+                          onPress={() => {
+                            goToTransfer('sideChainTransfer');
                           }}>
-                          {t('transfer')}
-                        </RobotoMediumText>
-                      </WrapButton>
-                    </Box>
-                    <Box flex={1} mr={5}>
-                      <WrapButton
-                        bg='black'
-                        borderColor='#8A8A8A'
-                        borderRadius='$lg'
-                        borderWidth='$1'
-                        onPress={() => goToDeposit('withdraw')}>
-                        <RobotoMediumText
-                          style={{
-                            fontWeight: 500,
-                            lineHeight: 16,
-                            fontSize: 15,
-                            color: '#fff',
-                          }}>
-                          {t('withdraw')}
-                        </RobotoMediumText>
-                      </WrapButton>
-                    </Box>
-                  </HStack>
+                          <RobotoMediumText
+                            style={{
+                              fontWeight: 500,
+                              lineHeight: 16,
+                              fontSize: 15,
+                              color: '#fff',
+                            }}>
+                            {t('transfer')}
+                          </RobotoMediumText>
+                        </WrapButton>
+                      </Box>
+                      <Box flex={1} mr={5}>
+                        <WrapButton
+                          bg='black'
+                          borderColor='#8A8A8A'
+                          borderRadius='$lg'
+                          borderWidth='$1'
+                          onPress={() => goToDeposit('withdraw')}>
+                          <RobotoMediumText
+                            style={{
+                              fontWeight: 500,
+                              lineHeight: 16,
+                              fontSize: 15,
+                              color: '#fff',
+                            }}>
+                            {t('withdraw')}
+                          </RobotoMediumText>
+                        </WrapButton>
+                      </Box>
+                    </HStack>
+                  )}
                 </VStack>
               </ScrollView>
               <Box>
@@ -572,7 +574,7 @@ const UserWallet = observer(({ navigation }) => {
                 </Modal>
               </Box>
             </Box>
-          ) : (
+          ) : userLoyaltyType === 0 ? null : (
             <Box>
               <Box>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -612,54 +614,7 @@ const UserWallet = observer(({ navigation }) => {
                               </Para2Text>
                             </WrapHistoryButton>
                           </HStack>
-                          {userLoyaltyType === 0 ? (
-                            <>
-                              <HStack justifyContent='center' pt={50}>
-                                <AppleSDGothicNeoSBText
-                                  pt={10}
-                                  fontSize={40}
-                                  lineHeight={48}
-                                  fontWeight={400}>
-                                  {convertProperValue(
-                                    payablePoint.toBOAString(),
-                                  )}
-                                </AppleSDGothicNeoSBText>
-                                {/*<Text _dark={{ color: '$textLight200' }} fontSize='$sm'>*/}
-                                {/*  point*/}
-                                {/*</Text>*/}
-                              </HStack>
-                              <VStack alignItems='center' pt={10}>
-                                <AppleSDGothicNeoSBText
-                                  color='#555555'
-                                  fontSize={16}
-                                  lineHeight={22}
-                                  fontWeight={400}>
-                                  ≒{' '}
-                                  {convertProperValue(
-                                    payablePointRate.toBOAString(),
-                                  )}{' '}
-                                  {userStore.currency}
-                                </AppleSDGothicNeoSBText>
-                                <AppleSDGothicNeoSBText
-                                  color='#555555'
-                                  fontSize={16}
-                                  lineHeight={22}
-                                  fontWeight={400}>
-                                  (1 Point ≒{' '}
-                                  {convertProperValue(
-                                    onePointRate.toBOAString(),
-                                    userStore.currency.toLowerCase() === 'krw'
-                                      ? 0
-                                      : 1,
-                                    userStore.currency.toLowerCase() === 'krw'
-                                      ? 0
-                                      : 5,
-                                  )}{' '}
-                                  {userStore.currency} )
-                                </AppleSDGothicNeoSBText>
-                              </VStack>
-                            </>
-                          ) : (
+                          {userLoyaltyType === 0 ? null : (
                             <>
                               {/*<HStack justifyContent='space-between'>*/}
 
