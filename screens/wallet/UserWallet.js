@@ -612,7 +612,7 @@ const UserWallet = observer(({ navigation }) => {
                               }>
                               <Para2Text
                                 style={{ fontSize: 12, color: '#707070' }}>
-                                {'Deposit/Withdraw History'}
+                                {t('user.wallet.link.deposit.history')}
                               </Para2Text>
                             </WrapHistoryButton>
                           </HStack>

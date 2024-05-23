@@ -91,7 +91,7 @@
   "shop.body.text.a": "Store/shop name",
   "shop.body.text.b": "Currency",
 
-  "wallet.toast.copy": "You've copied your wallet address.",
+  "wallet.toast.copy": "copied your wallet address.",
   "wallet.heading.description": "{{appName}} Store/shop Loyalty status and settlement history",
   "wallet.heading.description.mainnet": "Mainnet",
   "wallet.heading.description.testnet": "Testnet",
@@ -120,6 +120,7 @@
   "user.wallet.heading": "My KIOS Loyalty",
   "user.wallet.heading.description": "KIOS Loyalty can be redeemed for goods and services at any THE9 kiosk",
   "user.wallet.link.history": "Collection/Redemption History",
+  "user.wallet.link.deposit.history": "Deposit/Withdraw History",
   "user.wallet.link.convert": "Convert to KIOS tokens",
   "user.wallet.use.qr": "Use at kiosk(QR)",
   "user.wallet.modal.heading.description": "Once your points are converted to tokens, you can't convert them back to points and your future loyalty will be collected in tokens.",
