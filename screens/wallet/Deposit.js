@@ -42,7 +42,7 @@ import Svg, { WithLocalSvg } from 'react-native-svg';
 
 import bs from '../../assets/images/bosagora.svg';
 import * as Clipboard from 'expo-clipboard';
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const registerInitialValues = {
   n1: '',
@@ -181,11 +181,11 @@ const Deposit = observer(({ navigation }) => {
     // console.log('max :', convertProperValue(balanceMainChain.toBOAString()));
     // const vv = convertProperValue(balanceMainChain.toBOAString())
 
-    const balance = userStore.isMainChainTransfer ? balanceMainChain.toBOAString() : balanceSideChain.toBOAString()
+    const balance = userStore.isDeposit
+      ? balanceMainChain.toBOAString()
+      : balanceSideChain.toBOAString();
     console.log('max :', convertProperValue(balance));
-    const vv = convertProperValue(balance)
-      .split(',')
-      .join('');
+    const vv = convertProperValue(balance).split(',').join('');
     changeAmount(vv);
   };
 
@@ -238,180 +238,185 @@ const Deposit = observer(({ navigation }) => {
   return (
     <WrapBox
       style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
-
-
       <KeyboardAwareScrollView
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          enableOnAndroid={true}
-          scrollEnabled={true}
-          extraScrollHeight={100}
-          keyboardShouldPersistTaps='handled'
-          scrollToOverflowEnabled={true}
-          enableAutomaticScroll={true}>
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        enableOnAndroid={true}
+        scrollEnabled={true}
+        extraScrollHeight={100}
+        keyboardShouldPersistTaps='handled'
+        scrollToOverflowEnabled={true}
+        enableAutomaticScroll={true}>
+        <MobileHeader title={t('Deposit / Withdraw')} subTitle='' />
+        <DepositTabs userStore={userStore} />
+        <Box mt={20} w='$full'>
+          <Box bg='white' rounded='$sm'>
+            <VStack>
+              <HStack
+                space='md'
+                alignItems='center'
+                justifyContent='flex-start'>
+                <HStack space='sm' alignItems='center'>
+                  <WithLocalSvg
+                    width={20}
+                    height={20}
+                    fill={'#000000'}
+                    asset={bs}
+                  />
 
-      <MobileHeader title={t('Deposit / Withdraw')} subTitle='' />
-      <DepositTabs userStore={userStore} />
-      <Box mt={20} w='$full'>
-        <Box bg='white' rounded='$sm'>
-          <VStack>
-            <HStack space='md' alignItems='center' justifyContent='flex-start'>
-              <HStack space='sm' alignItems='center'>
-                <WithLocalSvg
-                  width={20}
-                  height={20}
-                  fill={'#000000'}
-                  asset={bs}
-                />
-
-                <VStack>
-                  <ParaText
-                    fontSize={13}
-                    fontWeight={500}
-                    lightHeight={16}
-                    color='#000000'>
-                    From
-                  </ParaText>
-                  <ParaText fontSize={11} fontWeight={400} lightHeight={20}>
-                    {userStore.isDeposit ? 'BosAgora' : 'Ledger'}
-                  </ParaText>
-                </VStack>
-              </HStack>
-              <HStack space='md' alignItems='center' justifyContent='center'>
-                <MaterialIcons
-                  name='arrow-forward-ios'
-                  size={20}
-                  color='#8A8A8A'
-                />
-              </HStack>
-              <HStack space='sm' alignItems='center'>
-                <WithLocalSvg
-                  width={20}
-                  height={20}
-                  fill={'#000000'}
-                  asset={bs}
-                />
-
-                <VStack>
-                  <ParaText
-                    fontSize={13}
-                    fontWeight={500}
-                    lightHeight={16}
-                    color='#000000'>
-                    To
-                  </ParaText>
-                  <ParaText fontSize={11} fontWeight={400} lightHeight={20}>
-                    {userStore.isDeposit ? 'Ledger' : 'BosAgora'}
-                  </ParaText>
-                </VStack>
-              </HStack>
-            </HStack>
-            <Box py={30}>
-              <FormControl size='md' isInvalid={!!formik.errors.n1}>
-                <VStack space='xs'>
-                  <HStack
-                    alignItems='center'
-                    justifyContent='space-between'
-                    space='sm'>
-                    <Input
-                      flex={1}
-                      mt={5}
-                      style={{
-                        height: 48,
-                        borderWidth: 1,
-                        borderColor: '#E4E4E4',
-                      }}>
-                      <InputField
-                        style={{
-                          fontFamily: 'Roboto-Medium',
-                          lineHeight: 20,
-                          fontSize: 19,
-                          color: '#12121D',
-                          textAlign: 'right',
-                        }}
-                        // returnKeyLabel='Done'
-                        // returnKeyType='done'
-                        keyboardType='decimal-pad'
-                        onChangeText={changeAmount}
-                        onBlur={formik.handleBlur('n1')}
-                        value={formik.values?.n1}
-                      />
-                    </Input>
-                    <AppleSDGothicNeoSBText
-                      w={50}
-                      color='#555555'
-                      fontSize={20}
-                      lineHeight={22}
-                      fontWeight={500}>
-                      KIOS
-                    </AppleSDGothicNeoSBText>
-                  </HStack>
-                  <HStack alignItems='center' justifyContent='flex-start'>
-                    <RobotoRegularText
-                      py={3}
+                  <VStack>
+                    <ParaText
                       fontSize={13}
-                      lineHeight={18}
-                      fontWeight={400}>
-                      {' '}
-                      {t('available')} :{' '}
-                      {convertProperValue(
-                        userStore.isDeposit
-                          ? balanceMainChain.toBOAString()
-                          : balanceSideChain.toBOAString(),
-                      )}
-                    </RobotoRegularText>
+                      fontWeight={500}
+                      lightHeight={16}
+                      color='#000000'>
+                      From
+                    </ParaText>
+                    <ParaText fontSize={11} fontWeight={400} lightHeight={20}>
+                      {userStore.isDeposit ? 'BosAgora' : 'Ledger'}
+                    </ParaText>
+                  </VStack>
+                </HStack>
+                <HStack space='md' alignItems='center' justifyContent='center'>
+                  <MaterialIcons
+                    name='arrow-forward-ios'
+                    size={20}
+                    color='#8A8A8A'
+                  />
+                </HStack>
+                <HStack space='sm' alignItems='center'>
+                  <WithLocalSvg
+                    width={20}
+                    height={20}
+                    fill={'#000000'}
+                    asset={bs}
+                  />
 
-                    <WrapHistoryButton
-                      borderRadius='$full'
-                      h={20}
-                      ml={10}
-                      onPress={takeMaxAmount}>
-                      <Para2Text style={{ fontSize: 12, color: '#707070' }}>
-                        {t('max')}
-                      </Para2Text>
-                    </WrapHistoryButton>
-                  </HStack>
-                </VStack>
-              </FormControl>
-            </Box>
+                  <VStack>
+                    <ParaText
+                      fontSize={13}
+                      fontWeight={500}
+                      lightHeight={16}
+                      color='#000000'>
+                      To
+                    </ParaText>
+                    <ParaText fontSize={11} fontWeight={400} lightHeight={20}>
+                      {userStore.isDeposit ? 'Ledger' : 'BosAgora'}
+                    </ParaText>
+                  </VStack>
+                </HStack>
+              </HStack>
+              <Box py={30}>
+                <FormControl size='md' isInvalid={!!formik.errors.n1}>
+                  <VStack space='xs'>
+                    <HStack
+                      alignItems='center'
+                      justifyContent='space-between'
+                      space='sm'>
+                      <Input
+                        flex={1}
+                        mt={5}
+                        style={{
+                          height: 48,
+                          borderWidth: 1,
+                          borderColor: '#E4E4E4',
+                        }}>
+                        <InputField
+                          style={{
+                            fontFamily: 'Roboto-Medium',
+                            lineHeight: 20,
+                            fontSize: 19,
+                            color: '#12121D',
+                            textAlign: 'right',
+                          }}
+                          // returnKeyLabel='Done'
+                          // returnKeyType='done'
+                          keyboardType='decimal-pad'
+                          onChangeText={changeAmount}
+                          onBlur={formik.handleBlur('n1')}
+                          value={formik.values?.n1}
+                        />
+                      </Input>
+                      <AppleSDGothicNeoSBText
+                        w={50}
+                        color='#555555'
+                        fontSize={20}
+                        lineHeight={22}
+                        fontWeight={500}>
+                        KIOS
+                      </AppleSDGothicNeoSBText>
+                    </HStack>
+                    <HStack alignItems='center' justifyContent='flex-start'>
+                      <RobotoRegularText
+                        py={3}
+                        fontSize={13}
+                        lineHeight={18}
+                        fontWeight={400}>
+                        {' '}
+                        {t('available')} :{' '}
+                        {convertProperValue(
+                          userStore.isDeposit
+                            ? balanceMainChain.toBOAString()
+                            : balanceSideChain.toBOAString(),
+                        )}
+                      </RobotoRegularText>
 
-            <WrapDivider my={2}></WrapDivider>
-            <HStack my={10} alignItems='center' justifyContent='space-between'>
-              <RobotoMediumText
-                fontSize={15}
-                fontWeight={500}
-                lightHeight={16}
-                color='#707070'>
-                {t('received.amount')} :
-              </RobotoMediumText>
-              <RobotoSemiBoldText>{receiveAmount}</RobotoSemiBoldText>
-            </HStack>
-            <WrapDivider my={2}></WrapDivider>
-            <HStack my={10} alignItems='center' justifyContent='space-between'>
-              <RobotoMediumText
-                fontSize={15}
-                fontWeight={500}
-                lightHeight={16}
-                color='#707070'>
-                {t('fee')} :
-              </RobotoMediumText>
-              <RobotoSemiBoldText>
-                {convertProperValue(sideChainFee.toBOAString())}
-              </RobotoSemiBoldText>
-            </HStack>
-            <WrapDivider></WrapDivider>
+                      <WrapHistoryButton
+                        borderRadius='$full'
+                        h={20}
+                        ml={10}
+                        onPress={takeMaxAmount}>
+                        <Para2Text style={{ fontSize: 12, color: '#707070' }}>
+                          {t('max')}
+                        </Para2Text>
+                      </WrapHistoryButton>
+                    </HStack>
+                  </VStack>
+                </FormControl>
+              </Box>
 
-            <WrapButton
-              // isDisabled={formik.isValid}
-              bg={ableToDo ? '#5C66D5' : '#E4E4E4'}
-              onPress={formik.handleSubmit}
-              my='$4'>
-              <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
-            </WrapButton>
-          </VStack>
+              <WrapDivider my={2}></WrapDivider>
+              <HStack
+                my={10}
+                alignItems='center'
+                justifyContent='space-between'>
+                <RobotoMediumText
+                  fontSize={15}
+                  fontWeight={500}
+                  lightHeight={16}
+                  color='#707070'>
+                  {t('received.amount')} :
+                </RobotoMediumText>
+                <RobotoSemiBoldText>{receiveAmount}</RobotoSemiBoldText>
+              </HStack>
+              <WrapDivider my={2}></WrapDivider>
+              <HStack
+                my={10}
+                alignItems='center'
+                justifyContent='space-between'>
+                <RobotoMediumText
+                  fontSize={15}
+                  fontWeight={500}
+                  lightHeight={16}
+                  color='#707070'>
+                  {t('fee')} :
+                </RobotoMediumText>
+                <RobotoSemiBoldText>
+                  {convertProperValue(sideChainFee.toBOAString())}
+                </RobotoSemiBoldText>
+              </HStack>
+              <WrapDivider></WrapDivider>
+
+              <WrapButton
+                // isDisabled={formik.isValid}
+                bg={ableToDo ? '#5C66D5' : '#E4E4E4'}
+                onPress={formik.handleSubmit}
+                my='$4'>
+                <ActiveButtonText>{t('button.press.a')}</ActiveButtonText>
+              </WrapButton>
+            </VStack>
+          </Box>
         </Box>
-      </Box>
-
       </KeyboardAwareScrollView>
     </WrapBox>
   );
