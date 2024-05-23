@@ -92,7 +92,9 @@
 
   "wallet.toast.copy": "지갑 주소가 복사 되었습니다.",
   "wallet.heading.description": "{{appName}} 상점의 마일리지 제공 및 정산 내역",
-  "wallet.heading.description.mainchain": "메인체인",
+  "wallet.heading.description.mainnet": "Mainnet",
+  "wallet.heading.description.testnet": "Testnet",
+  "wallet.heading.description.devnet": "Devnet",
   "wallet.link.history.redemption": "제공/사용 내역",
   "wallet.link.history.settlement": "정산 내역",
   "wallet.modal.a.alert.fail": "정산 완료에 실패하였습니다.",

@@ -579,9 +579,11 @@ const UserWallet = observer(({ navigation }) => {
               <Box>
                 <ScrollView showsVerticalScrollIndicator={false}>
                   <VStack mt={50} alignItems='flex-start'>
-                    <HeaderText color='white'>BosAgora</HeaderText>
+                    <HeaderText color='white'>BOSagora</HeaderText>
                     <SubHeaderText color='white' mt={7}>
-                      {t('wallet.heading.description.mainchain')}
+                      {process.env.EXPO_PUBLIC_ENV === 'product'
+                        ? t('wallet.heading.description.mainnet')
+                        : t('wallet.heading.description.devnet')}
                     </SubHeaderText>
                     <Box mt={20} w='$full'>
                       <Box>
