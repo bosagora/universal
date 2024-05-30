@@ -180,11 +180,14 @@ const Transfer = observer(({ navigation }) => {
     console.log('change include comma :', v.includes(','));
     const vv = v.includes(',') ? v.split(',').join('') : v;
     formik.setFieldValue('amount', vv);
-
+    const balance = userStore.isMainChainTransfer
+        ? balanceMainChain.toBOAString()
+        : balanceSideChain.toBOAString();
     const fee = userStore.isMainChainTransfer ? mainChainFee : sideChainFee;
     if (
       validateNumberWithDecimal(vv) &&
-      compareFloatTexts(vv, fee.toBOAString())
+      compareFloatTexts(vv, fee.toBOAString()) &&
+        compareFloatTexts( balance, vv)
     ) {
       setAbleToDo(true);
       const aa = subFloatTexts(vv, fee.toBOAString());

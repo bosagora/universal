@@ -195,9 +195,14 @@ const Deposit = observer(({ navigation }) => {
     const vv = v.includes(',') ? v.split(',').join('') : v;
     formik.setFieldValue('n1', vv);
     const fee = userStore.isDeposit ? mainChainFee : sideChainFee;
+    const balance = userStore.isDeposit
+        ? balanceMainChain.toBOAString()
+        : balanceSideChain.toBOAString();
+    console.log('balance :', balance)
     if (
       validateNumberWithDecimal(vv) &&
-      compareFloatTexts(vv, sideChainFee.toBOAString())
+      compareFloatTexts(vv, sideChainFee.toBOAString()) &&
+      compareFloatTexts( balance, vv)
     ) {
       setAbleToDo(true);
       const aa = subFloatTexts(vv, fee.toBOAString());
