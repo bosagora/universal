@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native';
 import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import { Box, FlatList, HStack, Text, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
-import { getClient } from '../../utils/client';
 import { convertShopProperValue, timePadding } from '../../utils/convert';
-import { Amount, BOACoin } from 'dms-sdk-client';
+import { Amount } from 'dms-sdk-client';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useTranslation } from 'react-i18next';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
@@ -15,8 +13,6 @@ import { NumberText, Para3Text, ParaText } from '../../components/styled/text';
 const MileageProvideHistory = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { secretStore, userStore } = useStores();
-  const [client, setClient] = useState();
-  const [address, setAddress] = useState('');
   const [historyData, setHistoryData] = useState([]);
   function timeConverter(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
@@ -57,12 +53,7 @@ const MileageProvideHistory = observer(({ navigation }) => {
   console.log(timeConverter(0));
   useEffect(() => {
     const fetchHistory = async () => {
-      const { client: client1, address: userAddress } = await getClient();
-      console.log('>>>>>>> userAddress :', userAddress);
-      setClient(client1);
-      setAddress(userAddress);
-
-      const resEst = await client1.shop.getEstimatedProvideHistory(
+      const resEst = await secretStore.client.shop.getEstimatedProvideHistory(
         userStore.shopId,
       );
       console.log('resEst:', resEst);
@@ -81,7 +72,7 @@ const MileageProvideHistory = observer(({ navigation }) => {
         };
       });
       console.log('scheduledHistory:', scheduledHistory);
-      const res = await client1.shop.getProvideAndUseTradeHistory(
+      const res = await secretStore.client.shop.getProvideAndUseTradeHistory(
         userStore.shopId,
         {
           limit: 100,

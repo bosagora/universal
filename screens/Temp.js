@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { useStores } from '../stores';
 import {
   Box,
   Heading,
@@ -13,7 +12,6 @@ import {
 import { Link } from 'expo-router';
 
 const Temp = observer(({ navigation }) => {
-  const { userStore } = useStores();
   return (
     <View
       h='$full'
@@ -26,7 +24,6 @@ const Temp = observer(({ navigation }) => {
       <VStack w='$full' p={20}>
         <HStack justifyContent='center' alignItems='center' space='md'>
           <Box
-            // maxWidth='$64'
             borderColor='$borderLight200'
             borderRadius='$lg'
             borderWidth='$1'

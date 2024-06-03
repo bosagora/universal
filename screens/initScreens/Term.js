@@ -4,15 +4,10 @@ import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 import {
   Box,
-  Button,
-  ButtonIcon,
-  ButtonText,
   Checkbox,
   CheckboxGroup,
   CheckboxIcon,
   CheckboxIndicator,
-  CheckboxLabel,
-  EditIcon,
   HStack,
   VStack,
 } from '@gluestack-ui/themed';
@@ -38,11 +33,9 @@ const Term = observer(({ navigation }) => {
     }
   }
   function showTerm() {
-    console.log('showTerm');
     secretStore.setShowTermSheet(true);
   }
   function showPrivacy() {
-    console.log('showPrivacy');
     secretStore.setShowPrivacySheet(true);
   }
   return (

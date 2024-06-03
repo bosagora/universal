@@ -13,7 +13,6 @@ import {
 import MobileHeader from '../../components/MobileHeader';
 import '@ethersproject/shims';
 import { Amount, NormalSteps } from 'dms-sdk-client';
-import { getClient } from '../../utils/client';
 import {
   checkValidPeriod,
   convertShopProperValue,
@@ -38,10 +37,6 @@ import RootPaddingBox2 from '../../components/RootPaddingBox2';
 const MileageCancelNotification = observer(() => {
   const { t } = useTranslation();
   const { pinStore, loyaltyStore, userStore } = useStores();
-
-  const [client, setClient] = useState(null);
-  const [address, setAddress] = useState('');
-
   const [shopName, setShopName] = useState('');
   const [purchaseId, setPurchaseId] = useState('');
   const [amount, setAmount] = useState(new Amount(0, 18));
@@ -52,10 +47,6 @@ const MileageCancelNotification = observer(() => {
   useEffect(() => {
     async function fetchClient() {
       try {
-        const { client: client1, address } = await getClient();
-        setClient(client1);
-        setAddress(address);
-
         if (
           loyaltyStore.payment &&
           !isEmpty(loyaltyStore.payment) &&
@@ -72,7 +63,7 @@ const MileageCancelNotification = observer(() => {
             setExpired(true);
           }
           setHasPayment(true);
-          await savePaymentInfo(client1, loyaltyStore.payment.id);
+          await savePaymentInfo(secretStore.client, loyaltyStore.payment.id);
         } else {
           setHasPayment(false);
         }
@@ -81,19 +72,15 @@ const MileageCancelNotification = observer(() => {
       }
     }
     fetchClient().then(() => console.log('end of fetchClient'));
-
-    console.log('loyaltyStore :', loyaltyStore);
   }, [loyaltyStore.payment]);
   const saveShopInfo = async (cc, shopId) => {
     // get shop info
     const info = await cc.shop.getShopInfo(shopId);
-    console.log('shop info : ', info);
     setShopName(info.name);
   };
 
   const savePaymentInfo = async (cc, paymentId) => {
     const info = await cc.ledger.getPaymentDetail(paymentId);
-    console.log('payment info:', info);
     setPurchaseId(info.purchaseId);
     setAmount(new Amount(info.amount, 18));
     setCurrency(info.currency);
@@ -109,8 +96,8 @@ const MileageCancelNotification = observer(() => {
 
     try {
       const steps = [];
-      const isUp = await client.ledger.isRelayUp();
-      for await (const step of client.ledger.approveCancelPayment(
+      const isUp = await secretStore.client.ledger.isRelayUp();
+      for await (const step of secretStore.client.ledger.approveCancelPayment(
         loyaltyStore.payment.id,
         purchaseId,
         true,

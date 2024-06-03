@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
-  ButtonText,
   FormControl,
-  Heading,
   Input,
   InputField,
   Modal,
@@ -10,11 +8,7 @@ import {
   ModalBody,
   ModalContent,
   VStack,
-  Text,
-  Button,
   FormControlHelper,
-  FormControlHelperText,
-  ButtonGroup,
   Box,
   HStack,
 } from '@gluestack-ui/themed';
@@ -27,7 +21,6 @@ import {
   SubHeaderText,
 } from './styled/text';
 import { WrapButton, WrapWhiteButton } from './styled/button';
-import { truncateMiddleString } from '../utils/convert';
 
 const ImportPrivateKey = ({ saveKey }) => {
   const { t } = useTranslation();

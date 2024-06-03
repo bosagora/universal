@@ -1,5 +1,4 @@
 import React from 'react';
-import { Heading, Text, VStack } from '@gluestack-ui/themed';
 import { HeaderText, SubHeaderText } from './styled/text';
 
 const MobileHeader = ({ title, subTitle }) => {

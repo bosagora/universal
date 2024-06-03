@@ -1,58 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import {
-  Box,
-  Heading,
-  FlatList,
-  HStack,
-  VStack,
-  Text,
-  Switch,
-} from '@gluestack-ui/themed';
+import { Box, FlatList, HStack, VStack, Switch } from '@gluestack-ui/themed';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useStores } from '../../stores';
 import { PinCodeT } from 'react-native-pincode-bosagora-ys';
-import { Platform, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Constants from 'expo-constants';
 import { registerForPushNotificationsAsync } from '../../hooks/usePushNotification';
-import { getClient } from '../../utils/client';
-import { MobileType } from 'dms-sdk-client';
-import * as Clipboard from 'expo-clipboard';
 import { registerPushTokenWithClient } from '../../utils/push.token';
 import MobileHeader from '../../components/MobileHeader';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
-import {
-  ActiveButtonText,
-  ActiveWhiteButtonText,
-  HeaderText,
-  NumberText,
-  Para2Text,
-  Para3Text,
-  ParaText,
-  PinButtonText,
-  RobotoMediumText,
-} from '../../components/styled/text';
+import { RobotoMediumText } from '../../components/styled/text';
 
 const Configuration = observer(({ navigation }) => {
   const { t } = useTranslation();
-  const { pinStore, userStore } = useStores();
+  const { pinStore, userStore, secretStore } = useStores();
   const [bioAuthenticationEnabled, setBioAuthenticationEnabled] =
     useState(false);
   const [registeredPushToken, setRegisteredPushToken] = useState(false);
-  const [client, setClient] = useState();
-  const [walletAddress, setWalletAddress] = useState('');
-
-  const fetchClient = async () => {
-    const { client: client1, address: userAddress } =
-      await getClient('configIndex');
-    console.log('>>>>>>> userAddress :', userAddress);
-    setClient(client1);
-    setWalletAddress(userAddress);
-
-    console.log('Secret fetch > client1 :', client1);
-    return client1;
-  };
 
   useEffect(() => {
     setBioAuthenticationEnabled(userStore.enableBio);
@@ -62,45 +28,39 @@ const Configuration = observer(({ navigation }) => {
     pinStore.setVisible(false);
   }, []);
   const toggleBioAuthentication = (toggleState) => {
-    console.log('bio :', toggleState);
     setBioAuthenticationEnabled(toggleState);
     userStore.setEnableBio(toggleState);
   };
   const togglePushNotification = async (toggleState) => {
-    console.log('PushNotification :', toggleState);
     setRegisteredPushToken(toggleState);
     const ret = await registerForPushNotificationsAsync(userStore);
-
     if (ret === 'denied') {
       alert(t('permission.body.text.b', { appName: t('app.name') }));
       return;
     }
 
     if (toggleState && ret === 'granted') {
-      const cc = await fetchClient();
       const regRet = await registerPushTokenWithClient(
-        cc,
+        secretStore.client,
         userStore,
         process.env.EXPO_PUBLIC_APP_KIND,
       );
       if (regRet) {
         setRegisteredPushToken(true);
-        // userStore.setRegisteredPushToken(true);
       }
     } else {
       setRegisteredPushToken(false);
-      // userStore.setRegisteredPushToken(false);
     }
   };
   const toggleQuickApproval = async (toggleState) => {
-    console.log('toggleQuickApproval :', toggleState);
     userStore.setLoading(true);
 
     const steps = [];
-    const cc = await fetchClient();
     if (toggleState) {
       try {
-        for await (const step of cc.shop.createDelegate(userStore.shopId)) {
+        for await (const step of secretStore.client.shop.createDelegate(
+          userStore.shopId,
+        )) {
           steps.push(step);
           console.log('createDelegate step :', step);
         }
@@ -114,7 +74,9 @@ const Configuration = observer(({ navigation }) => {
       }
     } else {
       try {
-        for await (const step of cc.shop.removeDelegate(userStore.shopId)) {
+        for await (const step of secretStore.client.shop.removeDelegate(
+          userStore.shopId,
+        )) {
           steps.push(step);
           console.log('removeDelegate step :', step);
         }
@@ -129,30 +91,7 @@ const Configuration = observer(({ navigation }) => {
     }
   };
 
-  // async function registerPushTokenWithClient(cc) {
-  //   console.log('registerPushTokenWithClient >>>>>>>> cc:', cc);
-  //   const token = userStore.expoPushToken;
-  //   const language = userStore.lang.toLowerCase();
-  //   const os = Platform.OS === 'android' ? 'android' : 'iOS';
-  //   try {
-  //     await cc.ledger.registerMobileToken(
-  //       token,
-  //       language,
-  //       os,
-  //       process.env.EXPO_PUBLIC_APP_KIND === 'shop'
-  //         ? MobileType.SHOP_APP
-  //         : MobileType.USER_APP,
-  //     );
-  //     return true;
-  //   } catch (e) {
-  //     await Clipboard.setStringAsync(JSON.stringify(e));
-  //     console.log('error : ', e);
-  //     alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
-  //     return false;
-  //   }
-  // }
   const setPincode = () => {
-    console.log('setPincode');
     pinStore.setNextScreen('setPincode');
     pinStore.setSuccessEnter(false);
     pinStore.setVisible(true);
@@ -167,7 +106,6 @@ const Configuration = observer(({ navigation }) => {
   };
 
   const goProperScreen = (id) => {
-    console.log('item.name :', id);
     if (id === 'bd7acbea') {
       setPincode();
     } else if (id === '58694a0f') {

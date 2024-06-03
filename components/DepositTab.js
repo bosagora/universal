@@ -1,6 +1,5 @@
 import React from 'react';
-import { SearchIcon } from '@gluestack-ui/themed';
-import { HStack, Icon, Pressable, Text } from '@gluestack-ui/themed';
+import { HStack, Pressable, Text } from '@gluestack-ui/themed';
 
 const DepositTabs = ({ userStore }) => {
   const [selectedTab, setSelectedTab] = React.useState(

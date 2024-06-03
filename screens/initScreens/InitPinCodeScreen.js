@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 const InitPinCodeScreen = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { pinStore } = useStores();
+
   const customTexts = {
     enter: {
       subTitle: t('pin.enter.subTitle'),

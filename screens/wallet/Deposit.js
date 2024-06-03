@@ -76,20 +76,22 @@ const Deposit = observer(({ navigation }) => {
       setClient(client1);
       setAddress(userAddress);
       const newBalanceMainChain =
-        await client1.ledger.getMainChainBalance(userAddress);
+        await secretStore.client.ledger.getMainChainBalance(userAddress);
       console.log('mainChain balance :', newBalanceMainChain);
       const balanceMainChainConv = new BOACoin(newBalanceMainChain);
       setBalanceMainChain(balanceMainChainConv);
 
       const newBalanceSideChain =
-        await client1.ledger.getTokenBalance(userAddress);
+        await secretStore.client.ledger.getTokenBalance(userAddress);
       console.log('sideChain balance :', newBalanceSideChain);
       const balanceSideChainConv = new BOACoin(newBalanceSideChain);
       setBalanceSideChain(balanceSideChainConv);
       console.log('balanceSideChainConv :', balanceSideChainConv.toBOAString());
 
-      const sideChainInfo = await client1.ledger.getChainInfoOfSideChain();
-      const mainChainInfo = await client1.ledger.getChainInfoOfMainChain();
+      const sideChainInfo =
+        await secretStore.client.ledger.getChainInfoOfSideChain();
+      const mainChainInfo =
+        await secretStore.client.ledger.getChainInfoOfMainChain();
       const sideChainFee1 = new BOACoin(sideChainInfo.network.bridgeFee);
       const mainChainFee1 = new BOACoin(mainChainInfo.network.bridgeFee);
       console.log(
@@ -121,7 +123,9 @@ const Deposit = observer(({ navigation }) => {
       const amount = Amount.make(formik.values.n1, 18).value;
       let depositId = '';
       const steps = [];
-      for await (const step of client.ledger.depositViaBridge(amount)) {
+      for await (const step of secretStore.client.ledger.depositViaBridge(
+        amount,
+      )) {
         console.log('deposit step :', step);
         steps.push(step);
         if (step.key === NormalSteps.DONE) depositId = step.depositId;
@@ -129,7 +133,7 @@ const Deposit = observer(({ navigation }) => {
       const waitSteps = [];
       console.log('depositId : ', depositId);
       if (steps.length === 3 && steps[2].key === 'done') {
-        for await (const waitStep of client.ledger.waiteDepositViaBridge(
+        for await (const waitStep of secretStore.client.ledger.waiteDepositViaBridge(
           depositId,
           60,
         )) {
@@ -152,7 +156,9 @@ const Deposit = observer(({ navigation }) => {
       const amount = Amount.make(formik.values.n1, 18).value;
       let depositId = '';
       const steps = [];
-      for await (const step of client.ledger.withdrawViaBridge(amount)) {
+      for await (const step of secretStore.client.ledger.withdrawViaBridge(
+        amount,
+      )) {
         console.log('withdraw step :', step);
         steps.push(step);
         if (step.key === NormalSteps.DONE) depositId = step.depositId;
@@ -160,7 +166,7 @@ const Deposit = observer(({ navigation }) => {
       const waitSteps = [];
       console.log('depositId : ', depositId);
       if (steps.length === 3 && steps[2].key === 'done') {
-        for await (const waitStep of client.ledger.waiteWithdrawViaBridge(
+        for await (const waitStep of secretStore.client.ledger.waiteWithdrawViaBridge(
           depositId,
           60,
         )) {
@@ -196,13 +202,13 @@ const Deposit = observer(({ navigation }) => {
     formik.setFieldValue('n1', vv);
     const fee = userStore.isDeposit ? mainChainFee : sideChainFee;
     const balance = userStore.isDeposit
-        ? balanceMainChain.toBOAString()
-        : balanceSideChain.toBOAString();
-    console.log('balance :', balance)
+      ? balanceMainChain.toBOAString()
+      : balanceSideChain.toBOAString();
+    console.log('balance :', balance);
     if (
       validateNumberWithDecimal(vv) &&
       compareFloatTexts(vv, sideChainFee.toBOAString()) &&
-      compareFloatTexts( balance, vv)
+      compareFloatTexts(balance, vv)
     ) {
       setAbleToDo(true);
       const aa = subFloatTexts(vv, fee.toBOAString());

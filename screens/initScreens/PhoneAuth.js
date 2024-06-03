@@ -1,19 +1,7 @@
-import {
-  Input,
-  InputField,
-  Button,
-  FormControl,
-  ButtonText,
-  useToast,
-  VStack,
-  Box,
-  Text,
-  Divider,
-} from '@gluestack-ui/themed';
-import { SafeAreaView } from 'react-native';
+import { Input, InputField, FormControl, VStack } from '@gluestack-ui/themed';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import { AUTH_STATE } from '../../stores/user.store';
 import { useStores } from '../../stores';
@@ -21,18 +9,16 @@ import '@ethersproject/shims';
 import { ContractUtils } from 'dms-sdk-client';
 import * as Clipboard from 'expo-clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { getClient } from '../../utils/client';
 import {
   PhoneNumberUtil,
   PhoneNumberFormat as PNF,
 } from 'google-libphonenumber';
 import { useTranslation } from 'react-i18next';
 import MobileHeader from '../../components/MobileHeader';
-import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import { WrapBox } from '../../components/styled/layout';
 import {
   ActiveButtonText,
   RobotoRegularText,
-  SubHeaderText,
 } from '../../components/styled/text';
 import { WrapButton } from '../../components/styled/button';
 
@@ -65,16 +51,11 @@ const registerInitialValues = {
 
 const PhoneAuth = observer(({ navigation }) => {
   const { t } = useTranslation();
-  const [client, setClient] = useState(null);
-  const [address, setAddress] = useState('');
   const [phoneCode, setPhoneCode] = useState('');
   const [requestId, setRequestId] = useState('');
-  // const [authNum, setAuthNum] = useState('000102');
-  const toast = useToast();
-  const { userStore } = useStores();
+  const { userStore, secretStore } = useStores();
 
   function secondsToTime(secs) {
-    console.log('secs :', secs);
     let hours = Math.floor(secs / (60 * 60));
 
     let divisor_for_minutes = secs % (60 * 60);
@@ -102,30 +83,10 @@ const PhoneAuth = observer(({ navigation }) => {
   let fontRef = useRef(0);
   let intervalRef = useRef(0);
 
-  useEffect(() => {
-    async function fetchClient() {
-      console.log('PhoneAuth > fetchClient');
-      const { client, address } = await getClient('phoneAuth');
-      setClient(client);
-      setAddress(address);
-
-      const web3Status = await client.web3.isUp();
-      console.log('web3Status :', web3Status);
-      const isUp = await client.ledger.isRelayUp();
-      console.log('isUp:', isUp);
-    }
-    fetchClient()
-      .then(() => console.log('end of fetchClient'))
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   const initiateTimer = () => {
     fontRef.current = 180;
     let timeLeftObj = secondsToTime(fontRef.current);
     setTimeLeft(timeLeftObj);
-    console.log('timeLeftObj :', timeLeftObj);
   };
 
   const startTimer = () => {
@@ -143,32 +104,25 @@ const PhoneAuth = observer(({ navigation }) => {
 
   const timer = () => {
     fontRef.current = fontRef.current - 1;
-    console.log('fontRef :', fontRef);
     if (fontRef.current > 0) {
       setTimeLeft(secondsToTime(fontRef.current));
     } else {
       setRequestId('');
-      // formik.values = { n1: '', n2: '', n3: '' };
       stopTimer();
-      // clearInterval(intervalRef.current);
     }
   };
 
   async function registerPhone() {
-    console.log('userStore :', userStore);
     userStore.setLoading(true);
 
     const steps = [];
     try {
       const phone = '+' + userStore.countryPhoneCode + phoneCode;
-      console.log('phone :', phone);
       const phoneUtil = PhoneNumberUtil.getInstance();
       const number = phoneUtil.parseAndKeepRawInput(phone);
       const pf = phoneUtil.format(number, PNF.INTERNATIONAL);
       console.log(phoneUtil.getRegionCodeForNumber(number));
-      console.log('pf :', pf);
       const phoneType = phoneUtil.getNumberType(number);
-      console.log('phoneType:', phoneType);
       const isValid = phoneUtil.isValidNumber(number);
       if (!isValid || (phoneType !== 1 && phoneType !== 2)) {
         userStore.setLoading(false);
@@ -177,7 +131,7 @@ const PhoneAuth = observer(({ navigation }) => {
       }
 
       userStore.setPhoneFormatted(pf);
-      for await (const step of client.link.register(pf)) {
+      for await (const step of secretStore.client.link.register(pf)) {
         console.log('register step :', step);
         steps.push(step);
       }
@@ -203,7 +157,10 @@ const PhoneAuth = observer(({ navigation }) => {
     userStore.setLoading(true);
     const steps = [];
     try {
-      for await (const step of client.link.submit(requestId, authNum)) {
+      for await (const step of secretStore.client.link.submit(
+        requestId,
+        authNum,
+      )) {
         steps.push(step);
         console.log('submit step :', step);
       }
@@ -228,20 +185,26 @@ const PhoneAuth = observer(({ navigation }) => {
   }
   async function changeUnpayableToPayable() {
     const phone = userStore.phoneFormatted;
-    const balance = await client.ledger.getPointBalance(address);
+    const balance = await secretStore.client.ledger.getPointBalance(
+      secretStore.address,
+    );
     console.log('Point balance Before changing :', balance);
 
     const phoneHash = ContractUtils.getPhoneHash(phone);
     const unpayablePoint =
-      await client.ledger.getUnPayablePointBalance(phoneHash);
+      await secretStore.client.ledger.getUnPayablePointBalance(phoneHash);
     console.log('Unpayable point :', unpayablePoint.toString());
 
     if (unpayablePoint.lte(0)) return;
 
-    for await (const step of client.ledger.changeToPayablePoint(phone)) {
+    for await (const step of secretStore.client.ledger.changeToPayablePoint(
+      phone,
+    )) {
       console.log('change unpayable to payable step :', step);
     }
-    const afterBalance = await client.ledger.getPointBalance(address);
+    const afterBalance = await secretStore.client.ledger.getPointBalance(
+      secretStore.address,
+    );
     console.log('Point balance After changing :', afterBalance);
   }
 
@@ -250,17 +213,6 @@ const PhoneAuth = observer(({ navigation }) => {
     validationSchema: registerSchema,
 
     onSubmit: (values, { resetForm }) => {
-      // toast.show({
-      //   placement: 'bottom right',
-      //   render: ({ id }) => {
-      //     return (
-      //       <Toast nativeID={id} variant='accent' action='success'>
-      //         <ToastTitle>Signed in successfully</ToastTitle>
-      //       </Toast>
-      //     );
-      //   },
-      // });
-
       console.log('form values :', values);
       const authNums = values.n1 + values.n2 + values.n3;
       submitPhone(authNums)

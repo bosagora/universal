@@ -1,18 +1,9 @@
 import {
   Input,
   InputField,
-  Button,
-  Heading,
   FormControl,
-  ButtonText,
-  useToast,
   VStack,
-  Box,
-  HStack,
-  Text,
-  Divider,
   FormControlLabel,
-  FormControlLabelText,
   SelectInput,
   SelectTrigger,
   SelectIcon,
@@ -24,9 +15,7 @@ import {
   SelectItem,
   Select,
   SelectDragIndicator,
-  ActionsheetItemText,
 } from '@gluestack-ui/themed';
-import { SafeAreaView } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import React, { useEffect, useRef, useState } from 'react';
@@ -36,9 +25,7 @@ import { useStores } from '../../stores';
 import '@ethersproject/shims';
 import { ContractUtils, LoyaltyNetworkID } from 'dms-sdk-client';
 import * as Clipboard from 'expo-clipboard';
-import { getLocales, getCalendars } from 'expo-localization';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { getClient } from '../../utils/client';
 import { ChevronDownIcon } from 'lucide-react-native';
 import MobileHeader from '../../components/MobileHeader';
 import { useTranslation } from 'react-i18next';
@@ -56,50 +43,16 @@ const registerInitialValues = {
 
 const ShopReg = observer(({ navigation }) => {
   const { t } = useTranslation();
-  const [client, setClient] = useState(null);
-  const [address, setAddress] = useState('');
-  const { userStore } = useStores();
-
-  useEffect(() => {
-    async function fetchClient() {
-      console.log('ShopReg > fetchClient');
-      const { client, address } = await getClient('shopReg');
-      setClient(client);
-      setAddress(address);
-
-      const web3Status = await client.web3.isUp();
-      console.log('web3Status :', web3Status);
-      const isUp = await client.ledger.isRelayUp();
-      console.log('isUp:', isUp);
-    }
-    fetchClient()
-      .then(() => console.log('end of fetchClient'))
-      .catch((error) => {
-        console.log(error);
-      });
-    // const deviceLocales = getLocales()[0];
-    // console.log('deviceLocales :', deviceLocales);
-    // // initiateTimer();
-    // // alert('regionCode :' + JSON.stringify(deviceLocales));
-    // userStore.setCurrency(deviceLocales.currencyCode.toLowerCase());
-    // userStore.setLang(deviceLocales.languageCode.toLowerCase());
-    // userStore.setCountry(deviceLocales.regionCode.toLowerCase());
-    // userStore.setLangTag(deviceLocales.languageTag);
-    // userStore.setCountryPhoneCode(
-    //   deviceLocales.regionCode == 'KR' ? '82' : '82',
-    // );
-  }, []);
+  const { userStore, secretStore } = useStores();
 
   async function regShop() {
     userStore.setLoading(true);
     const steps = [];
     try {
-      // const shopId = await client.shop.makeShopId(
-      //   address,
-      //   LoyaltyNetworkID.KIOS,
-      // );
-      const shopId = ContractUtils.getShopId(address, LoyaltyNetworkID.KIOS);
-      console.log('shopId :', shopId);
+      const shopId = ContractUtils.getShopId(
+        secretStore.address,
+        LoyaltyNetworkID.KIOS,
+      );
       userStore.setShopId(shopId);
       userStore.setShopName(formik.values?.n1);
       const shopData = {
@@ -107,9 +60,7 @@ const ShopReg = observer(({ navigation }) => {
         name: formik.values?.n1,
         currency: userStore.currency,
       };
-      console.log('ShopData : ', shopData);
-
-      for await (const step of client.shop.add(
+      for await (const step of secretStore.client.shop.add(
         shopData.shopId,
         shopData.name,
         shopData.currency,
@@ -132,7 +83,6 @@ const ShopReg = observer(({ navigation }) => {
     validationSchema: registerSchema,
 
     onSubmit: (values, { resetForm }) => {
-      console.log('form values :', values);
       regShop().then((r) => {
         userStore.setAuthState(AUTH_STATE.DONE);
       });
@@ -141,7 +91,6 @@ const ShopReg = observer(({ navigation }) => {
   });
 
   const onPressCurrency = (it) => {
-    console.log('it:', it);
     userStore.setCurrency(it);
   };
   return (
@@ -149,7 +98,6 @@ const ShopReg = observer(({ navigation }) => {
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
-        // style={{ marginBottom: 150 }}
         enableOnAndroid={true}
         scrollEnabled={true}
         extraScrollHeight={100}

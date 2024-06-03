@@ -4,7 +4,6 @@ import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import { Box, FlatList, HStack, Text, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
-import { getClient } from '../../utils/client';
 import { convertProperValue, timePadding } from '../../utils/convert';
 import { Amount, BOACoin, LedgerAction } from 'dms-sdk-client';
 import { BigNumber } from '@ethersproject/bignumber';
@@ -15,8 +14,6 @@ import { NumberText, Para3Text, ParaText } from '../../components/styled/text';
 const MileageHistory = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { secretStore, userStore } = useStores();
-  const [client, setClient] = useState();
-  const [address, setAddress] = useState('');
   const [historyData, setHistoryData] = useState([]);
   function timeConverter(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
@@ -57,11 +54,9 @@ const MileageHistory = observer(({ navigation }) => {
   console.log(timeConverter(0));
   useEffect(() => {
     const fetchHistory = async () => {
-      const { client: client1, address: userAddress } = await getClient();
-      console.log('>>>>>>> userAddress :', userAddress);
-      setClient(client1);
-      setAddress(userAddress);
-      const resEst = await client1.ledger.getEstimatedSaveHistory(userAddress);
+      const resEst = await secretStore.client.ledger.getEstimatedSaveHistory(
+        secretStore.address,
+      );
       console.log('resEst:', resEst);
 
       const scheduledHistory = resEst.map((it) => {
@@ -78,12 +73,15 @@ const MileageHistory = observer(({ navigation }) => {
         };
       });
       console.log('scheduledHistory :', scheduledHistory);
-      const res = await client1.ledger.getSaveAndUseHistory(userAddress, {
-        limit: 100,
-        skip: 0,
-        sortDirection: 'desc',
-        sortBy: 'blockNumber',
-      });
+      const res = await secretStore.client.ledger.getSaveAndUseHistory(
+        secretStore.address,
+        {
+          limit: 100,
+          skip: 0,
+          sortDirection: 'desc',
+          sortBy: 'blockNumber',
+        },
+      );
 
       console.log('len :', res.userTradeHistories?.length);
       const tradeHistory = res.userTradeHistories

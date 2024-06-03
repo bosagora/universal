@@ -1,70 +1,31 @@
 import React, { useEffect, useState } from 'react';
-
-import { styled } from '@gluestack-style/react';
 import {
-  AddIcon,
   Box,
-  Button,
-  ButtonIcon,
   VStack,
-  Heading,
-  ButtonText,
   Actionsheet,
   ActionsheetBackdrop,
   ActionsheetDragIndicatorWrapper,
   ActionsheetDragIndicator,
   HStack,
   ActionsheetContent,
-  FormControl,
-  FormControlLabel,
-  FormControlLabelText,
-  Input,
-  InputSlot,
-  InputIcon,
-  InputField,
-  Image,
-  Text,
 } from '@gluestack-ui/themed';
 import { KeyboardAvoidingView, Platform } from 'react-native';
-import { getSecureValue } from '../utils/secure.store';
 import QRCode from 'react-native-qrcode-svg';
 import { useStores } from '../stores';
 import { observer } from 'mobx-react';
-import * as Clipboard from 'expo-clipboard';
-import { truncateMiddleString } from '../utils/convert';
 import { useTranslation } from 'react-i18next';
-import { getClient } from '../utils/client';
 import { RobotoSemiBoldText } from '../components/styled/text';
 
-// export default function QRActionSheet() {
 const QRActionSheet = observer(() => {
   const { t } = useTranslation();
   const { secretStore } = useStores();
-  const [walletAddress, SetWalletAddress] = useState('');
-  useEffect(() => {
-    async function fetchWalletAddress() {
-      const address = await getSecureValue('address');
-      SetWalletAddress(address);
-    }
-    fetchWalletAddress();
-  }, [secretStore.address]);
   const [temporaryAccount, setTemporaryAccount] = useState('erertertererter');
   useEffect(() => {
     try {
       async function fetchTemporaryAccount() {
-        const { client: client1, address: userAddress } =
-          await getClient('qrsheet');
-        console.log('userAddress >> :', userAddress);
-        console.log('client1 >> :', client1);
-        const web3Status = await client1.web3.isUp();
-        console.log('web3Status :', web3Status);
-        const isUp = await client1.ledger.isRelayUp();
-        console.log('isUp:', isUp);
-        if (isUp) {
-          const account = await client1.ledger.getTemporaryAccount();
-          console.log('account :', account);
-          setTemporaryAccount(account);
-        }
+        const account = await secretStore.client.ledger.getTemporaryAccount();
+        console.log('account :', account);
+        setTemporaryAccount(account);
       }
 
       if (secretStore.showQRSheet) fetchTemporaryAccount();
@@ -111,7 +72,7 @@ const QRActionSheet = observer(() => {
                     },
                   }}>
                   <Box w='$full' p={20}>
-                    {walletAddress ? (
+                    {secretStore.address ? (
                       <QRCode size={150} value={temporaryAccount} />
                     ) : null}
                   </Box>
