@@ -44,13 +44,11 @@ export function timePadding(t) {
 }
 
 export function isEmpty(obj) {
-  console.log('obj :', obj);
   if (
     obj === null ||
     obj === '' ||
     (obj && Object.keys(obj).length === 0 && obj.constructor === Object)
   ) {
-    console.log('no payment');
     return true;
   }
   return false;

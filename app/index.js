@@ -140,7 +140,7 @@ const App = observer(() => {
       setIsStoreLoaded(true);
 
       userStore.setLoading(false);
-      console.log('app.index > userStore : ', userStore);
+      // console.log('app.index > userStore : ', userStore);
       if (userStore.currency === '') {
         console.log('init locale');
         const deviceLocales = getLocales()[0];

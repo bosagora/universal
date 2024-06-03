@@ -34,8 +34,11 @@ class SecretStore {
   setAddress = (address) => {
     this.address = address;
   };
-  setClient = (client) => {
-    this.client = client;
+  setClient = () => {
+    getClient().then((it) => {
+      this.client = it.client;
+      this.address = it.address;
+    });
   };
   setMnemonic = (mnemonic) => {
     this.mnemonic = mnemonic;

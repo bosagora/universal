@@ -57,6 +57,7 @@ export async function getClient(screen = 'unknown') {
     return new Client(ctx);
   }
   const client = createClient(pKey);
-  console.log('client :', client);
+  console.log('Client > client :', client);
+  console.log('Client > address :', address);
   return { client, address };
 }

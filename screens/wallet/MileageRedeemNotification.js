@@ -66,9 +66,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
         // alert('shop notificaiton error :' + JSON.stringify(e));
       }
     }
-    fetchClient().then(() => console.log('end of fetchClient'));
-
-    console.log('loyaltyStore :', loyaltyStore);
+    fetchClient().then();
   }, [loyaltyStore.payment]);
   const saveShopInfo = async (cc, shopId) => {
     // get shop info
