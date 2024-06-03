@@ -1,26 +1,13 @@
-import { SafeAreaView, View } from 'react-native';
 import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  ButtonText,
-  HStack,
-  Text,
-  VStack,
-} from '@gluestack-ui/themed';
+import { Box, HStack, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import '@ethersproject/shims';
-import { Amount, NormalSteps } from 'dms-sdk-client';
-import { getClient } from '../../utils/client';
+import { NormalSteps } from 'dms-sdk-client';
 import { useTranslation } from 'react-i18next';
-import { checkValidPeriod, getUnixTime, isEmpty } from '../../utils/convert';
-import {
-  WrapBase2,
-  WrapBox,
-  WrapDivider,
-} from '../../components/styled/layout';
+import { checkValidPeriod, isEmpty } from '../../utils/convert';
+import { WrapBase2, WrapDivider } from '../../components/styled/layout';
 import {
   ActiveButtonText,
   ActiveWhiteButtonText,
@@ -32,11 +19,7 @@ import RootPaddingBox2 from '../../components/RootPaddingBox2';
 
 const ShopNotification = observer(() => {
   const { t } = useTranslation();
-  const { loyaltyStore, userStore, pinStore } = useStores();
-
-  const [client, setClient] = useState(null);
-  const [address, setAddress] = useState('');
-
+  const { loyaltyStore, userStore, pinStore, secretStore } = useStores();
   const [shopName, setShopName] = useState('');
   const [shopId, setShopId] = useState('');
   const [taskId, setTaskId] = useState('');
@@ -47,10 +30,6 @@ const ShopNotification = observer(() => {
   useEffect(() => {
     async function fetchClient() {
       try {
-        const { client: client1, address } = await getClient();
-        setClient(client1);
-        setAddress(address);
-
         if (
           loyaltyStore.payment &&
           !isEmpty(loyaltyStore.payment) &&
@@ -68,7 +47,7 @@ const ShopNotification = observer(() => {
           }
           setHasPayment(true);
           setTaskId(loyaltyStore.payment.taskId);
-          await saveTaskInfo(client1, loyaltyStore.payment.taskId);
+          await saveTaskInfo(secretStore.client, loyaltyStore.payment.taskId);
         } else {
           setHasPayment(false);
         }
@@ -84,9 +63,6 @@ const ShopNotification = observer(() => {
 
   const saveTaskInfo = async (cc, tId) => {
     const task = await cc.shop.getTaskDetail(tId);
-    // alert('task data :' + JSON.stringify(task));
-    console.log('task info:', task);
-
     setShopId(task.shopId.toString());
     setShopName(task.name);
     setCurrency(task.currency);
@@ -100,8 +76,8 @@ const ShopNotification = observer(() => {
     }
     try {
       const steps = [];
-      const isUp = await client.ledger.isRelayUp();
-      for await (const step of client.shop.approveUpdate(
+      const isUp = await secretStore.client.ledger.isRelayUp();
+      for await (const step of secretStore.client.shop.approveUpdate(
         taskId,
         shopId,
         true,

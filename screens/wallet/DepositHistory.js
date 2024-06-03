@@ -4,7 +4,6 @@ import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import { Box, FlatList, HStack, Text, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
-import { getClient } from '../../utils/client';
 import { convertProperValue, timePadding } from '../../utils/convert';
 import { Amount, BOACoin, LedgerAction } from 'dms-sdk-client';
 import { BigNumber } from '@ethersproject/bignumber';
@@ -15,8 +14,6 @@ import { NumberText, Para3Text, ParaText } from '../../components/styled/text';
 const DepositHistory = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { secretStore, userStore } = useStores();
-  const [client, setClient] = useState();
-  const [address, setAddress] = useState('');
   const [historyData, setHistoryData] = useState([]);
   function timeConverter(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
@@ -57,24 +54,21 @@ const DepositHistory = observer(({ navigation }) => {
   console.log(timeConverter(0));
   useEffect(() => {
     const fetchHistory = async () => {
-      const { client: client1, address: userAddress } = await getClient();
-      console.log('>>>>>>> userAddress :', userAddress);
-      setClient(client1);
-      setAddress(userAddress);
-
-      const res = await client1.ledger.getDepositAndWithdrawHistory(userAddress, {
-        limit: 100,
-        skip: 0,
-        sortDirection: 'desc',
-        sortBy: 'blockNumber',
-      });
+      const res = await secretStore.client.ledger.getDepositAndWithdrawHistory(
+        secretStore.address,
+        {
+          limit: 100,
+          skip: 0,
+          sortDirection: 'desc',
+          sortBy: 'blockNumber',
+        },
+      );
 
       console.log('len :', res.userTradeHistories?.length);
       const tradeHistory = res.userTradeHistories
         .filter((it) => {
           return (
             it.action === LedgerAction.DEPOSITED ||
-
             it.action === LedgerAction.WITHDRAWN
           );
         })
@@ -83,48 +77,15 @@ const DepositHistory = observer(({ navigation }) => {
             id: it.id,
             action: it.action,
             actionName:
-             it.action === LedgerAction.WITHDRAWN
-                ? 'WITHDRAWN'
-                : 'DEPOSITED',
+              it.action === LedgerAction.WITHDRAWN ? 'WITHDRAWN' : 'DEPOSITED',
             loyaltyType: it.loyaltyType,
-            loyaltyTypeName:  'TOKEN',
+            loyaltyTypeName: 'TOKEN',
             amountPoint: it.amountPoint,
             amountToken: it.amountToken,
             amountValue: it.amountValue,
             blockTimestamp: it.blockTimestamp,
           };
         });
-      // const history = scheduledHistory.concat(tradeHistory);
-      // const history = [
-      //   {
-      //     action: 1,
-      //     actionName: 'SAVED',
-      //     amountPoint: '10000000000000',
-      //     blockTimestamp: '1710296615',
-      //     currency: 'krw',
-      //     id: '0x3312188d36afff93ee6b6784c1372be0bd37db34f94069b1f917e97904193b4901000000',
-      //     increase: '2500000000000',
-      //     loyaltyTypeName: 'POINT',
-      //   },
-      //   {
-      //     action: 1,
-      //     actionName: 'SAVED',
-      //     amountPoint: '7500000000000',
-      //     blockTimestamp: '1710296579',
-      //     currency: 'krw',
-      //     id: '0x4a0ac844d4f16bfbaa4fa0b01cf17bfa24581496f69c756ae2887ba9a51de19201000000',
-      //     increase: '7500000000000',
-      //     loyaltyTypeName: 'POINT',
-      //   },
-      // ];
-      // history.sort(function (a, b) {
-      //   // 오름차순
-      //   return a.blockTimestamp > b.blockTimestamp
-      //     ? -1
-      //     : a.blockTimestamp < b.blockTimestamp
-      //     ? 1
-      //     : 0;
-      // });
 
       console.log('history :', tradeHistory.slice(0, 3));
       setHistoryData(tradeHistory);

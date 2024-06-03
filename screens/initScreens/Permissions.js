@@ -1,4 +1,3 @@
-import { SafeAreaView } from 'react-native';
 import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
@@ -35,8 +34,6 @@ const Permissions = observer(({ navigation }) => {
   }, []);
 
   function checkPushToken() {
-    console.log('checkPushToken > permision count', userStore.permissionsCount);
-    console.log('checkPushToken >expoPushToken', userStore.expoPushToken);
     if (userStore.expoPushToken === '') return false;
     console.log('1');
     if (userStore.expoPushToken.length < 10) return false;
@@ -45,7 +42,6 @@ const Permissions = observer(({ navigation }) => {
     return true;
   }
   function agreePermissions() {
-    console.log('agreePermissions >');
     if (Device.isDevice) {
       if (true || checkPushToken()) {
         navigation.navigate('Term');

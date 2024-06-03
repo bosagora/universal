@@ -2,20 +2,10 @@ import { SafeAreaView } from 'react-native';
 import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  ButtonIcon,
-  ButtonText,
-  HStack,
-  Text,
-  VStack,
-} from '@gluestack-ui/themed';
-import { CheckIcon } from 'lucide-react-native';
+import { Box, HStack, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import '@ethersproject/shims';
 import { Amount, LoyaltyType, NormalSteps } from 'dms-sdk-client';
-import { getClient } from '../../utils/client';
 import {
   checkValidPeriod,
   convertProperValue,
@@ -23,11 +13,7 @@ import {
 } from '../../utils/convert';
 import * as Clipboard from 'expo-clipboard';
 import { useTranslation } from 'react-i18next';
-import {
-  WrapBase2,
-  WrapBox,
-  WrapDivider,
-} from '../../components/styled/layout';
+import { WrapBase2, WrapDivider } from '../../components/styled/layout';
 import {
   ActiveButtonText,
   ActiveWhiteButtonText,
@@ -35,16 +21,12 @@ import {
   RobotoSemiBoldText,
 } from '../../components/styled/text';
 import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
-import RootPaddingBox from '../../components/RootPaddingBox';
 import RootPaddingBox2 from '../../components/RootPaddingBox2';
 
 const MileageRedeemNotification = observer(({ navigation }) => {
   const { t } = useTranslation();
-  const { pinStore, loyaltyStore, userStore } = useStores();
+  const { pinStore, loyaltyStore, secretStore } = useStores();
   const [values, setValues] = useState(['T1', 'T2']);
-
-  const [client, setClient] = useState(null);
-  const [address, setAddress] = useState('');
 
   const [shopName, setShopName] = useState('');
   const [shopId, setShopId] = useState('');
@@ -59,10 +41,6 @@ const MileageRedeemNotification = observer(({ navigation }) => {
   useEffect(() => {
     async function fetchClient() {
       try {
-        const { client: client1, address } = await getClient();
-        setClient(client1);
-        setAddress(address);
-
         if (
           loyaltyStore.payment &&
           !isEmpty(loyaltyStore.payment) &&
@@ -80,7 +58,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
             // alert(t('wallet.expired.alert'));
           }
           setHasPayment(true);
-          await savePaymentInfo(client1, loyaltyStore.payment.id);
+          await savePaymentInfo(secretStore.client, loyaltyStore.payment.id);
         } else {
           setHasPayment(false);
         }
@@ -119,7 +97,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
 
       // return;
 
-      for await (const step of client.ledger.approveNewPayment(
+      for await (const step of secretStore.client.ledger.approveNewPayment(
         loyaltyStore.payment.id,
         purchaseId,
         amount.value,

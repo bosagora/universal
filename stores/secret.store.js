@@ -1,9 +1,11 @@
 import { makeAutoObservable } from 'mobx';
+import { getClient } from '../utils/client';
 
 class SecretStore {
   pKey = '';
   address = '';
   mnemonic = '';
+  client = null;
 
   showQRSheet = false;
   showTermSheet = false;
@@ -11,8 +13,12 @@ class SecretStore {
 
   constructor() {
     makeAutoObservable(this);
+    getClient().then((it) => {
+      this.client = it.client;
+      this.address = it.address;
+    });
   }
-  reset(){
+  reset() {
     this.pKey = '';
     this.address = '';
     this.mnemonic = '';
@@ -28,7 +34,9 @@ class SecretStore {
   setAddress = (address) => {
     this.address = address;
   };
-
+  setClient = (client) => {
+    this.client = client;
+  };
   setMnemonic = (mnemonic) => {
     this.mnemonic = mnemonic;
   };

@@ -1,4 +1,3 @@
-import { Platform, SafeAreaView } from 'react-native';
 import { trunk, useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
@@ -38,19 +37,13 @@ import {
   ModalHeader,
   CloseIcon,
 } from '@gluestack-ui/themed';
-import MobileHeader from '../../components/MobileHeader'; //for ethers.js
+import MobileHeader from '../../components/MobileHeader';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { getClient } from '../../utils/client';
 import * as Device from 'expo-device';
-import { ContractUtils, MobileType } from 'dms-sdk-client';
 import { AUTH_STATE } from '../../stores/user.store';
 import { useTranslation } from 'react-i18next';
 import ImportPrivateKey from '../../components/ImportPrivateKey';
-import {
-  WrapBase2,
-  WrapBox,
-  WrapDivider,
-} from '../../components/styled/layout';
+import { WrapBox } from '../../components/styled/layout';
 import {
   ActiveButtonText,
   ActiveWhiteButtonText,
@@ -74,48 +67,14 @@ const WalletManager = observer(({ navigation }) => {
   );
   const [showModal, setShowModal] = useState(false);
   const [showInitWalletModal, setShowInitWalletModal] = useState(false);
-  const [client, setClient] = useState();
-  const [address, setAddress] = useState('');
-
   const [fromOtherWallet, setFromOtherWallet] = useState(false);
   const [nextScreen, setNextScreen] = useState('none');
+
   useEffect(() => {
     const nc =
       process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? 'ShopReg' : 'PhoneAuth';
     setNextScreen(nc);
   }, []);
-  const fetchClient = async () => {
-    const { client: client1, address: userAddress } =
-      await getClient('walletManager');
-    setClient(client1);
-    setAddress(userAddress);
-
-    console.log('Secret fetch > client1 :', client1);
-    return client1;
-  };
-  // async function registerPushTokenWithClient(cc) {
-  //   console.log('registerPushTokenWithClient >>>>>>>> cc:', cc);
-  //   const token = userStore.expoPushToken;
-  //   console.log('token :', token);
-  //   const language = userStore.lang.toLowerCase();
-  //   const os = Platform.OS === 'android' ? 'android' : 'iOS';
-  //   try {
-  //     await cc.ledger.registerMobileToken(
-  //       token,
-  //       language,
-  //       os,
-  //       process.env.EXPO_PUBLIC_APP_KIND === 'shop'
-  //         ? MobileType.SHOP_APP
-  //         : MobileType.USER_APP,
-  //     );
-  //     return true;
-  //   } catch (e) {
-  //     await Clipboard.setStringAsync(JSON.stringify(e));
-  //     console.log('error : ', e);
-  //     alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
-  //     return false;
-  //   }
-  // }
 
   useEffect(() => {
     async function fetchKey() {
@@ -129,30 +88,13 @@ const WalletManager = observer(({ navigation }) => {
     setShowModal(true);
   }
 
-  // async function saveSecure(key) {
-  //   key = key.trim();
-  //   let wallet;
-  //   try {
-  //     wallet = new Wallet(key);
-  //   } catch (e) {
-  //     console.log('Invalid private key.');
-  //     alert(t('secret.alert.wallet.invalid'));
-  //     return;
-  //   }
-  //   secretStore.setAddress(wallet.address);
-  //   await saveSecureValue('address', wallet.address);
-  //   await saveSecureValue('privateKey', key);
-  // }
-
   async function saveKey(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
     let ret = false;
     try {
-      const cc = await fetchClient();
-
       if (Device.isDevice) {
         ret = await registerPushTokenWithClient(
-          cc,
+          secretStore.client,
           userStore,
           process.env.EXPO_PUBLIC_APP_KIND,
         );
@@ -177,7 +119,6 @@ const WalletManager = observer(({ navigation }) => {
   async function saveKeyForShop(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
     console.log('saveKeyForShop');
-    await fetchClient();
     userStore.setLoading(false);
     setFromOtherWallet(true);
   }
@@ -185,7 +126,7 @@ const WalletManager = observer(({ navigation }) => {
   async function afterSelectingShop() {
     if (Device.isDevice) {
       const ret = await registerPushTokenWithClient(
-        client,
+        secretStore.client,
         userStore,
         process.env.EXPO_PUBLIC_APP_KIND,
       );
@@ -206,7 +147,6 @@ const WalletManager = observer(({ navigation }) => {
     setShowInitWalletModal(true);
   }
   async function initAuth() {
-    console.log('initAuth');
     clearInterval(userStore.walletInterval);
     userStore.reset();
     pinStore.reset();
@@ -236,7 +176,7 @@ const WalletManager = observer(({ navigation }) => {
             saveKey={saveKeyForShop}
             fromOtherWallet={fromOtherWallet}
             afterSelectingShop={afterSelectingShop}
-            client={client}
+            client={secretStore.client}
           />
         ) : (
           <ImportPrivateKey saveKey={saveKey} />

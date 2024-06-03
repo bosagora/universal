@@ -1,16 +1,15 @@
 import { makeAutoObservable } from 'mobx';
-
+import { getClient } from '../utils/client';
 class LoyaltyStore {
   boa = {};
   kios = {};
   payment = {};
-
   lastUpdateTime = 1608854400;
 
   constructor() {
     makeAutoObservable(this);
   }
-  reset(){
+  reset() {
     this.boa = {};
     this.kios = {};
     this.payment = {};

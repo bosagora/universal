@@ -17,24 +17,18 @@ import {
   ToastDescription,
   useToast,
 } from '@gluestack-ui/themed';
-import { getClient } from '../../utils/client';
-import { Amount, BOACoin, ContractUtils } from 'dms-sdk-client';
+import { BOACoin } from 'dms-sdk-client';
 import { convertProperValue, truncateMiddleString } from '../../utils/convert';
-import { SafeAreaView, ScrollView, Dimensions, StyleSheet } from 'react-native';
+import { ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { WrapBox, WrapDivider } from '../../components/styled/layout';
+import { WrapBox } from '../../components/styled/layout';
 import {
   ActiveButtonText,
   ActiveWhiteButtonText,
-  AppleSDGothicNeoBText,
-  AppleSDGothicNeoEBText,
   AppleSDGothicNeoSBText,
   HeaderText,
-  NumberText,
   Para2Text,
-  Para3Text,
   ParaText,
-  PinButtonText,
   RobotoMediumText,
   SubHeaderText,
 } from '../../components/styled/text';
@@ -44,15 +38,13 @@ import {
   WrapWhiteButton,
 } from '../../components/styled/button';
 import * as Clipboard from 'expo-clipboard';
-// import Carousel from 'react-native-reanimated-carousel';
-// import PagerView from 'react-native-pager-view';
 import Carousel from 'react-native-snap-carousel';
+
 const UserWallet = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { secretStore, userStore, loyaltyStore } = useStores();
   const [showModal, setShowModal] = useState(false);
-  const [client, setClient] = useState();
-  const [address, setAddress] = useState('');
+
   const [payablePoint, setPayablePoint] = useState(new BOACoin(0));
   const [payablePointRate, setPayablePointRate] = useState(new BOACoin(0));
   const [onePointRate, setOnePointRate] = useState(new BOACoin(0));
@@ -71,7 +63,7 @@ const UserWallet = observer(({ navigation }) => {
   const toast = useToast();
 
   useEffect(() => {
-    console.log('================= userStore', userStore);
+    console.log('================= UserWallet > userStore', userStore);
 
     fetchClient()
       .then(() =>
@@ -92,68 +84,69 @@ const UserWallet = observer(({ navigation }) => {
   }, []);
   async function fetchClient() {
     try {
-      const { client: client1, address: userAddress } =
-        await getClient('wallet');
-      setClient(client1);
-      setAddress(userAddress);
-
-      await setData(client1, userAddress);
-      await fetchBalances(client1, userAddress);
+      await setData();
+      await fetchBalances();
     } catch (e) {
       console.log('ee :', e);
     }
   }
-
-  async function fetchBalances(cc, userAddress) {
+  async function fetchBalances() {
     if (userStore.walletInterval > 0) clearInterval(userStore.walletInterval);
 
     const id = setInterval(async () => {
       try {
-        await setData(cc, userAddress);
+        await setData();
       } catch (e) {
-        console.log('setData > e:', e);
+        console.log('setData > e1:', e);
       }
     }, 5000);
     userStore.setWalletInterval(id);
   }
 
-  async function setData(cc, userAddress) {
+  async function setData() {
     try {
       const phone = userStore.phone;
       setPhone(phone);
-      // console.log('user phone :', phone);
 
-      const loyaltyType = await cc.ledger.getLoyaltyType(userAddress);
+      const loyaltyType = await secretStore.client.ledger.getLoyaltyType(
+        secretStore.address,
+      );
       setUserLoyaltyType(loyaltyType);
       // console.log('userLoyaltyType :', loyaltyType);
 
-      const tokenBalance = await cc.ledger.getTokenBalance(userAddress);
+      const tokenBalance = await secretStore.client.ledger.getTokenBalance(
+        secretStore.address,
+      );
       // console.log('tokenBalance :', tokenBalance.toString());
       const tokenBalConv = new BOACoin(tokenBalance);
       // console.log('tokenBalConv :', tokenBalConv.toBOAString());
       setUserTokenBalance(tokenBalConv);
 
       const tokenMainnetBalance =
-        await cc.ledger.getMainChainBalance(userAddress);
+        await secretStore.client.ledger.getMainChainBalance(
+          secretStore.address,
+        );
       // console.log('tokenBalance :', tokenBalance.toString());
       const tokenMainnetBalConv = new BOACoin(tokenMainnetBalance);
       // console.log('tokenMainnetBalConv :', tokenMainnetBalConv.toBOAString());
       setUserTokenMainnetBalance(tokenMainnetBalConv);
 
       // const tokenAmount = Amount.make(tokenBalance, 18).value;
-      let userTokenCurrencyRate = await cc.currency.tokenToCurrency(
-        tokenBalance,
-        userStore.currency.toLowerCase(),
-      );
+      let userTokenCurrencyRate =
+        await secretStore.client.currency.tokenToCurrency(
+          tokenBalance,
+          userStore.currency.toLowerCase(),
+        );
 
       const userTokenCurrencyConv = new BOACoin(userTokenCurrencyRate);
       // console.log('userTokenCurrencyConv :', userTokenCurrencyConv.toBOAString());
       setUserTokenRate(userTokenCurrencyConv);
 
-      let userTokenMainnetCurrencyRate = await cc.currency.tokenToCurrency(
-        tokenMainnetBalance,
-        userStore.currency.toLowerCase(),
-      );
+      let userTokenMainnetCurrencyRate =
+        await secretStore.client.currency.tokenToCurrency(
+          tokenMainnetBalance,
+          userStore.currency.toLowerCase(),
+        );
 
       const userTokenCurrencyMainnetConv = new BOACoin(
         userTokenMainnetCurrencyRate,
@@ -162,22 +155,25 @@ const UserWallet = observer(({ navigation }) => {
       setUserTokenMainnetRate(userTokenCurrencyMainnetConv);
 
       const oneTokenAmount = BOACoin.make(1, 18).value;
-      let oneTokenCurrencyRate = await cc.currency.tokenToCurrency(
-        oneTokenAmount,
-        userStore.currency.toLowerCase(),
-      );
+      let oneTokenCurrencyRate =
+        await secretStore.client.currency.tokenToCurrency(
+          oneTokenAmount,
+          userStore.currency.toLowerCase(),
+        );
 
       // console.log('oneTokenCurrencyRate :', oneTokenCurrencyRate.toString());
       const oneTokenConv = new BOACoin(oneTokenCurrencyRate);
       // console.log('boaBal :', boaConv.toBOAString());
       setOneTokenRate(oneTokenConv);
 
-      const userPoint = await cc.ledger.getPointBalance(userAddress);
+      const userPoint = await secretStore.client.ledger.getPointBalance(
+        secretStore.address,
+      );
       const payableConv = new BOACoin(userPoint);
       // console.log('payableConv :', payableConv.toBOAString());
       setPayablePoint(payableConv);
 
-      let pointCurrencyRate = await cc.currency.pointToCurrency(
+      let pointCurrencyRate = await secretStore.client.currency.pointToCurrency(
         userPoint,
         userStore.currency,
       );
@@ -186,20 +182,20 @@ const UserWallet = observer(({ navigation }) => {
       setPayablePointRate(pointRateConv);
 
       const onePointAmount = BOACoin.make(1, 18).value;
-      let onePointCurrencyRate = await cc.currency.pointToCurrency(
-        onePointAmount,
-        userStore.currency.toLowerCase(),
-      );
+      let onePointCurrencyRate =
+        await secretStore.client.currency.pointToCurrency(
+          onePointAmount,
+          userStore.currency.toLowerCase(),
+        );
       const onePointConv = new BOACoin(onePointCurrencyRate);
       // console.log('onePointConv :', onePointConv.toBOAString());
       setOnePointRate(onePointConv);
     } catch (e) {
-      console.log('setdata > e:', e);
+      console.log('setdata > e2:', e);
     }
   }
 
   const handleQRSheet = async () => {
-    // await fetchPoints();
     secretStore.setShowQRSheet(!secretStore.showQRSheet);
     console.log('handle QR sheet : ', secretStore.showQRSheet);
   };
@@ -213,7 +209,7 @@ const UserWallet = observer(({ navigation }) => {
     console.log('confirm to token');
     let steps = [];
     try {
-      for await (const step of client.ledger.changeToLoyaltyToken()) {
+      for await (const step of secretStore.client.ledger.changeToLoyaltyToken()) {
         steps.push(step);
         console.log('confirm to token step :', step);
       }
@@ -233,14 +229,12 @@ const UserWallet = observer(({ navigation }) => {
   };
 
   const goToDeposit = (tp) => {
-    console.log('goToDeposit >>');
     if (tp === 'deposit') {
       userStore.setIsDeposit(true);
     } else userStore.setIsDeposit(false);
     navigation.navigate('Deposit');
   };
   const goToTransfer = (tp) => {
-    console.log('goToTransfer >>');
     if (tp === 'mainChainTransfer') {
       userStore.setIsMainChainTransfer(true);
     } else userStore.setIsMainChainTransfer(false);
@@ -258,7 +252,7 @@ const UserWallet = observer(({ navigation }) => {
           w={138}
           variant='link'
           onPress={async () => {
-            await Clipboard.setStringAsync(address);
+            await Clipboard.setStringAsync(secretStore.address);
 
             toast.show({
               placement: 'top',
@@ -278,7 +272,7 @@ const UserWallet = observer(({ navigation }) => {
             });
           }}>
           <ParaText style={{ color: '#fff' }}>
-            {truncateMiddleString(address || '', 8)}
+            {truncateMiddleString(secretStore.address || '', 8)}
           </ParaText>
           <Image
             ml={9}

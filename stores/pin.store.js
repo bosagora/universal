@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 class PinStore {
   mode = '';
-  code = '';
+  code = '1111';
   visible = false;
   nextScreen = '';
   needPinCode = false;

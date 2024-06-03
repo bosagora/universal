@@ -1,4 +1,3 @@
-import { Platform, SafeAreaView } from 'react-native';
 import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
@@ -6,13 +5,12 @@ import 'react-native-get-random-values';
 import '@ethersproject/shims';
 import { saveSecure, saveSecureValue } from '../../utils/secure.store';
 import ImportShopPrivateKey from '../../components/ImportShopPrivateKey';
-import { Box, ButtonText, Button, VStack } from '@gluestack-ui/themed';
+import { Box, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import { Wallet } from 'ethers';
 import * as Device from 'expo-device';
 import { getClient } from '../../utils/client';
 import { AUTH_STATE } from '../../stores/user.store';
-import { MobileType } from 'dms-sdk-client';
 import { useTranslation } from 'react-i18next';
 import ImportPrivateKey from '../../components/ImportPrivateKey';
 import { registerPushTokenWithClient } from '../../utils/push.token';
@@ -23,8 +21,6 @@ import { ActiveButtonText } from '../../components/styled/text';
 const Secret = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { userStore, secretStore } = useStores();
-  const [client, setClient] = useState();
-  const [walletAddress, setWalletAddress] = useState('');
   const [fromOtherWallet, setFromOtherWallet] = useState(false);
   const [nextScreen, setNextScreen] = useState('none');
 
@@ -33,16 +29,12 @@ const Secret = observer(({ navigation }) => {
       process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? 'ShopReg' : 'PhoneAuth';
     setNextScreen(nc);
   }, []);
-  const fetchClient = async () => {
-    const { client: client1, address: userAddress } = await getClient('secret');
-    console.log('>>>>>>> userAddress :', userAddress);
-    setClient(client1);
-    setWalletAddress(userAddress);
 
-    console.log('Secret fetch > client1 :', client1);
-    return client1;
-  };
-
+  async function setClient() {
+    const { client, address } = await getClient('secret');
+    secretStore.setClient(client);
+    secretStore.setAddress(address);
+  }
   async function createWallet() {
     const wallet = Wallet.createRandom();
 
@@ -54,12 +46,11 @@ const Secret = observer(({ navigation }) => {
     await saveSecureValue('address', wallet.address);
     await saveSecureValue('mnemonic', JSON.stringify(wallet.mnemonic));
     await saveSecureValue('privateKey', wallet.privateKey);
-    // setIsLoading(false);
 
-    const cc = await fetchClient();
+    await setClient();
     if (Device.isDevice) {
       await registerPushTokenWithClient(
-        cc,
+        secretStore.client,
         userStore,
         process.env.EXPO_PUBLIC_APP_KIND,
       );
@@ -77,59 +68,20 @@ const Secret = observer(({ navigation }) => {
     }, 100);
   }
 
-  // async function registerPushTokenWithClient(cc) {
-  //   console.log('registerPushTokenWithClient >>>>>>>> cc:', cc);
-  //   if (
-  //     userStore.expoPushToken === '' ||
-  //     userStore.enableNotification === false
-  //   ) {
-  //     userStore.setRegisteredPushToken(false);
-  //     return;
-  //   }
-  //
-  //   const token = userStore.expoPushToken;
-  //   const language = userStore.lang.toLowerCase();
-  //   const os = Platform.OS === 'android' ? 'android' : 'iOS';
-  //   try {
-  //     await cc.ledger.registerMobileToken(
-  //       token,
-  //       language,
-  //       os,
-  //       nextScreen === 'ShopReg' ? MobileType.SHOP_APP : MobileType.USER_APP,
-  //     );
-  //     userStore.setRegisteredPushToken(true);
-  //   } catch (e) {
-  //     await Clipboard.setStringAsync(JSON.stringify(e));
-  //     console.log('error : ', e);
-  //     alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
-  //   }
-  // }
   function resetPinCode() {
     userStore.setLoading(false);
     alert(t('secret.alert.wallet.done'));
     navigation.navigate(nextScreen);
   }
-  // async function saveSecure(key) {
-  //   key = key.trim();
-  //   let wallet;
-  //   try {
-  //     wallet = new Wallet(key);
-  //   } catch (e) {
-  //     console.log('Invalid private key.');
-  //     alert(t('secret.alert.wallet.invalid'));
-  //     return;
-  //   }
-  //   secretStore.setAddress(wallet.address);
-  //   await saveSecureValue('address', wallet.address);
-  //   await saveSecureValue('privateKey', key);
-  // }
+
   async function saveKey(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
 
-    const cc = await fetchClient();
+    await setClient();
+
     if (Device.isDevice) {
       await registerPushTokenWithClient(
-        cc,
+        secretStore.client,
         userStore,
         process.env.EXPO_PUBLIC_APP_KIND,
       );
@@ -143,7 +95,8 @@ const Secret = observer(({ navigation }) => {
   async function saveKeyForShop(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
 
-    await fetchClient();
+    await setClient();
+
     userStore.setLoading(false);
     setFromOtherWallet(true);
   }
@@ -151,7 +104,7 @@ const Secret = observer(({ navigation }) => {
   async function afterSelectingShop() {
     if (Device.isDevice) {
       await registerPushTokenWithClient(
-        client,
+        secretStore.client,
         userStore,
         process.env.EXPO_PUBLIC_APP_KIND,
       );
@@ -179,7 +132,7 @@ const Secret = observer(({ navigation }) => {
             saveKey={saveKeyForShop}
             fromOtherWallet={fromOtherWallet}
             afterSelectingShop={afterSelectingShop}
-            client={client}
+            client={secretStore.client}
           />
         ) : (
           <ImportPrivateKey saveKey={saveKey} />

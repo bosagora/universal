@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { PinCode, PinCodeT } from 'react-native-pincode-bosagora-ys';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Button, StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useStores } from '../stores';
 import { observer } from 'mobx-react';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { useNavigation } from 'expo-router';
 import * as RootNavigation from '../utils/root.navigation';
 import { useTranslation } from 'react-i18next';
 
@@ -91,9 +90,6 @@ const PinCodeScreen = observer(() => {
   };
 
   useEffect(() => {
-    console.log('PinCodeScreen > useEffect : ', pinStore);
-    // 앱 초기 등록 화면이 아니고
-    // 핀 코드 화면이 활성 상태 이고
     if (userStore.state === 'DONE' && pinStore.visible) checkBiometrics();
   }, [pinStore.visible]);
 
@@ -120,7 +116,6 @@ const PinCodeScreen = observer(() => {
     const result = await LocalAuthentication.authenticateAsync({
       promptMessage: 'Authenticate with biometrics',
     });
-    console.log('bio ret :', result);
     if (result.success) {
       // Biometric authentication successful
       console.log('Biometric authentication successful');

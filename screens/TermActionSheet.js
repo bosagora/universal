@@ -1,53 +1,26 @@
-import React, { useEffect, useState } from 'react';
-
-import { styled } from '@gluestack-style/react';
+import React from 'react';
 import {
-  AddIcon,
   Box,
-  Button,
-  ButtonIcon,
   VStack,
-  Heading,
-  ButtonText,
   Actionsheet,
   ActionsheetBackdrop,
   ActionsheetDragIndicatorWrapper,
   ActionsheetDragIndicator,
   HStack,
   ActionsheetContent,
-  FormControl,
-  FormControlLabel,
-  FormControlLabelText,
-  Input,
-  InputSlot,
-  InputIcon,
-  InputField,
-  Image,
   Text,
 } from '@gluestack-ui/themed';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { getSecureValue } from '../utils/secure.store';
-import QRCode from 'react-native-qrcode-svg';
 import { useStores } from '../stores';
 import { observer } from 'mobx-react';
-import * as Clipboard from 'expo-clipboard';
-import { truncateMiddleString } from '../utils/convert';
 import { useTranslation } from 'react-i18next';
 import { WrapButton } from '../components/styled/button';
 import { ActiveButtonText } from '../components/styled/text';
 
-// export default function QRActionSheet() {
 const TermActionSheet = observer(() => {
   const { t } = useTranslation();
   const { secretStore } = useStores();
-  const [walletAddress, SetWalletAddress] = useState('');
-  useEffect(() => {
-    async function fetchWalletAddress() {
-      const address = await getSecureValue('address');
-      SetWalletAddress(address);
-    }
-    fetchWalletAddress();
-  }, [secretStore.address]);
+
   const handleClose = () =>
     secretStore.setShowTermSheet(!secretStore.showTermSheet);
   return (

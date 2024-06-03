@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-  ButtonText,
   FormControl,
   FormControlLabel,
-  FormControlLabelText,
-  Heading,
   Input,
   InputField,
   Modal,
@@ -13,10 +10,7 @@ import {
   ModalContent,
   VStack,
   Text,
-  Button,
   FormControlHelper,
-  FormControlHelperText,
-  ButtonGroup,
   Box,
   Select,
   SelectTrigger,
@@ -34,7 +28,7 @@ import {
 import { ChevronDownIcon } from 'lucide-react-native';
 import { useStores } from '../stores';
 import { observer } from 'mobx-react';
-import { truncateMiddleString, truncateString } from '../utils/convert';
+import { truncateMiddleString } from '../utils/convert';
 import { useTranslation } from 'react-i18next';
 import {
   ActiveButtonText,
@@ -53,12 +47,10 @@ const ImportShopPrivateKey = observer(
     const [shopIds, setShopIds] = useState([]);
     const [selectedShopId, setSelectedShopId] = useState([]);
     useEffect(() => {
-      console.log('get shop list');
       async function getList() {
         const length = await client.shop.getShopsCount();
         if (length > 0) {
           const shopList = await client.shop.getShops(0, length.toNumber());
-          console.log('shopList :', shopList);
           setShopIds(shopList);
           await saveShopInfo(shopList[0]);
         } else {
@@ -70,30 +62,18 @@ const ImportShopPrivateKey = observer(
 
     const { userStore } = useStores();
     const onPressShop = async (id) => {
-      console.log('onPressCurrency > shopId:', id);
       await saveShopInfo(id);
     };
 
     const saveShopInfo = async (id) => {
-      // get shop info
       setSelectedShopId(id);
       const info = await client.shop.getShopInfo(id);
-      console.log('shop info : ', info);
-      console.log('shop info.currency : ', info.currency);
-      // const deviceLocales = getLocales()[0];
-      // console.log('deviceLocales :', deviceLocales);
       userStore.setShopId(info.shopId);
       userStore.setShopName(info.name);
-      // userStore.setLang(deviceLocales.languageCode.toLowerCase());
       userStore.setCurrency(info.currency);
-      // userStore.setLangTag(deviceLocales.languageTag);
-      // userStore.setCountryPhoneCode(
-      //   deviceLocales.regionCode == 'KR' ? '82' : '82',
-      // );
     };
 
     const onPressSelectShop = async () => {
-      // save selcted shop info to userStore
       await afterSelectingShop();
     };
 

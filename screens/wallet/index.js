@@ -65,8 +65,7 @@ import {
 const Index = observer(({ navigation }) => {
   const { noteStore, secretStore, userStore, loyaltyStore } = useStores();
   const [showModal, setShowModal] = useState(false);
-  const [client, setClient] = useState();
-  const [address, setAddress] = useState('');
+
   const [modalHeader, setModalHeader] = useState('');
   const [modalContent, setModalContent] = useState('');
   const [adjustmentMode, setAdjustmentMode] = useState('');
@@ -115,36 +114,31 @@ const Index = observer(({ navigation }) => {
   }, []);
 
   async function fetchClient() {
-    console.log('Wallet > fetchClient', 'userStore', userStore);
-    const { client: client1, address: userAddress } = await getClient('wallet');
-    console.log('>>>>>>> userAddress :', userAddress);
-    setClient(client1);
-    setAddress(userAddress);
-
-    await setData(client1);
-    await fetchBalances(client1);
+    await setData();
+    await fetchBalances();
   }
   async function fetchBalances(cc, userAddress) {
     if (userStore.walletInterval > 0) clearInterval(userStore.walletInterval);
 
     const id = setInterval(async () => {
       try {
-        await setData(cc, userAddress);
+        await setData();
       } catch (e) {
-        console.log('setData > e:', e);
+        console.log('setData > e3:', e);
       }
     }, 5000);
     userStore.setWalletInterval(id);
   }
-
-  async function setData(c) {
+  async function setData() {
     const pkey = await getSecureValue('privateKey');
     if (pkey !== privateKey) {
-      await c.useSigner(new Wallet(pkey));
+      await secretStore.client.useSigner(new Wallet(pkey));
       setPrivateKey(pkey);
     }
 
-    const shopInfo = await c.shop.getShopInfo(userStore.shopId);
+    const shopInfo = await secretStore.client.shop.getShopInfo(
+      userStore.shopId,
+    );
     // console.log('shopInfo :', shopInfo);
     setAdjustmentStatus(shopInfo.withdrawStatus);
 
@@ -154,7 +148,7 @@ const Index = observer(({ navigation }) => {
     const convWithdrawnAmount = new Amount(shopInfo.withdrawnAmount, 18);
     const withdrawableAmountTmp =
       shopInfo.withdrawStatus === 0
-        ? await c.shop.getWithdrawableAmount(userStore.shopId)
+        ? await secretStore.client.shop.getWithdrawableAmount(userStore.shopId)
         : new Amount(0, 18).value;
     const convWithdrawableAmount = new Amount(withdrawableAmountTmp, 18);
 
@@ -163,16 +157,6 @@ const Index = observer(({ navigation }) => {
     setWithdrawAmount(convWithdrawAmount);
     setWithdrawnAmount(convWithdrawnAmount);
     setWithdrawableAmount(convWithdrawableAmount);
-    // console.log('provided Amount:', convProvidedAmount.toBOAString());
-    // console.log('used Amount:', convProvidedAmount.toBOAString());
-    // console.log('withdraw Amount:', convWithdrawAmount.toBOAString());
-    // console.log('withdrawn Amount:', convWithdrawnAmount.toBOAString());
-    // console.log('withdrawable Amount:', convWithdrawableAmount.toBOAString());
-    // console.log('wAdjustmentStatus :', adjustmentStatus);
-    // console.log(
-    //   ' withdrawableAmount.value.gt(BigNumber.from(0)) :',
-    //   withdrawableAmount.value.gt(BigNumber.from(0)),
-    // );
   }
   const handleQRSheet = async () => {
     // await fetchPoints();
@@ -193,7 +177,7 @@ const Index = observer(({ navigation }) => {
     const steps = [];
     if (adjustmentMode === 'request') {
       try {
-        for await (const step of client.shop.openWithdrawal(
+        for await (const step of secretStore.client.shop.openWithdrawal(
           userStore.shopId,
           withdrawableAmount.value,
         )) {
@@ -212,7 +196,7 @@ const Index = observer(({ navigation }) => {
       }
     } else if (adjustmentMode === 'complete') {
       try {
-        for await (const step of client.shop.closeWithdrawal(
+        for await (const step of secretStore.client.shop.closeWithdrawal(
           userStore.shopId,
         )) {
           steps.push(step);
@@ -257,7 +241,7 @@ const Index = observer(({ navigation }) => {
           w={138}
           variant='link'
           onPress={async () => {
-            await Clipboard.setStringAsync(address);
+            await Clipboard.setStringAsync(secretStore.address);
 
             toast.show({
               placement: 'top',
@@ -277,7 +261,7 @@ const Index = observer(({ navigation }) => {
             });
           }}>
           <ParaText style={{ color: '#fff' }}>
-            {truncateMiddleString(address || '', 8)}
+            {truncateMiddleString(secretStore.address || '', 8)}
           </ParaText>
           {/*<ButtonIcon as={CopyIcon} ml={5} />*/}
           <Image
