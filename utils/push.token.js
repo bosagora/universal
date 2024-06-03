@@ -25,7 +25,6 @@ export async function registerPushTokenWithClient(cc, userStore, appKind) {
   } catch (e) {
     await Clipboard.setStringAsync(JSON.stringify(e));
     console.log('error : ', e);
-    // alert(t('secret.alert.push.fail') + JSON.stringify(e.message));
     return false;
   }
 }

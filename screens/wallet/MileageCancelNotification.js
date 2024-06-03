@@ -71,7 +71,7 @@ const MileageCancelNotification = observer(() => {
         // alert('shop notificaiton error :' + JSON.stringify(e));
       }
     }
-    fetchClient().then(() => console.log('end of fetchClient'));
+    fetchClient().then();
   }, [loyaltyStore.payment]);
   const saveShopInfo = async (cc, shopId) => {
     // get shop info

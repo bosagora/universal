@@ -30,11 +30,6 @@ const Secret = observer(({ navigation }) => {
     setNextScreen(nc);
   }, []);
 
-  async function setClient() {
-    const { client, address } = await getClient('secret');
-    secretStore.setClient(client);
-    secretStore.setAddress(address);
-  }
   async function createWallet() {
     const wallet = Wallet.createRandom();
 
@@ -42,12 +37,12 @@ const Secret = observer(({ navigation }) => {
     console.log('mnemonic :', wallet.mnemonic);
     console.log('privateKey :', wallet.privateKey);
 
-    secretStore.setAddress(wallet.address);
     await saveSecureValue('address', wallet.address);
     await saveSecureValue('mnemonic', JSON.stringify(wallet.mnemonic));
     await saveSecureValue('privateKey', wallet.privateKey);
 
-    await setClient();
+    secretStore.setClient();
+
     if (Device.isDevice) {
       await registerPushTokenWithClient(
         secretStore.client,
@@ -77,8 +72,6 @@ const Secret = observer(({ navigation }) => {
   async function saveKey(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
 
-    await setClient();
-
     if (Device.isDevice) {
       await registerPushTokenWithClient(
         secretStore.client,
@@ -94,8 +87,6 @@ const Secret = observer(({ navigation }) => {
 
   async function saveKeyForShop(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
-
-    await setClient();
 
     userStore.setLoading(false);
     setFromOtherWallet(true);

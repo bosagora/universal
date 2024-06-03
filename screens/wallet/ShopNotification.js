@@ -55,9 +55,8 @@ const ShopNotification = observer(() => {
         console.log('shop notificaiton error :' + JSON.stringify(e));
       }
     }
-    fetchClient().then(() => console.log('end of fetchClient'));
+    fetchClient().then();
 
-    console.log('loyaltyStore :', loyaltyStore);
     // initiateTimer();
   }, [loyaltyStore.payment]);
 

@@ -31,4 +31,5 @@ export async function saveSecure(key, secretStore, invalid) {
   secretStore.setAddress(wallet.address);
   await saveSecureValue('address', wallet.address);
   await saveSecureValue('privateKey', key);
+  secretStore.setClient();
 }
