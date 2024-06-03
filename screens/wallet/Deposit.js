@@ -1,33 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native';
 import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import {
   Box,
-  FlatList,
   FormControl,
-  FormControlLabel,
-  FormControlLabelText,
   HStack,
-  Image,
   Input,
   InputField,
-  Text,
   VStack,
 } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
-import { getClient } from '../../utils/client';
-import { convertProperValue, timePadding } from '../../utils/convert';
-import { Amount, BOACoin, LedgerAction, NormalSteps } from 'dms-sdk-client';
-import { BigNumber } from '@ethersproject/bignumber';
+import { convertProperValue } from '../../utils/convert';
+import { Amount, BOACoin, NormalSteps } from 'dms-sdk-client';
 import { useTranslation } from 'react-i18next';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
 import {
   ActiveButtonText,
   AppleSDGothicNeoSBText,
-  NumberText,
   Para2Text,
-  Para3Text,
   ParaText,
   RobotoMediumText,
   RobotoRegularText,
@@ -36,9 +26,9 @@ import {
 import DepositTabs from '../../components/DepositTab';
 import { MaterialIcons } from '@expo/vector-icons';
 import { WrapButton, WrapHistoryButton } from '../../components/styled/button';
-import { useFormik, useFormikContext } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Svg, { WithLocalSvg } from 'react-native-svg';
+import { WithLocalSvg } from 'react-native-svg';
 
 import bs from '../../assets/images/bosagora.svg';
 import * as Clipboard from 'expo-clipboard';
@@ -61,8 +51,6 @@ const registerSchema = yup.object().shape({
 const Deposit = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { secretStore, userStore } = useStores();
-  const [client, setClient] = useState();
-  const [address, setAddress] = useState('');
   const [balanceMainChain, setBalanceMainChain] = useState(new BOACoin(0));
   const [balanceSideChain, setBalanceSideChain] = useState(new BOACoin(0));
   const [sideChainFee, setSideChainFee] = useState(new BOACoin(0));
@@ -71,18 +59,16 @@ const Deposit = observer(({ navigation }) => {
   const [receiveAmount, setReceiveAmount] = useState(0);
   useEffect(() => {
     const fetchHistory = async () => {
-      const { client: client1, address: userAddress } = await getClient();
-      console.log('>>>>>>> userAddress :', userAddress);
-      setClient(client1);
-      setAddress(userAddress);
       const newBalanceMainChain =
-        await secretStore.client.ledger.getMainChainBalance(userAddress);
+        await secretStore.client.ledger.getMainChainBalance(
+          secretStore.address,
+        );
       console.log('mainChain balance :', newBalanceMainChain);
       const balanceMainChainConv = new BOACoin(newBalanceMainChain);
       setBalanceMainChain(balanceMainChainConv);
 
       const newBalanceSideChain =
-        await secretStore.client.ledger.getTokenBalance(userAddress);
+        await secretStore.client.ledger.getTokenBalance(secretStore.address);
       console.log('sideChain balance :', newBalanceSideChain);
       const balanceSideChainConv = new BOACoin(newBalanceSideChain);
       setBalanceSideChain(balanceSideChainConv);
