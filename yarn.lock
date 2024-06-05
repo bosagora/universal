@@ -4882,12 +4882,42 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
+dms-contracts-lib-v2@~2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/dms-contracts-lib-v2/-/dms-contracts-lib-v2-2.0.2.tgz#8d39235c86bb6107c6ff6b615694e87bd111916b"
+  integrity sha512-R8KBjcEyrYdN/xonPTJ25xQZTPM6mSsnKXgssCXCF1vKm0QLMvCd+iQXCPE/WhzvORxLKUfMfSTOMKVK1zzpyQ==
+  dependencies:
+    ethers "5.7.0"
+
 dms-osx-lib@2.14.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/dms-osx-lib/-/dms-osx-lib-2.14.0.tgz#2d821034115f5309e8ee130b707639fcec462775"
   integrity sha512-Mxh7eM2LrAIlqafGHuDoKQTKk2WsRH5DD4Rr0l1NIBmxNjBwGCbucdj9l1Hw65uPqGfupopi1c5Xk1X7cOHQxw==
   dependencies:
     ethers "5.7.0"
+
+dms-sdk-client-v2@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dms-sdk-client-v2/-/dms-sdk-client-v2-2.0.0.tgz#4b519845ee17d55f117a9345c6b199ea57d81e66"
+  integrity sha512-bG1cZjksP3s5KgifLqXskjgX4539RGNK4vWlB6jFxBQgoO9CVjyZpcMM/UNZSkSQKMcLsIh+GMAY3LQRjNu7AA==
+  dependencies:
+    "@ethersproject/abi" "^5.7.0"
+    "@ethersproject/abstract-signer" "^5.7.0"
+    "@ethersproject/bignumber" "^5.7.0"
+    "@ethersproject/bytes" "^5.7.0"
+    "@ethersproject/constants" "^5.7.0"
+    "@ethersproject/contracts" "^5.7.0"
+    "@ethersproject/hash" "^5.7.0"
+    "@ethersproject/keccak256" "^5.7.0"
+    "@ethersproject/networks" "^5.7.0"
+    "@ethersproject/providers" "^5.7.0"
+    "@ethersproject/random" "^5.7.0"
+    "@ethersproject/wallet" "^5.7.0"
+    dms-contracts-lib-v2 "~2.0.2"
+    dms-sdk-common-v2 "~2.0.0"
+    graphql "^16.5.0"
+    graphql-request "^4.3.0"
+    unfetch "^5.0.0"
 
 dms-sdk-client@^2.12.3:
   version "2.12.3"
@@ -4912,6 +4942,13 @@ dms-sdk-client@^2.12.3:
     graphql "^16.5.0"
     graphql-request "^4.3.0"
     unfetch "^5.0.0"
+
+dms-sdk-common-v2@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dms-sdk-common-v2/-/dms-sdk-common-v2-2.0.0.tgz#1f69157d20cd6c3fbff946e63a6269ffbf8a1ce0"
+  integrity sha512-2KuwshYH3H4to2M7VR58I8E15cU+Gfv+cpCBvYse+y8KRq+6DuySWQjXTzN8pdjePxdQUvaeFM9Cwnzsv1zvYw==
+  dependencies:
+    ethers "^5.7.0"
 
 dms-sdk-common@^1.1.0:
   version "1.1.0"
