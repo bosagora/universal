@@ -76,6 +76,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import DepositHistory from '../screens/wallet/DepositHistory';
 import Deposit from '../screens/wallet/Deposit';
 import Transfer from '../screens/wallet/Transfer';
+import TransferMainChainHistory from '../screens/wallet/TransferMainChainHistory';
 
 const InitStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -459,6 +460,13 @@ function MainStackScreen(userStore) {
         <MainStack.Screen
           name='MileageHistory'
           component={MileageHistory}
+          options={{
+            title: '',
+          }}
+        />
+        <MainStack.Screen
+          name='TransferMainChainHistory'
+          component={TransferMainChainHistory}
           options={{
             title: '',
           }}
