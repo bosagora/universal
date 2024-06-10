@@ -30,7 +30,7 @@ import {
   BOACoin,
   ContractUtils,
   ShopWithdrawStatus,
-} from 'dms-sdk-client';
+} from 'dms-sdk-client-v2';
 import {
   convertShopProperValue,
   truncateMiddleString,

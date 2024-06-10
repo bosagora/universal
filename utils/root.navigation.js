@@ -4,8 +4,8 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 export const navigationRef = createNavigationContainerRef();
 
 export function navigate(name, params) {
-  console.log('root navigate');
-  if (navigationRef.isReady()) {
+  console.log('root navigate > ', name);
+  if (navigationRef.isReady() && name) {
     // Perform navigation if the react navigation is ready to handle actions
     navigationRef.navigate(name, params);
   } else {

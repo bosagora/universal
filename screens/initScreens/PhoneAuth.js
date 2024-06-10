@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { AUTH_STATE } from '../../stores/user.store';
 import { useStores } from '../../stores';
 import '@ethersproject/shims';
-import { ContractUtils } from 'dms-sdk-client';
+import { ContractUtils } from 'dms-sdk-client-v2';
 import * as Clipboard from 'expo-clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {

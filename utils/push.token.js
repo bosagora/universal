@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { MobileType } from 'dms-sdk-client';
+import { MobileType } from 'dms-sdk-client-v2';
 
 export async function registerPushTokenWithClient(cc, userStore, appKind) {
   if (

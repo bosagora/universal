@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, HStack, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import '@ethersproject/shims';
-import { Amount, LoyaltyType, NormalSteps } from 'dms-sdk-client';
+import { Amount, LoyaltyType, NormalSteps } from 'dms-sdk-client-v2';
 import {
   checkValidPeriod,
   convertProperValue,
