@@ -16,12 +16,15 @@ import {
   Toast,
   ToastDescription,
   useToast,
+  FormControl,
+  Input,
+  InputField,
 } from '@gluestack-ui/themed';
-import { BOACoin } from 'dms-sdk-client-v2';
+import { Amount, BOACoin } from 'dms-sdk-client-v2';
 import { convertProperValue, truncateMiddleString } from '../../utils/convert';
 import { ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { WrapBox } from '../../components/styled/layout';
+import { WrapBox, WrapDivider } from '../../components/styled/layout';
 import {
   ActiveButtonText,
   ActiveWhiteButtonText,
@@ -30,6 +33,8 @@ import {
   Para2Text,
   ParaText,
   RobotoMediumText,
+  RobotoRegularText,
+  RobotoSemiBoldText,
   SubHeaderText,
 } from '../../components/styled/text';
 import {
@@ -39,6 +44,8 @@ import {
 } from '../../components/styled/button';
 import * as Clipboard from 'expo-clipboard';
 import Carousel from 'react-native-snap-carousel';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 const UserWallet = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -59,7 +66,7 @@ const UserWallet = observer(({ navigation }) => {
   const [oneTokenRate, setOneTokenRate] = useState(new BOACoin(0));
   const [userLoyaltyType, setUserLoyaltyType] = useState(0);
   const [phone, setPhone] = useState('');
-
+  const [receiveTokenAmount, setReceiveTokenAmount] = useState(new BOACoin(0));
   const toast = useToast();
 
   useEffect(() => {
@@ -244,6 +251,62 @@ const UserWallet = observer(({ navigation }) => {
   };
   const width = Dimensions.get('window').width;
 
+  const registerInitialValues = {
+    n1: '',
+  };
+  const registerSchema = yup.object().shape({
+    n1: yup
+      .string()
+      .matches(/^(\-)?(\d+)?(\.\d+)?$/, 'Invalid number format')
+      .test(
+        'positive',
+        'Number must be greater than or equal to 0',
+        (value) => parseFloat(value) > 0,
+      )
+      .required(),
+  });
+
+  const formik = useFormik({
+    initialValues: registerInitialValues,
+    validationSchema: registerSchema,
+
+    onSubmit: (values, { resetForm }) => {
+      console.log('form values :', values);
+      if (userStore.isDeposit)
+        doDeposit().then((v) => navigation.navigate('Wallet'));
+      else doWithdraw().then((v) => navigation.navigate('Wallet'));
+      resetForm();
+    },
+  });
+
+  const takeMaxAmount = () => {
+    const balance = convertProperValue(payablePoint.toBOAString(), 0);
+    changeAmount(balance);
+  };
+
+  const changeAmount = async (v) => {
+    try {
+      if (parseInt(v) <= 0) {
+        formik.setFieldValue('n1', '0');
+        return;
+      }
+
+      userStore.setLoading(true);
+      formik.setFieldValue('n1', v);
+      const inputAmount = Amount.make(v, 18).value;
+      const convertedToken =
+        await secretStore.client.currency.pointToToken(inputAmount);
+      const amount = new BOACoin(convertedToken);
+      console.log('converted token amount :', amount.toBOAString());
+      setReceiveTokenAmount(amount);
+      userStore.setLoading(false);
+    } catch (e) {
+      console.log(e);
+      formik.setFieldValue('n1', '0');
+      userStore.setLoading(false);
+    }
+  };
+
   return (
     <WrapBox pl={0} style={{ backgroundColor: '#12121D', paddingTop: 3 }}>
       <Box alignItems='flex-end'>
@@ -343,7 +406,10 @@ const UserWallet = observer(({ navigation }) => {
                               fontSize={40}
                               lineHeight={48}
                               fontWeight={400}>
-                              {convertProperValue(payablePoint.toBOAString())}
+                              {convertProperValue(
+                                payablePoint.toBOAString(),
+                                0,
+                              )}
                             </AppleSDGothicNeoSBText>
                           </HStack>
                           <VStack alignItems='center' pt={10}>
@@ -441,11 +507,11 @@ const UserWallet = observer(({ navigation }) => {
                             h={24}
                             pt={-2}
                             onPress={() =>
-                              navigation.navigate('MileageHistory')
+                              navigation.navigate('DepositHistory')
                             }>
                             <Para2Text
                               style={{ fontSize: 12, color: '#707070' }}>
-                              {t('user.wallet.link.history')}
+                              {t('user.wallet.link.deposit.history')}
                             </Para2Text>
                           </WrapHistoryButton>
                         </HStack>
@@ -495,48 +561,45 @@ const UserWallet = observer(({ navigation }) => {
                               )}{' '}
                               {userStore.currency})
                             </AppleSDGothicNeoSBText>
-                            <Box mt='$6' w='$full' pb={20}>
-                              <HStack pt={20} flex={1} px={20} space='md'>
-                                <Box flex={1} ml={5}>
-                                  <WrapButton
-                                    bg='black'
-                                    borderColor='#8A8A8A'
-                                    borderRadius='$lg'
-                                    borderWidth='$1'
-                                    onPress={() => {
-                                      goToTransfer('sideChainTransfer');
+
+                            <HStack py={20} px={20} flex={1} space='md'>
+                              <Box flex={1}>
+                                <WrapButton
+                                  bg='black'
+                                  borderColor='#8A8A8A'
+                                  borderRadius='$lg'
+                                  borderWidth='$1'
+                                  onPress={() => goToDeposit('deposit')}>
+                                  <RobotoMediumText
+                                    style={{
+                                      fontWeight: 500,
+                                      lineHeight: 16,
+                                      fontSize: 15,
+                                      color: '#fff',
                                     }}>
-                                    <RobotoMediumText
-                                      style={{
-                                        fontWeight: 500,
-                                        lineHeight: 16,
-                                        fontSize: 15,
-                                        color: '#fff',
-                                      }}>
-                                      {t('transfer')}
-                                    </RobotoMediumText>
-                                  </WrapButton>
-                                </Box>
-                                <Box flex={1} mr={5}>
-                                  <WrapButton
-                                    bg='black'
-                                    borderColor='#8A8A8A'
-                                    borderRadius='$lg'
-                                    borderWidth='$1'
-                                    onPress={() => goToDeposit('withdraw')}>
-                                    <RobotoMediumText
-                                      style={{
-                                        fontWeight: 500,
-                                        lineHeight: 16,
-                                        fontSize: 15,
-                                        color: '#fff',
-                                      }}>
-                                      {t('withdraw')}
-                                    </RobotoMediumText>
-                                  </WrapButton>
-                                </Box>
-                              </HStack>
-                            </Box>
+                                    {t('deposit')}
+                                  </RobotoMediumText>
+                                </WrapButton>
+                              </Box>
+                              <Box flex={1}>
+                                <WrapButton
+                                  bg='black'
+                                  borderColor='#8A8A8A'
+                                  borderRadius='$lg'
+                                  borderWidth='$1'
+                                  onPress={() => goToDeposit('withdraw')}>
+                                  <RobotoMediumText
+                                    style={{
+                                      fontWeight: 500,
+                                      lineHeight: 16,
+                                      fontSize: 15,
+                                      color: '#fff',
+                                    }}>
+                                    {t('withdraw')}
+                                  </RobotoMediumText>
+                                </WrapButton>
+                              </Box>
+                            </HStack>
                           </VStack>
                         </>
                       </Box>
@@ -563,6 +626,94 @@ const UserWallet = observer(({ navigation }) => {
                           {t('user.wallet.modal.body.a')}
                         </ParaText>
                       </VStack>
+
+                      <Box py={30}>
+                        <FormControl size='md' isInvalid={!!formik.errors.n1}>
+                          <VStack space='xs'>
+                            <HStack
+                              alignItems='center'
+                              justifyContent='space-between'
+                              space='sm'>
+                              <Input
+                                flex={1}
+                                mt={5}
+                                style={{
+                                  height: 48,
+                                  borderWidth: 1,
+                                  borderColor: '#E4E4E4',
+                                }}>
+                                <InputField
+                                  style={{
+                                    fontFamily: 'Roboto-Medium',
+                                    lineHeight: 20,
+                                    fontSize: 19,
+                                    color: '#12121D',
+                                    textAlign: 'right',
+                                  }}
+                                  keyboardType='number-pad'
+                                  onChangeText={changeAmount}
+                                  onBlur={formik.handleBlur('n1')}
+                                  value={formik.values?.n1}
+                                />
+                              </Input>
+                              <AppleSDGothicNeoSBText
+                                w={50}
+                                color='#555555'
+                                fontSize={20}
+                                lineHeight={22}
+                                fontWeight={500}>
+                                Point
+                              </AppleSDGothicNeoSBText>
+                            </HStack>
+                            <HStack
+                              alignItems='center'
+                              justifyContent='flex-start'>
+                              <RobotoRegularText
+                                py={3}
+                                fontSize={13}
+                                lineHeight={18}
+                                fontWeight={400}>
+                                {' '}
+                                {t('available')} :{' '}
+                                {convertProperValue(
+                                  payablePoint.toBOAString(),
+                                  0,
+                                )}
+                              </RobotoRegularText>
+
+                              <WrapHistoryButton
+                                borderRadius='$full'
+                                h={20}
+                                ml={10}
+                                onPress={takeMaxAmount}>
+                                <Para2Text
+                                  style={{ fontSize: 12, color: '#707070' }}>
+                                  {t('max')}
+                                </Para2Text>
+                              </WrapHistoryButton>
+                            </HStack>
+
+                            <HStack
+                              mt={15}
+                              alignItems='center'
+                              justifyContent='space-between'>
+                              <RobotoMediumText
+                                fontSize={15}
+                                fontWeight={500}
+                                lightHeight={16}
+                                color='#707070'>
+                                {t('received.amount')} :
+                              </RobotoMediumText>
+                              <RobotoSemiBoldText>
+                                {convertProperValue(
+                                  receiveTokenAmount.toBOAString(),
+                                )}
+                                {'     '} KIOS
+                              </RobotoSemiBoldText>
+                            </HStack>
+                          </VStack>
+                        </FormControl>
+                      </Box>
 
                       <HStack pt={20} flex={1}>
                         <Box flex={1} mr={5}>
@@ -591,7 +742,7 @@ const UserWallet = observer(({ navigation }) => {
                 </Modal>
               </Box>
             </Box>
-          ) : userLoyaltyType === 0 ? null : (
+          ) : (
             <Box>
               <Box>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -625,80 +776,70 @@ const UserWallet = observer(({ navigation }) => {
                               h={24}
                               pt={-2}
                               onPress={() =>
-                                navigation.navigate('DepositHistory')
+                                navigation.navigate('TransferMainChainHistory')
                               }>
                               <Para2Text
                                 style={{ fontSize: 12, color: '#707070' }}>
-                                {t('user.wallet.link.deposit.history')}
+                                {t('user.wallet.link.transfer.history')}
                               </Para2Text>
                             </WrapHistoryButton>
                           </HStack>
-                          {userLoyaltyType === 0 ? null : (
-                            <>
-                              {/*<HStack justifyContent='space-between'>*/}
 
-                              {/*  <Pressable*/}
-                              {/*    onPress={() => navigation.navigate('MileageHistory')}>*/}
-                              {/*    <Text fontSize='$sm' color='$pink600'>*/}
-                              {/*      {t('user.wallet.link.history')}*/}
-                              {/*    </Text>*/}
-                              {/*  </Pressable>*/}
-                              {/*</HStack>*/}
-                              <HStack justifyContent='center' pt={50}>
-                                <AppleSDGothicNeoSBText
-                                  pt={10}
-                                  fontSize={40}
-                                  lineHeight={48}
-                                  fontWeight={400}>
-                                  {convertProperValue(
-                                    userTokenMainnetBalance.toBOAString(),
-                                  )}
-                                </AppleSDGothicNeoSBText>
-                              </HStack>
-                              <VStack alignItems='center' pt={10}>
-                                <AppleSDGothicNeoSBText
-                                  color='#555555'
-                                  fontSize={16}
-                                  lineHeight={22}
-                                  fontWeight={400}>
-                                  ≒{' '}
-                                  {convertProperValue(
-                                    userTokenMainnetRate.toBOAString(),
-                                    userStore.currency.toLowerCase() === 'krw'
-                                      ? 0
-                                      : 1,
-                                    userStore.currency.toLowerCase() === 'krw'
-                                      ? 0
-                                      : 2,
-                                  )}{' '}
-                                  {userStore.currency}
-                                </AppleSDGothicNeoSBText>
-                                <AppleSDGothicNeoSBText
-                                  color='#555555'
-                                  fontSize={16}
-                                  lineHeight={22}
-                                  fontWeight={400}>
-                                  (1 {t('token.name')} ≒{' '}
-                                  {convertProperValue(
-                                    oneTokenRate.toBOAString(),
-                                    userStore.currency.toLowerCase() === 'krw'
-                                      ? 0
-                                      : 1,
-                                    userStore.currency.toLowerCase() === 'krw'
-                                      ? 0
-                                      : 5,
-                                  )}{' '}
-                                  {userStore.currency})
-                                </AppleSDGothicNeoSBText>
-                              </VStack>
-                            </>
-                          )}
+                          <>
+                            <HStack justifyContent='center' pt={50}>
+                              <AppleSDGothicNeoSBText
+                                pt={10}
+                                fontSize={40}
+                                lineHeight={48}
+                                fontWeight={400}>
+                                {convertProperValue(
+                                  userTokenMainnetBalance.toBOAString(),
+                                )}
+                              </AppleSDGothicNeoSBText>
+                            </HStack>
+                            <VStack alignItems='center' pt={10}>
+                              <AppleSDGothicNeoSBText
+                                color='#555555'
+                                fontSize={16}
+                                lineHeight={22}
+                                fontWeight={400}>
+                                ≒{' '}
+                                {convertProperValue(
+                                  userTokenMainnetRate.toBOAString(),
+                                  userStore.currency.toLowerCase() === 'krw'
+                                    ? 0
+                                    : 1,
+                                  userStore.currency.toLowerCase() === 'krw'
+                                    ? 0
+                                    : 2,
+                                )}{' '}
+                                {userStore.currency}
+                              </AppleSDGothicNeoSBText>
+                              <AppleSDGothicNeoSBText
+                                color='#555555'
+                                fontSize={16}
+                                lineHeight={22}
+                                fontWeight={400}>
+                                (1 {t('token.name')} ≒{' '}
+                                {convertProperValue(
+                                  oneTokenRate.toBOAString(),
+                                  userStore.currency.toLowerCase() === 'krw'
+                                    ? 0
+                                    : 1,
+                                  userStore.currency.toLowerCase() === 'krw'
+                                    ? 0
+                                    : 5,
+                                )}{' '}
+                                {userStore.currency})
+                              </AppleSDGothicNeoSBText>
+                            </VStack>
+                          </>
                         </Box>
                       </Box>
                     </Box>
 
-                    <HStack pt={20} flex={1} space='md'>
-                      <Box flex={1} ml={5}>
+                    <HStack py={20} flex={1}>
+                      <Box flex={1}>
                         <WrapButton
                           bg='black'
                           borderColor='#8A8A8A'
@@ -715,24 +856,6 @@ const UserWallet = observer(({ navigation }) => {
                               color: '#fff',
                             }}>
                             {t('transfer')}
-                          </RobotoMediumText>
-                        </WrapButton>
-                      </Box>
-                      <Box flex={1} mr={5}>
-                        <WrapButton
-                          bg='black'
-                          borderColor='#8A8A8A'
-                          borderRadius='$lg'
-                          borderWidth='$1'
-                          onPress={() => goToDeposit('deposit')}>
-                          <RobotoMediumText
-                            style={{
-                              fontWeight: 500,
-                              lineHeight: 16,
-                              fontSize: 15,
-                              color: '#fff',
-                            }}>
-                            {t('deposit')}
                           </RobotoMediumText>
                         </WrapButton>
                       </Box>

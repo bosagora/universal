@@ -36,27 +36,27 @@ const TransferTab = ({ userStore }) => {
             BosAgora
           </Text>
         </Pressable>
-        <Pressable
-          rounded='$full'
-          px='$3'
-          py='$1.5'
-          bg={selectedTab === 'Ledger' ? '#5C66D5' : 'transparent'}
-          sx={{
-            _dark: {
-              bg: selectedTab === 'Ledger' ? '#5C66D5' : 'transparent',
-            },
-          }}
-          onPress={() => {
-            setSelectedTab('Ledger');
-            userStore.setIsMainChainTransfer(false);
-          }}>
-          <Text
-            size='sm'
-            fontWeight='$medium'
-            color={selectedTab === 'Ledger' ? 'white' : '#555555'}>
-            Ledger
-          </Text>
-        </Pressable>
+        {/*<Pressable*/}
+        {/*  rounded='$full'*/}
+        {/*  px='$3'*/}
+        {/*  py='$1.5'*/}
+        {/*  bg={selectedTab === 'Ledger' ? '#5C66D5' : 'transparent'}*/}
+        {/*  sx={{*/}
+        {/*    _dark: {*/}
+        {/*      bg: selectedTab === 'Ledger' ? '#5C66D5' : 'transparent',*/}
+        {/*    },*/}
+        {/*  }}*/}
+        {/*  onPress={() => {*/}
+        {/*    setSelectedTab('Ledger');*/}
+        {/*    userStore.setIsMainChainTransfer(false);*/}
+        {/*  }}>*/}
+        {/*  <Text*/}
+        {/*    size='sm'*/}
+        {/*    fontWeight='$medium'*/}
+        {/*    color={selectedTab === 'Ledger' ? 'white' : '#555555'}>*/}
+        {/*    Ledger*/}
+        {/*  </Text>*/}
+        {/*</Pressable>*/}
       </HStack>
     </HStack>
   );

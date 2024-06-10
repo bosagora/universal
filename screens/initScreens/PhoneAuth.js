@@ -333,7 +333,7 @@ const PhoneAuth = observer(({ navigation }) => {
                     fontSize: 15,
                     color: '#12121D',
                   }}
-                  type='text'
+                  keyboardType='number-pad'
                   placeholder='#1'
                   onChangeText={formik.handleChange('n1')}
                   onBlur={formik.handleBlur('n1')}
@@ -359,6 +359,7 @@ const PhoneAuth = observer(({ navigation }) => {
                     fontSize: 15,
                     color: '#12121D',
                   }}
+                  keyboardType='number-pad'
                   placeholder='#2'
                   onChangeText={formik.handleChange('n2')}
                   onBlur={formik.handleBlur('n2')}
@@ -384,6 +385,7 @@ const PhoneAuth = observer(({ navigation }) => {
                     fontSize: 15,
                     color: '#12121D',
                   }}
+                  keyboardType='number-pad'
                   placeholder='#3'
                   onChangeText={formik.handleChange('n3')}
                   onBlur={formik.handleBlur('n3')}
