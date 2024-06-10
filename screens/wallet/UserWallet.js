@@ -321,11 +321,7 @@ const UserWallet = observer(({ navigation }) => {
                             h={18}
                             w={87}
                             alt='alt'
-                            source={
-                              userLoyaltyType === 0
-                                ? require('../../assets/images/mypoint.png')
-                                : require('../../assets/images/mykios.png')
-                            }
+                            source={require('../../assets/images/mypoint.png')}
                           />
                           <WrapHistoryButton
                             borderRadius='$full'
@@ -340,187 +336,212 @@ const UserWallet = observer(({ navigation }) => {
                             </Para2Text>
                           </WrapHistoryButton>
                         </HStack>
-                        {userLoyaltyType === 0 ? (
-                          <>
-                            <HStack justifyContent='center' pt={50}>
-                              <AppleSDGothicNeoSBText
-                                pt={10}
-                                fontSize={56}
-                                lineHeight={48}
-                                fontWeight={400}>
-                                {convertProperValue(payablePoint.toBOAString())}
-                              </AppleSDGothicNeoSBText>
-                            </HStack>
-                            <VStack alignItems='center' pt={10}>
-                              <AppleSDGothicNeoSBText
-                                color='#555555'
-                                fontSize={16}
-                                lineHeight={22}
-                                fontWeight={400}>
-                                ≒{' '}
-                                {convertProperValue(
-                                  payablePointRate.toBOAString(),
-                                )}{' '}
-                                {userStore.currency}
-                              </AppleSDGothicNeoSBText>
-                              <AppleSDGothicNeoSBText
-                                color='#555555'
-                                fontSize={16}
-                                lineHeight={22}
-                                fontWeight={400}>
-                                (1 Point ≒{' '}
-                                {convertProperValue(
-                                  onePointRate.toBOAString(),
-                                  userStore.currency.toLowerCase() === 'krw'
-                                    ? 0
-                                    : 1,
-                                  userStore.currency.toLowerCase() === 'krw'
-                                    ? 0
-                                    : 5,
-                                )}{' '}
-                                {userStore.currency} )
-                              </AppleSDGothicNeoSBText>
-                            </VStack>
-                          </>
-                        ) : (
-                          <>
-                            <HStack justifyContent='center' pt={50}>
-                              <AppleSDGothicNeoSBText
-                                pt={10}
-                                fontSize={40}
-                                lineHeight={48}
-                                fontWeight={400}>
-                                {convertProperValue(
-                                  userTokenBalance.toBOAString(),
-                                )}
-                              </AppleSDGothicNeoSBText>
-                            </HStack>
-                            <VStack alignItems='center' pt={10}>
-                              <AppleSDGothicNeoSBText
-                                color='#555555'
-                                fontSize={16}
-                                lineHeight={22}
-                                fontWeight={400}>
-                                ≒{' '}
-                                {convertProperValue(
-                                  userTokenRate.toBOAString(),
-                                  userStore.currency.toLowerCase() === 'krw'
-                                    ? 0
-                                    : 1,
-                                  userStore.currency.toLowerCase() === 'krw'
-                                    ? 0
-                                    : 2,
-                                )}{' '}
-                                {userStore.currency}
-                              </AppleSDGothicNeoSBText>
-                              <AppleSDGothicNeoSBText
-                                color='#555555'
-                                fontSize={16}
-                                lineHeight={22}
-                                fontWeight={400}>
-                                (1 {t('token.name')} ≒{' '}
-                                {convertProperValue(
-                                  oneTokenRate.toBOAString(),
-                                  userStore.currency.toLowerCase() === 'krw'
-                                    ? 0
-                                    : 1,
-                                  userStore.currency.toLowerCase() === 'krw'
-                                    ? 0
-                                    : 5,
-                                )}{' '}
-                                {userStore.currency})
-                              </AppleSDGothicNeoSBText>
-                            </VStack>
-                          </>
-                        )}
-                        <WrapButton
-                          mt={70}
+
+                        <>
+                          <HStack justifyContent='center' pt={50}>
+                            <AppleSDGothicNeoSBText
+                              fontSize={40}
+                              lineHeight={48}
+                              fontWeight={400}>
+                              {convertProperValue(payablePoint.toBOAString())}
+                            </AppleSDGothicNeoSBText>
+                          </HStack>
+                          <VStack alignItems='center' pt={10}>
+                            <AppleSDGothicNeoSBText
+                              color='#555555'
+                              fontSize={16}
+                              lineHeight={22}
+                              fontWeight={400}>
+                              ≒{' '}
+                              {convertProperValue(
+                                payablePointRate.toBOAString(),
+                              )}{' '}
+                              {userStore.currency}
+                            </AppleSDGothicNeoSBText>
+                            <AppleSDGothicNeoSBText
+                              color='#555555'
+                              fontSize={16}
+                              lineHeight={22}
+                              fontWeight={400}>
+                              (1 Point ≒{' '}
+                              {convertProperValue(
+                                onePointRate.toBOAString(),
+                                userStore.currency.toLowerCase() === 'krw'
+                                  ? 0
+                                  : 1,
+                                userStore.currency.toLowerCase() === 'krw'
+                                  ? 0
+                                  : 5,
+                              )}{' '}
+                              {userStore.currency} )
+                            </AppleSDGothicNeoSBText>
+
+                            <Box mt='$6' w='$full' pb={20}>
+                              <WrapButton
+                                mt={10}
+                                mx={18}
+                                mb={8}
+                                onPress={() => handleQRSheet()}>
+                                <Image
+                                  mr={9}
+                                  mt={-3}
+                                  h={17}
+                                  w={17}
+                                  alt='alt'
+                                  source={require('../../assets/images/qr_code.png')}
+                                />
+                                <RobotoMediumText
+                                  style={{
+                                    fontWeight: 500,
+                                    lineHeight: 16,
+                                    fontSize: 15,
+                                    color: '#fff',
+                                  }}>
+                                  {t('user.wallet.use.qr')}
+                                </RobotoMediumText>
+                              </WrapButton>
+
+                              <WrapButton
+                                mx={18}
+                                mb={8}
+                                bg='black'
+                                borderColor='#8A8A8A'
+                                borderRadius='$lg'
+                                borderWidth='$1'
+                                onPress={() => convertToToken()}>
+                                <RobotoMediumText
+                                  style={{
+                                    fontWeight: 500,
+                                    lineHeight: 16,
+                                    fontSize: 15,
+                                    color: '#fff',
+                                  }}>
+                                  {t('user.wallet.link.convert')}
+                                </RobotoMediumText>
+                              </WrapButton>
+                            </Box>
+                          </VStack>
+                        </>
+                      </Box>
+
+                      <Box mt={10} bg='white' rounded='$xl'>
+                        <HStack
+                          mt={20}
                           mx={18}
-                          mb={18}
-                          onPress={() => handleQRSheet()}>
+                          alignItems='center'
+                          justifyContent='space-between'>
                           <Image
-                            mr={9}
-                            mt={-3}
-                            h={17}
-                            w={17}
+                            h={18}
+                            w={87}
                             alt='alt'
-                            source={require('../../assets/images/qr_code.png')}
+                            source={require('../../assets/images/mykios.png')}
                           />
-                          <RobotoMediumText
-                            style={{
-                              fontWeight: 500,
-                              lineHeight: 16,
-                              fontSize: 15,
-                              color: '#fff',
-                            }}>
-                            {t('user.wallet.use.qr')}
-                          </RobotoMediumText>
-                        </WrapButton>
+                          <WrapHistoryButton
+                            borderRadius='$full'
+                            h={24}
+                            pt={-2}
+                            onPress={() =>
+                              navigation.navigate('MileageHistory')
+                            }>
+                            <Para2Text
+                              style={{ fontSize: 12, color: '#707070' }}>
+                              {t('user.wallet.link.history')}
+                            </Para2Text>
+                          </WrapHistoryButton>
+                        </HStack>
+                        <>
+                          <HStack justifyContent='center' pt={50}>
+                            <AppleSDGothicNeoSBText
+                              fontSize={40}
+                              lineHeight={48}
+                              fontWeight={400}>
+                              {convertProperValue(
+                                userTokenBalance.toBOAString(),
+                              )}
+                            </AppleSDGothicNeoSBText>
+                          </HStack>
+                          <VStack alignItems='center' pt={10}>
+                            <AppleSDGothicNeoSBText
+                              color='#555555'
+                              fontSize={16}
+                              lineHeight={22}
+                              fontWeight={400}>
+                              ≒{' '}
+                              {convertProperValue(
+                                userTokenRate.toBOAString(),
+                                userStore.currency.toLowerCase() === 'krw'
+                                  ? 0
+                                  : 1,
+                                userStore.currency.toLowerCase() === 'krw'
+                                  ? 0
+                                  : 2,
+                              )}{' '}
+                              {userStore.currency}
+                            </AppleSDGothicNeoSBText>
+                            <AppleSDGothicNeoSBText
+                              color='#555555'
+                              fontSize={16}
+                              lineHeight={22}
+                              fontWeight={400}>
+                              (1 {t('token.name')} ≒{' '}
+                              {convertProperValue(
+                                oneTokenRate.toBOAString(),
+                                userStore.currency.toLowerCase() === 'krw'
+                                  ? 0
+                                  : 1,
+                                userStore.currency.toLowerCase() === 'krw'
+                                  ? 0
+                                  : 5,
+                              )}{' '}
+                              {userStore.currency})
+                            </AppleSDGothicNeoSBText>
+                            <Box mt='$6' w='$full' pb={20}>
+                              <HStack pt={20} flex={1} px={20} space='md'>
+                                <Box flex={1} ml={5}>
+                                  <WrapButton
+                                    bg='black'
+                                    borderColor='#8A8A8A'
+                                    borderRadius='$lg'
+                                    borderWidth='$1'
+                                    onPress={() => {
+                                      goToTransfer('sideChainTransfer');
+                                    }}>
+                                    <RobotoMediumText
+                                      style={{
+                                        fontWeight: 500,
+                                        lineHeight: 16,
+                                        fontSize: 15,
+                                        color: '#fff',
+                                      }}>
+                                      {t('transfer')}
+                                    </RobotoMediumText>
+                                  </WrapButton>
+                                </Box>
+                                <Box flex={1} mr={5}>
+                                  <WrapButton
+                                    bg='black'
+                                    borderColor='#8A8A8A'
+                                    borderRadius='$lg'
+                                    borderWidth='$1'
+                                    onPress={() => goToDeposit('withdraw')}>
+                                    <RobotoMediumText
+                                      style={{
+                                        fontWeight: 500,
+                                        lineHeight: 16,
+                                        fontSize: 15,
+                                        color: '#fff',
+                                      }}>
+                                      {t('withdraw')}
+                                    </RobotoMediumText>
+                                  </WrapButton>
+                                </Box>
+                              </HStack>
+                            </Box>
+                          </VStack>
+                        </>
                       </Box>
                     </Box>
                   </Box>
-                  {userLoyaltyType === 0 ? (
-                    <Box mt='$6' w='$full' pb={20}>
-                      <WrapButton
-                        bg='black'
-                        borderColor='#8A8A8A'
-                        borderRadius='$lg'
-                        borderWidth='$1'
-                        onPress={() => convertToToken()}>
-                        <RobotoMediumText
-                          style={{
-                            fontWeight: 500,
-                            lineHeight: 16,
-                            fontSize: 15,
-                            color: '#fff',
-                          }}>
-                          {t('user.wallet.link.convert')}
-                        </RobotoMediumText>
-                      </WrapButton>
-                    </Box>
-                  ) : null}
-                  {userLoyaltyType === 0 ? null : (
-                    <HStack pt={20} flex={1} space='md'>
-                      <Box flex={1} ml={5}>
-                        <WrapButton
-                          bg='black'
-                          borderColor='#8A8A8A'
-                          borderRadius='$lg'
-                          borderWidth='$1'
-                          onPress={() => {
-                            goToTransfer('sideChainTransfer');
-                          }}>
-                          <RobotoMediumText
-                            style={{
-                              fontWeight: 500,
-                              lineHeight: 16,
-                              fontSize: 15,
-                              color: '#fff',
-                            }}>
-                            {t('transfer')}
-                          </RobotoMediumText>
-                        </WrapButton>
-                      </Box>
-                      <Box flex={1} mr={5}>
-                        <WrapButton
-                          bg='black'
-                          borderColor='#8A8A8A'
-                          borderRadius='$lg'
-                          borderWidth='$1'
-                          onPress={() => goToDeposit('withdraw')}>
-                          <RobotoMediumText
-                            style={{
-                              fontWeight: 500,
-                              lineHeight: 16,
-                              fontSize: 15,
-                              color: '#fff',
-                            }}>
-                            {t('withdraw')}
-                          </RobotoMediumText>
-                        </WrapButton>
-                      </Box>
-                    </HStack>
-                  )}
                 </VStack>
               </ScrollView>
               <Box>
