@@ -11,7 +11,7 @@ import {
 } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import { convertProperValue } from '../../utils/convert';
-import { Amount, BOACoin, NormalSteps } from 'dms-sdk-client';
+import { Amount, BOACoin, NormalSteps } from 'dms-sdk-client-v2';
 import { useTranslation } from 'react-i18next';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
 import {

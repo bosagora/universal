@@ -13,7 +13,7 @@ import {
 import MobileHeader from '../../components/MobileHeader';
 import { getClient } from '../../utils/client';
 import { convertProperValue, truncateMiddleString } from '../../utils/convert';
-import { Amount, BOACoin } from 'dms-sdk-client';
+import { Amount, BOACoin } from 'dms-sdk-client-v2';
 import { useTranslation } from 'react-i18next';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
 import {

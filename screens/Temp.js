@@ -40,7 +40,6 @@ const Temp = observer(({ navigation }) => {
             }}>
             <Box>
               <Image
-                role='img'
                 alt='sample'
                 h={250}
                 width='100%'

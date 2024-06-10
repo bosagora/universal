@@ -17,7 +17,7 @@ import {
   ToastDescription,
   useToast,
 } from '@gluestack-ui/themed';
-import { BOACoin } from 'dms-sdk-client';
+import { BOACoin } from 'dms-sdk-client-v2';
 import { convertProperValue, truncateMiddleString } from '../../utils/convert';
 import { ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -108,10 +108,12 @@ const UserWallet = observer(({ navigation }) => {
       const phone = userStore.phone;
       setPhone(phone);
 
-      const loyaltyType = await secretStore.client.ledger.getLoyaltyType(
-        secretStore.address,
-      );
-      setUserLoyaltyType(loyaltyType);
+      // const loyaltyType = await secretStore.client.ledger.getLoyaltyType(
+      //   secretStore.address,
+      // );
+
+      // setUserLoyaltyType(loyaltyType);
+      setUserLoyaltyType(1);
       // console.log('userLoyaltyType :', loyaltyType);
 
       const tokenBalance = await secretStore.client.ledger.getTokenBalance(
@@ -119,7 +121,7 @@ const UserWallet = observer(({ navigation }) => {
       );
       // console.log('tokenBalance :', tokenBalance.toString());
       const tokenBalConv = new BOACoin(tokenBalance);
-      // console.log('tokenBalConv :', tokenBalConv.toBOAString());
+      console.log('tokenBalance :', tokenBalConv.toBOAString());
       setUserTokenBalance(tokenBalConv);
 
       const tokenMainnetBalance =
@@ -170,7 +172,7 @@ const UserWallet = observer(({ navigation }) => {
         secretStore.address,
       );
       const payableConv = new BOACoin(userPoint);
-      // console.log('payableConv :', payableConv.toBOAString());
+      console.log('userPoint :', payableConv.toBOAString());
       setPayablePoint(payableConv);
 
       let pointCurrencyRate = await secretStore.client.currency.pointToCurrency(
@@ -188,7 +190,7 @@ const UserWallet = observer(({ navigation }) => {
           userStore.currency.toLowerCase(),
         );
       const onePointConv = new BOACoin(onePointCurrencyRate);
-      // console.log('onePointConv :', onePointConv.toBOAString());
+      // console.log('onePointAmount :', onePointConv.toBOAString());
       setOnePointRate(onePointConv);
     } catch (e) {
       console.log('setdata > e2:', e);

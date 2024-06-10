@@ -4,15 +4,15 @@ import {
   Context,
   LIVE_CONTRACTS,
   SupportedNetwork,
-} from 'dms-sdk-client';
+} from 'dms-sdk-client-v2';
 import '@ethersproject/shims';
 import { Wallet } from 'ethers';
 
 export async function getClient(screen = 'unknown') {
   const DMS_SDK_LINK = {
-    development: SupportedNetwork.LOYALTY_DEVNET,
-    preview: SupportedNetwork.LOYALTY_DEVNET,
-    product: SupportedNetwork.LOYALTY_MAINNET,
+    development: SupportedNetwork.ACC_DEVNET,
+    preview: SupportedNetwork.ACC_DEVNET,
+    product: SupportedNetwork.ACC_MAINNET,
   };
 
   const sdkLink =
