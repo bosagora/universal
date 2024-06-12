@@ -130,7 +130,7 @@ const UserWallet = observer(({ navigation }) => {
       setUserLoyaltyType(1);
       // console.log('userLoyaltyType :', loyaltyType);
 
-      const tokenBalance = await secretStore.client.ledger.getTokenBalance(
+      const tokenBalance = await secretStore.client.ledger.getSideChainBalance(
         secretStore.address,
       );
       // console.log('tokenBalance :', tokenBalance.toString());

@@ -147,7 +147,7 @@ const Index = observer(({ navigation }) => {
     setRefundedAmount(convRefundedAmount);
     setRefundableAmount(convRefundableAmount);
 
-    const tokenBalance = await secretStore.client.ledger.getTokenBalance(
+    const tokenBalance = await secretStore.client.ledger.getSideChainBalance(
       secretStore.address,
     );
     // console.log('tokenBalance :', tokenBalance.toString());
@@ -352,6 +352,108 @@ const Index = observer(({ navigation }) => {
             })}></MobileHeader>
         </VStack>
 
+        <VStack mt={40} p={20} bg='white' rounded='$lg'>
+          <HStack justifyContent='space-between'>
+            <Para2Text style={{ color: '#5C66D5' }}>
+              • {t('wallet.modal.body.a')}
+            </Para2Text>
+            <WrapHistoryButton
+              borderRadius='$full'
+              h={24}
+              pt={-2}
+              onPress={() => navigation.navigate('MileageProvideHistory')}>
+              <Para2Text style={{ color: '#707070' }}>
+                {t('wallet.link.history.redemption')}
+              </Para2Text>
+            </WrapHistoryButton>
+          </HStack>
+
+          <Box mt={18}>
+            <Para3Text>{t('wallet.modal.body.b')}</Para3Text>
+            <HStack mt={4} alignItems='center'>
+              <NumberText>
+                {convertProperValue(providedAmount.toBOAString(), 0)}{' '}
+              </NumberText>
+              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                Point
+              </Para3Text>
+            </HStack>
+          </Box>
+          <WrapDivider></WrapDivider>
+          <Box mt={4}>
+            <Para3Text>{t('wallet.modal.body.c')}</Para3Text>
+            <HStack mt={4} alignItems='center'>
+              <NumberText>
+                {convertProperValue(usedAmount.toBOAString(), 0)}{' '}
+              </NumberText>
+              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                Point
+              </Para3Text>
+            </HStack>
+          </Box>
+        </VStack>
+
+        <VStack mt={12} p={20} bg='white' rounded='$lg'>
+          <HStack justifyContent='space-between'>
+            <Para2Text style={{ color: '#5C66D5' }}>
+              • {t('wallet.modal.body.d')}
+            </Para2Text>
+            <WrapHistoryButton
+              borderRadius='$full'
+              h={24}
+              pt={-2}
+              onPress={() => navigation.navigate('MileageAdjustmentHistory')}>
+              <Para2Text style={{ color: '#707070' }}>
+                {t('wallet.link.history.settlement')}
+              </Para2Text>
+            </WrapHistoryButton>
+          </HStack>
+
+          <Box mt={4}>
+            <HStack justifyContent='space-between' alignItems='center'>
+              <Box>
+                <Para3Text>{t('wallet.modal.body.f')}</Para3Text>
+                <HStack mt={4} alignItems='center'>
+                  <NumberText>
+                    {convertProperValue(refundableAmount.toBOAString(), 0)}{' '}
+                  </NumberText>
+                  <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                    Point
+                  </Para3Text>
+                </HStack>
+              </Box>
+              <Box>
+                {refundableAmount.value.gt(BigNumber.from(0)) ? (
+                  <WrapButton h={36} onPress={() => handleRequest()}>
+                    <PinButtonText
+                      style={{
+                        fontWeight: 500,
+                        lineHeight: 15,
+                        fontSize: 14,
+                        color: '#fff',
+                      }}>
+                      {t('refund')}
+                    </PinButtonText>
+                  </WrapButton>
+                ) : null}
+              </Box>
+            </HStack>
+          </Box>
+          <WrapDivider></WrapDivider>
+
+          <Box mt={4}>
+            <Para3Text>{t('wallet.modal.body.g')}</Para3Text>
+            <HStack mt={4} alignItems='center'>
+              <NumberText>
+                {convertProperValue(refundedAmount.toBOAString(), 0)}{' '}
+              </NumberText>
+              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
+                Point
+              </Para3Text>
+            </HStack>
+          </Box>
+        </VStack>
+
         <Box mt={18} bg='white' rounded='$xl'>
           <HStack
             mt={20}
@@ -408,7 +510,7 @@ const Index = observer(({ navigation }) => {
                   userStore.currency.toLowerCase() === 'krw' ? 0 : 1,
                   userStore.currency.toLowerCase() === 'krw' ? 0 : 5,
                 )}{' '}
-                {userStore.currency.toUpperCase()}
+                {userStore.currency.toUpperCase()})
               </AppleSDGothicNeoSBText>
 
               <HStack py={20} px={20} flex={1} space='md'>
@@ -453,119 +555,6 @@ const Index = observer(({ navigation }) => {
           </>
         </Box>
 
-        <VStack mt={40} p={20} bg='white' rounded='$lg'>
-          <HStack justifyContent='space-between'>
-            <Para2Text style={{ color: '#5C66D5' }}>
-              • {t('wallet.modal.body.a')}
-            </Para2Text>
-            <WrapHistoryButton
-              borderRadius='$full'
-              h={24}
-              pt={-2}
-              onPress={() => navigation.navigate('MileageProvideHistory')}>
-              <Para2Text style={{ color: '#707070' }}>
-                {t('wallet.link.history.redemption')}
-              </Para2Text>
-            </WrapHistoryButton>
-          </HStack>
-
-          <Box mt={18}>
-            <Para3Text>{t('wallet.modal.body.b')}</Para3Text>
-            <HStack mt={4} alignItems='center'>
-              <NumberText>
-                {convertShopProperValue(
-                  providedAmount.toBOAString(),
-                  userStore.currency,
-                )}{' '}
-              </NumberText>
-              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-                Point
-              </Para3Text>
-            </HStack>
-          </Box>
-          <WrapDivider></WrapDivider>
-          <Box mt={4}>
-            <Para3Text>{t('wallet.modal.body.c')}</Para3Text>
-            <HStack mt={4} alignItems='center'>
-              <NumberText>
-                {convertShopProperValue(
-                  usedAmount.toBOAString(),
-                  userStore.currency,
-                )}{' '}
-              </NumberText>
-              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-                Point
-              </Para3Text>
-            </HStack>
-          </Box>
-        </VStack>
-
-        <VStack mt={12} p={20} bg='white' rounded='$lg'>
-          <HStack justifyContent='space-between'>
-            <Para2Text style={{ color: '#5C66D5' }}>
-              • {t('wallet.modal.body.d')}
-            </Para2Text>
-            <WrapHistoryButton
-              borderRadius='$full'
-              h={24}
-              pt={-2}
-              onPress={() => navigation.navigate('MileageAdjustmentHistory')}>
-              <Para2Text style={{ color: '#707070' }}>
-                {t('wallet.link.history.settlement')}
-              </Para2Text>
-            </WrapHistoryButton>
-          </HStack>
-
-          <Box mt={4}>
-            <HStack justifyContent='space-between' alignItems='center'>
-              <Box>
-                <Para3Text>{t('wallet.modal.body.f')}</Para3Text>
-                <HStack mt={4} alignItems='center'>
-                  <NumberText>
-                    {convertShopProperValue(
-                      refundableAmount.toBOAString(),
-                      userStore.currency,
-                    )}{' '}
-                  </NumberText>
-                  <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-                    Point
-                  </Para3Text>
-                </HStack>
-              </Box>
-              <Box>
-                {refundableAmount.value.gt(BigNumber.from(0)) ? (
-                  <WrapButton h={36} onPress={() => handleRequest()}>
-                    <PinButtonText
-                      style={{
-                        fontWeight: 500,
-                        lineHeight: 15,
-                        fontSize: 14,
-                        color: '#fff',
-                      }}>
-                      {t('refund')}
-                    </PinButtonText>
-                  </WrapButton>
-                ) : null}
-              </Box>
-            </HStack>
-          </Box>
-          <WrapDivider></WrapDivider>
-
-          <Box mt={4}>
-            <Para3Text>{t('wallet.modal.body.g')}</Para3Text>
-            <HStack mt={4} alignItems='center'>
-              <NumberText>
-                {convertShopProperValue(
-                  refundedAmount.toBOAString(),
-                  userStore.currency,
-                )}{' '}
-              </NumberText>
-              <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-                Point
-              </Para3Text>
-            </HStack>
-          </Box>
-        </VStack>
         <Box h={10}></Box>
       </ScrollView>
 
