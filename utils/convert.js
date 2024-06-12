@@ -123,3 +123,37 @@ export function getName(lang, type, key) {
 
   return ret;
 }
+
+export function validateNumberWithDecimal(numberString) {
+  // 정규 표현식을 사용하여 주어진 문자열이 유효한 소수점을 포함한 숫자인지 확인
+  const regex = /^-?\d*\.?\d+$/;
+  return regex.test(numberString);
+}
+
+export function validateNumber(numberString) {
+  // 정규 표현식을 사용하여 주어진 문자열이 유효한 소수점을 포함한 숫자인지 확인
+  const regex = /^-?\d+$/;
+  return regex.test(numberString);
+}
+
+export function compareFloatTexts(floatText1, floatText2) {
+  const float1 = parseFloat(floatText1);
+  const float2 = parseFloat(floatText2);
+
+  if (isNaN(float1) || isNaN(float2)) {
+    return false;
+  }
+
+  return float1 > float2;
+}
+
+export function subFloatTexts(floatText1, floatText2) {
+  const float1 = parseFloat(floatText1);
+  const float2 = parseFloat(floatText2);
+
+  if (isNaN(float1) || isNaN(float2)) {
+    return '0';
+  }
+
+  return (float1 - float2).toString();
+}
