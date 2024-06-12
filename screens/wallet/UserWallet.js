@@ -21,7 +21,12 @@ import {
   InputField,
 } from '@gluestack-ui/themed';
 import { Amount, BOACoin } from 'dms-sdk-client-v2';
-import { convertProperValue, truncateMiddleString } from '../../utils/convert';
+import {
+  compareFloatTexts,
+  convertProperValue,
+  truncateMiddleString,
+  validateNumber,
+} from '../../utils/convert';
 import { ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
@@ -68,6 +73,8 @@ const UserWallet = observer(({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [receiveTokenAmount, setReceiveTokenAmount] = useState(new BOACoin(0));
   const toast = useToast();
+
+  const [ableToDo, setAbleToDo] = useState(false);
 
   useEffect(() => {
     console.log('================= UserWallet > userStore', userStore);
@@ -214,8 +221,9 @@ const UserWallet = observer(({ navigation }) => {
     setShowModal(true);
   };
 
-  const confirmToToken = async () => {
+  const exchangeToToken = async () => {
     console.log('confirm to token');
+    return;
     let steps = [];
     try {
       for await (const step of secretStore.client.ledger.changeToLoyaltyToken()) {
@@ -286,23 +294,32 @@ const UserWallet = observer(({ navigation }) => {
 
   const changeAmount = async (v) => {
     try {
-      if (parseInt(v) <= 0) {
-        formik.setFieldValue('n1', '0');
-        return;
+      const balance = convertProperValue(payablePoint.toBOAString(), 0);
+      if (
+        validateNumber(v) &&
+        compareFloatTexts(v, 0) &&
+        compareFloatTexts(balance, v)
+      ) {
+        userStore.setLoading(true);
+        formik.setFieldValue('n1', v);
+        const inputAmount = Amount.make(v, 18).value;
+        const convertedToken =
+          await secretStore.client.currency.pointToToken(inputAmount);
+        const amount = new BOACoin(convertedToken);
+        console.log('converted token amount :', amount.toBOAString());
+        setReceiveTokenAmount(amount);
+        setAbleToDo(true);
+        userStore.setLoading(false);
+      } else {
+        formik.setFieldValue('n1', '');
+        setAbleToDo(false);
+        setReceiveTokenAmount(Amount.make(0, 18));
+        console.log('below zero');
       }
-
-      userStore.setLoading(true);
-      formik.setFieldValue('n1', v);
-      const inputAmount = Amount.make(v, 18).value;
-      const convertedToken =
-        await secretStore.client.currency.pointToToken(inputAmount);
-      const amount = new BOACoin(convertedToken);
-      console.log('converted token amount :', amount.toBOAString());
-      setReceiveTokenAmount(amount);
-      userStore.setLoading(false);
     } catch (e) {
       console.log(e);
-      formik.setFieldValue('n1', '0');
+      formik.setFieldValue('n1', '');
+      setAbleToDo(false);
       userStore.setLoading(false);
     }
   };
@@ -611,6 +628,9 @@ const UserWallet = observer(({ navigation }) => {
                 <Modal
                   isOpen={showModal}
                   size='lg'
+                  onOpen={() => {
+                    formik.setFieldValue('n1', '');
+                  }}
                   onClose={() => {
                     setShowModal(false);
                   }}>
@@ -728,8 +748,9 @@ const UserWallet = observer(({ navigation }) => {
                         </Box>
                         <Box flex={1} ml={5}>
                           <WrapButton
+                            bg={ableToDo ? '#5C66D5' : '#E4E4E4'}
                             onPress={() => {
-                              confirmToToken();
+                              exchangeToToken();
                             }}>
                             <ActiveButtonText>
                               {t('button.press.a')}
