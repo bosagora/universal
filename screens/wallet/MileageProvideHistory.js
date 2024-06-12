@@ -74,17 +74,13 @@ const MileageProvideHistory = observer(({ navigation }) => {
       console.log('scheduledHistory:', scheduledHistory);
       const res = await secretStore.client.shop.getProvideAndUseTradeHistory(
         userStore.shopId,
-        {
-          limit: 100,
-          skip: 0,
-          sortDirection: 'desc',
-          sortBy: 'blockNumber',
-        },
+        1,
+        100,
       );
 
-      console.log('len :', res.shopTradeHistories?.length);
-      console.log('res.shopTradeHistories 1:', res.shopTradeHistories[0]);
-      const tradeHistory = res.shopTradeHistories
+      console.log('len :', res.items?.length);
+      console.log('res.shopTradeHistories 1:', res.items[0]);
+      const tradeHistory = res.items
         .filter((it) => {
           return it.action === 1 || it.action === 2;
         })

@@ -4815,13 +4815,6 @@ define-properties@^1.1.3, define-properties@^1.1.4:
     has-property-descriptors "^1.0.0"
     object-keys "^1.1.1"
 
-del-osx-lib@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/del-osx-lib/-/del-osx-lib-2.4.0.tgz#82b22e6040538f9340499a0e91325cc35143cbd0"
-  integrity sha512-AYN7B2DDKHTlh6dcJJBs85GG37QwE4CexWk9oFKlINyzvavbG3DsvakrPikTe2T53WC0nvzOp1osOklOFT+XKw==
-  dependencies:
-    ethers "npm:boa-ethers2@^5.7.9"
-
 del@^6.0.0:
   version "6.1.1"
   resolved "https://registry.npmjs.org/del/-/del-6.1.1.tgz"
@@ -4882,24 +4875,17 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-dms-contracts-lib-v2@~2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/dms-contracts-lib-v2/-/dms-contracts-lib-v2-2.0.2.tgz#8d39235c86bb6107c6ff6b615694e87bd111916b"
-  integrity sha512-R8KBjcEyrYdN/xonPTJ25xQZTPM6mSsnKXgssCXCF1vKm0QLMvCd+iQXCPE/WhzvORxLKUfMfSTOMKVK1zzpyQ==
+dms-contracts-lib-v2@~2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/dms-contracts-lib-v2/-/dms-contracts-lib-v2-2.1.1.tgz#d1d5d1d94fcd6da143efe26ef43d26fd65e293a8"
+  integrity sha512-Aha8v4WoklrjFgjx/o3Go2CdL7YmJTNetmBAF9LSfpiTdFnc+UZJMTLFgmwCDLuSwdY6rEZuKZiKXOEMZEWcUg==
   dependencies:
     ethers "5.7.0"
 
-dms-osx-lib@2.14.0:
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/dms-osx-lib/-/dms-osx-lib-2.14.0.tgz#2d821034115f5309e8ee130b707639fcec462775"
-  integrity sha512-Mxh7eM2LrAIlqafGHuDoKQTKk2WsRH5DD4Rr0l1NIBmxNjBwGCbucdj9l1Hw65uPqGfupopi1c5Xk1X7cOHQxw==
-  dependencies:
-    ethers "5.7.0"
-
-dms-sdk-client-v2@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/dms-sdk-client-v2/-/dms-sdk-client-v2-2.0.0.tgz#4b519845ee17d55f117a9345c6b199ea57d81e66"
-  integrity sha512-bG1cZjksP3s5KgifLqXskjgX4539RGNK4vWlB6jFxBQgoO9CVjyZpcMM/UNZSkSQKMcLsIh+GMAY3LQRjNu7AA==
+dms-sdk-client-v2@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/dms-sdk-client-v2/-/dms-sdk-client-v2-2.1.0.tgz#076a8ac4cddf90788596165b9f7c0efcf7c7889d"
+  integrity sha512-F5nSr3A4qWwDo6pT5dWlJyFUAWVQWlFjFanu6UK4dBATG8/mHjJM/b626QsN30TO3E+TlQm4nOYj47Hgn+lUFQ==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/abstract-signer" "^5.7.0"
@@ -4913,47 +4899,14 @@ dms-sdk-client-v2@^2.0.0:
     "@ethersproject/providers" "^5.7.0"
     "@ethersproject/random" "^5.7.0"
     "@ethersproject/wallet" "^5.7.0"
-    dms-contracts-lib-v2 "~2.0.2"
+    dms-contracts-lib-v2 "~2.1.1"
     dms-sdk-common-v2 "~2.0.0"
-    graphql "^16.5.0"
-    graphql-request "^4.3.0"
-    unfetch "^5.0.0"
-
-dms-sdk-client@^2.12.3:
-  version "2.12.3"
-  resolved "https://registry.yarnpkg.com/dms-sdk-client/-/dms-sdk-client-2.12.3.tgz#deb64ca9397f52e836a588ae7c0e09a699f7c39d"
-  integrity sha512-KmXDbeuZvsG53yZ2/WHjMDg9fdk+JYvXNG3Kbc09Ae6veucunGxT1wR/58twjxFoxhZ958agJn9PnXc0M2FaoQ==
-  dependencies:
-    "@ethersproject/abi" "^5.7.0"
-    "@ethersproject/abstract-signer" "^5.7.0"
-    "@ethersproject/bignumber" "^5.7.0"
-    "@ethersproject/bytes" "^5.7.0"
-    "@ethersproject/constants" "^5.7.0"
-    "@ethersproject/contracts" "^5.7.0"
-    "@ethersproject/hash" "^5.7.0"
-    "@ethersproject/keccak256" "^5.7.0"
-    "@ethersproject/networks" "^5.7.0"
-    "@ethersproject/providers" "^5.7.0"
-    "@ethersproject/random" "^5.7.0"
-    "@ethersproject/wallet" "^5.7.0"
-    del-osx-lib "2.4.0"
-    dms-osx-lib "2.14.0"
-    dms-sdk-common "^1.1.0"
-    graphql "^16.5.0"
-    graphql-request "^4.3.0"
     unfetch "^5.0.0"
 
 dms-sdk-common-v2@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/dms-sdk-common-v2/-/dms-sdk-common-v2-2.0.0.tgz#1f69157d20cd6c3fbff946e63a6269ffbf8a1ce0"
   integrity sha512-2KuwshYH3H4to2M7VR58I8E15cU+Gfv+cpCBvYse+y8KRq+6DuySWQjXTzN8pdjePxdQUvaeFM9Cwnzsv1zvYw==
-  dependencies:
-    ethers "^5.7.0"
-
-dms-sdk-common@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/dms-sdk-common/-/dms-sdk-common-1.1.0.tgz#27d2ccbb2d086e08b8a283e0a2e550867add8ea6"
-  integrity sha512-z4EBf6nHjPaCFhYN0+wNeqg/9tIwXj9STcwH9hhGjiHmf/T6ferfz5GMp+SWmvdx5D+0e0QntjasbHRDePuGOQ==
   dependencies:
     ethers "^5.7.0"
 
@@ -5573,11 +5526,6 @@ expo@~49.0.15:
     pretty-format "^26.5.2"
     uuid "^3.4.0"
 
-extract-files@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/extract-files/-/extract-files-9.0.0.tgz#8a7744f2437f81f5ed3250ed9f1550de902fe54a"
-  integrity sha512-CvdFfHkC95B4bBBk36hcEmvdR2awOdhhVUYH6S/zrVj3477zven/fJMYg7121h4T1xHZC+tetUpubpAhxwI7hQ==
-
 fast-base64-decode@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fast-base64-decode/-/fast-base64-decode-1.0.0.tgz"
@@ -5762,7 +5710,7 @@ for-each@^0.3.3:
   dependencies:
     is-callable "^1.1.3"
 
-form-data@^3.0.0, form-data@^3.0.1:
+form-data@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.1.tgz#ebd53791b78356a99af9a300d4282c4d5eb9755f"
   integrity sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==
@@ -5963,15 +5911,6 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.3, graceful-fs@^4.1.6, graceful-fs@^4.2.0,
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-graphql-request@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-4.3.0.tgz#b934e08fcae764aa2cdc697d3c821f046cb5dbf2"
-  integrity sha512-2v6hQViJvSsifK606AliqiNiijb1uwWp6Re7o0RTyH+uRTv/u7Uqm2g4Fjq/LgZIzARB38RZEvVBFOQOVdlBow==
-  dependencies:
-    cross-fetch "^3.1.5"
-    extract-files "^9.0.0"
-    form-data "^3.0.0"
-
 graphql-tag@^2.10.1:
   version "2.12.6"
   resolved "https://registry.npmjs.org/graphql-tag/-/graphql-tag-2.12.6.tgz"
@@ -5983,11 +5922,6 @@ graphql@15.8.0:
   version "15.8.0"
   resolved "https://registry.npmjs.org/graphql/-/graphql-15.8.0.tgz"
   integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
-
-graphql@^16.5.0:
-  version "16.8.1"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.8.1.tgz#1930a965bef1170603702acdb68aedd3f3cf6f07"
-  integrity sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==
 
 has-flag@^3.0.0:
   version "3.0.0"
