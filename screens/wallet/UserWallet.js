@@ -1344,7 +1344,7 @@ const UserWallet = observer(({ navigation }) => {
                                     ? 0
                                     : 2,
                                 )}{' '}
-                                {userStore.currency}
+                                {userStore.currency.toUpperCase()}
                               </AppleSDGothicNeoSBText>
                               <AppleSDGothicNeoSBText
                                 color='#555555'
@@ -1361,7 +1361,7 @@ const UserWallet = observer(({ navigation }) => {
                                     ? 0
                                     : 5,
                                 )}{' '}
-                                {userStore.currency})
+                                {userStore.currency.toUpperCase()})
                               </AppleSDGothicNeoSBText>
                             </VStack>
                           </>
