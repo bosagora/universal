@@ -589,7 +589,8 @@ const TabScreens = observer(() => {
       <Tab.Screen
         name='Wallet'
         component={
-          process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? Wallet : UserWallet
+          // process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? Wallet : UserWallet
+          UserWallet
         }
         options={{
           title: 'wallet',
