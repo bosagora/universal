@@ -1270,12 +1270,24 @@ const UserWallet = observer(({ navigation }) => {
               <Box>
                 <ScrollView showsVerticalScrollIndicator={false}>
                   <VStack mt={50} alignItems='flex-start'>
-                    <HeaderText color='white'>BOSagora</HeaderText>
-                    <SubHeaderText color='white' mt={7}>
-                      {process.env.EXPO_PUBLIC_ENV === 'product'
-                        ? t('wallet.heading.description.mainnet')
-                        : t('wallet.heading.description.devnet')}
-                    </SubHeaderText>
+                    {process.env.EXPO_PUBLIC_APP_KIND === 'user' ? (
+                      <>
+                        <HeaderText color='white'>BOSagora</HeaderText>
+                        <SubHeaderText color='white' mt={7}>
+                          {process.env.EXPO_PUBLIC_ENV === 'product'
+                            ? t('wallet.heading.description.mainnet')
+                            : t('wallet.heading.description.devnet')}
+                        </SubHeaderText>
+                      </>
+                    ) : (
+                      <MobileHeader
+                        title='BOSagora'
+                        subTitle={
+                          process.env.EXPO_PUBLIC_ENV === 'product'
+                            ? t('wallet.heading.description.mainnet')
+                            : t('wallet.heading.description.devnet')
+                        }></MobileHeader>
+                    )}
                     <Box mt={20} w='$full'>
                       <Box>
                         <Box pb={80} bg='white' rounded='$xl'>
