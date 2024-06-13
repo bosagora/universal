@@ -1300,11 +1300,7 @@ const UserWallet = observer(({ navigation }) => {
                               h={18}
                               w={87}
                               alt='alt'
-                              source={
-                                userLoyaltyType === 0
-                                  ? require('../../assets/images/mypoint.png')
-                                  : require('../../assets/images/mykios.png')
-                              }
+                              source={require('../../assets/images/mykios.png')}
                             />
                             <WrapHistoryButton
                               borderRadius='$full'
