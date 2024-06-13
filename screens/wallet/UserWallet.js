@@ -124,7 +124,7 @@ const UserWallet = observer(({ navigation }) => {
     const id = setInterval(async () => {
       try {
         await setWalletData();
-        await setShopData();
+        if (process.env.EXPO_PUBLIC_APP_KIND === 'shop') await setShopData();
       } catch (e) {
         console.log('setWalletData > e1:', e);
       }
@@ -211,29 +211,33 @@ const UserWallet = observer(({ navigation }) => {
       // console.log('onePointAmount :', onePointConv.toBOAString());
       setOnePointRate(onePointConv);
     } catch (e) {
-      console.log('setdata > e2:', e);
+      console.log('setWalletData > e2:', e);
     }
   }
 
   async function setShopData() {
-    const shopInfo = await secretStore.client.shop.getShopInfo(
-      userStore.shopId,
-    );
+    try {
+      const shopInfo = await secretStore.client.shop.getShopInfo(
+        userStore.shopId,
+      );
 
-    const convProvidedAmount = new Amount(shopInfo.providedAmount, 18);
-    const convUsedAmount = new Amount(shopInfo.usedAmount, 18);
-    const convRefundedAmount = new Amount(shopInfo.refundedAmount, 18);
-    const refundableAmountTmp =
-      await secretStore.client.shop.getRefundableAmount(userStore.shopId);
-    const convRefundableAmount = new Amount(
-      refundableAmountTmp.refundableAmount,
-      18,
-    );
+      const convProvidedAmount = new Amount(shopInfo.providedAmount, 18);
+      const convUsedAmount = new Amount(shopInfo.usedAmount, 18);
+      const convRefundedAmount = new Amount(shopInfo.refundedAmount, 18);
+      const refundableAmountTmp =
+        await secretStore.client.shop.getRefundableAmount(userStore.shopId);
+      const convRefundableAmount = new Amount(
+        refundableAmountTmp.refundableAmount,
+        18,
+      );
 
-    setProvidedAmount(convProvidedAmount);
-    setUsedAmount(convUsedAmount);
-    setRefundedAmount(convRefundedAmount);
-    setRefundableAmount(convRefundableAmount);
+      setProvidedAmount(convProvidedAmount);
+      setUsedAmount(convUsedAmount);
+      setRefundedAmount(convRefundedAmount);
+      setRefundableAmount(convRefundableAmount);
+    } catch (e) {
+      console.log('setShopData > ', e);
+    }
   }
 
   const handleQRSheet = async () => {
