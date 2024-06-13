@@ -222,8 +222,17 @@ const Deposit = observer(({ navigation }) => {
         keyboardShouldPersistTaps='handled'
         scrollToOverflowEnabled={true}
         enableAutomaticScroll={true}>
-        <MobileHeader title={t('Deposit / Withdraw')} subTitle='' />
-        <DepositTabs userStore={userStore} />
+        <MobileHeader
+          title={
+            process.env.EXPO_PUBLIC_APP_KIND === 'user'
+              ? t('Deposit / Withdraw')
+              : 'Withdraw'
+          }
+          subTitle=''
+        />
+        {process.env.EXPO_PUBLIC_APP_KIND === 'user' ? (
+          <DepositTabs userStore={userStore} />
+        ) : null}
         <Box mt={20} w='$full'>
           <Box bg='white' rounded='$sm'>
             <VStack>
