@@ -108,7 +108,7 @@ const Index = observer(({ navigation }) => {
     await setData();
     await fetchBalances();
   }
-  async function fetchBalances(cc, userAddress) {
+  async function fetchBalances() {
     if (userStore.walletInterval > 0) clearInterval(userStore.walletInterval);
 
     const id = setInterval(async () => {
@@ -120,6 +120,7 @@ const Index = observer(({ navigation }) => {
     }, 5000);
     userStore.setWalletInterval(id);
   }
+
   async function setData() {
     const pkey = await getSecureValue('privateKey');
     if (pkey !== privateKey) {
@@ -152,7 +153,7 @@ const Index = observer(({ navigation }) => {
     );
     // console.log('tokenBalance :', tokenBalance.toString());
     const tokenBalConv = new BOACoin(tokenBalance);
-    console.log('tokenBalance :', tokenBalConv.toBOAString());
+    // console.log('tokenBalance :', tokenBalConv.toBOAString());
     setUserTokenBalance(tokenBalConv);
 
     let userTokenCurrencyRate =
@@ -177,6 +178,7 @@ const Index = observer(({ navigation }) => {
     // console.log('boaBal :', boaConv.toBOAString());
     setOneTokenRate(oneTokenConv);
   }
+
   const handleQRSheet = async () => {
     // await fetchPoints();
     secretStore.setShowQRSheet(!secretStore.showQRSheet);
@@ -557,7 +559,6 @@ const Index = observer(({ navigation }) => {
 
         <Box h={10}></Box>
       </ScrollView>
-
       <Box>
         <Modal
           isOpen={showModal}

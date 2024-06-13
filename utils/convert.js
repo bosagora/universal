@@ -61,9 +61,6 @@ export function getUnixTime() {
 export function checkValidPeriod(timestamp, timeout) {
   const validTime = timestamp + timeout;
   const now = getUnixTime();
-  // alert(
-  //   'timestamp :' + timestamp + ', validTime : ' + validTime + ', now :' + now,
-  // );
   if (validTime > now) {
     return true;
   } else return false;
@@ -80,6 +77,9 @@ export function getName(lang, type, key) {
         case 'pnb':
           ret = 'PNB';
           break;
+        case 'acc':
+          ret = 'ACC';
+          break;
         default:
           ret = '';
       }
@@ -90,6 +90,9 @@ export function getName(lang, type, key) {
           break;
         case 'pnb':
           ret = 'PNB';
+          break;
+        case 'acc':
+          ret = 'ACC';
           break;
         default:
           ret = '';
@@ -104,6 +107,9 @@ export function getName(lang, type, key) {
         case 'pnb':
           ret = 'PNB';
           break;
+        case 'acc':
+          ret = 'ACC';
+          break;
         default:
           ret = '';
       }
@@ -114,6 +120,9 @@ export function getName(lang, type, key) {
           break;
         case 'pnb':
           ret = 'PNB';
+          break;
+        case 'acc':
+          ret = 'ACC';
           break;
         default:
           ret = '';

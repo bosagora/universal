@@ -185,10 +185,10 @@ const ShopReg = observer(({ navigation }) => {
             </Select>
           </FormControl>
           <WrapButton
-            isDisabled={formik.values?.n1 === ''}
             bg={formik.values?.n1 === '' ? '#E4E4E4' : '#5C66D5'}
-            onPress={formik.handleSubmit}
-            my='$4'>
+            my='$4'
+            isDisabled={formik.values?.n1 === ''}
+            onPress={formik.handleSubmit}>
             <ActiveButtonText>{t('shop.create')}</ActiveButtonText>
           </WrapButton>
         </VStack>
