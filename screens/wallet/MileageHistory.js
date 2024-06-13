@@ -61,11 +61,10 @@ const MileageHistory = observer(({ navigation }) => {
 
       const scheduledHistory = resEst.map((it) => {
         return {
-          id: it.timestamp + it.purchaseId,
+          id: it.blockTimestamp + it.purchaseId,
           action: LedgerAction.SAVED,
           actionName: 'SCHEDULED',
-          loyaltyType: it.loyaltyType,
-          loyaltyTypeName: it.loyaltyType === 0 ? 'POINT' : 'TOKEN',
+
           amountPoint: it.providePoint.substring(0, it.providePoint.length - 9),
           amountToken: it.provideToken.substring(0, it.provideToken.length - 9),
           amountValue: it.provideValue,
@@ -75,16 +74,13 @@ const MileageHistory = observer(({ navigation }) => {
       console.log('scheduledHistory :', scheduledHistory);
       const res = await secretStore.client.ledger.getSaveAndUseHistory(
         secretStore.address,
-        {
-          limit: 100,
-          skip: 0,
-          sortDirection: 'desc',
-          sortBy: 'blockNumber',
-        },
+        1,
+        100,
       );
 
-      console.log('len :', res.userTradeHistories?.length);
-      const tradeHistory = res.userTradeHistories
+      console.log('len :', res.items?.length);
+      console.log('res :', res);
+      const tradeHistory = res.items
         .filter((it) => {
           return (
             it.action === LedgerAction.SAVED ||
@@ -94,7 +90,7 @@ const MileageHistory = observer(({ navigation }) => {
         })
         .map((it) => {
           return {
-            id: it.id,
+            id: it.blockTimestamp + it.purchaseId,
             action: it.action,
             actionName:
               it.cancel === true
@@ -104,8 +100,7 @@ const MileageHistory = observer(({ navigation }) => {
                 : it.action === LedgerAction.CHANGED
                 ? 'CHANGED'
                 : 'USED',
-            loyaltyType: it.loyaltyType,
-            loyaltyTypeName: it.loyaltyType === 0 ? 'POINT' : 'TOKEN',
+
             amountPoint: it.amountPoint,
             amountToken: it.amountToken,
             amountValue: it.amountValue,
@@ -209,23 +204,18 @@ const MileageHistory = observer(({ navigation }) => {
                         ? '-'
                         : ''}
                       {convertProperValue(
-                        item.loyaltyType === 1
-                          ? new Amount(
-                              BigNumber.from(item.amountToken),
-                              9,
-                            ).toBOAString()
-                          : new Amount(
-                              BigNumber.from(item.amountPoint),
-                              9,
-                            ).toBOAString(),
-                        item.loyaltyType,
+                        new Amount(
+                          BigNumber.from(item.amountPoint),
+                          18,
+                        ).toBOAString(),
+                        0,
                       )}{' '}
                     </NumberText>
                     <Para3Text
                       pt={4}
                       color='#12121D'
                       style={{ fontWeight: 400 }}>
-                      {item.loyaltyTypeName}
+                      Point(s)
                     </Para3Text>
                   </HStack>
                 </HStack>
