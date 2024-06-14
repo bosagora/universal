@@ -4,7 +4,11 @@ import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import { Box, FlatList, HStack, Text, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
-import { convertProperValue, timePadding } from '../../utils/convert';
+import {
+  convertProperValue,
+  timePadding,
+  truncateMiddleString,
+} from '../../utils/convert';
 import { Amount, BOACoin, LedgerAction } from 'dms-sdk-client-v2';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useTranslation } from 'react-i18next';
@@ -54,88 +58,22 @@ const TransferMainChainHistory = observer(({ navigation }) => {
   console.log(timeConverter(0));
   useEffect(() => {
     const fetchHistory = async () => {
-      const resEst =
+      const resTransferHistory =
         await secretStore.client.ledger.getTransferHistoryInMainChain(
           secretStore.address,
         );
-      console.log('resEst:', resEst);
+      console.log('resTransferHistory:', resTransferHistory);
 
-      const scheduledHistory = resEst.map((it) => {
+      const history = resTransferHistory.items.map((it) => {
         return {
-          id: it.timestamp + it.purchaseId,
-          action: LedgerAction.SAVED,
-          actionName: 'SCHEDULED',
-          loyaltyType: it.loyaltyType,
-          loyaltyTypeName: it.loyaltyType === 0 ? 'POINT' : 'TOKEN',
-          amountPoint: it.providePoint.substring(0, it.providePoint.length - 9),
-          amountToken: it.provideToken.substring(0, it.provideToken.length - 9),
-          amountValue: it.provideValue,
-          blockTimestamp: it.timestamp,
+          id: it.blockTimestamp,
+          from: it.from,
+          to: it.to,
+          value: it.value,
+          blockTimestamp: it.blockTimestamp,
         };
       });
-      console.log('scheduledHistory :', scheduledHistory);
-      const res = await secretStore.client.ledger.getSaveAndUseHistory(
-        secretStore.address,
-        {
-          limit: 100,
-          skip: 0,
-          sortDirection: 'desc',
-          sortBy: 'blockNumber',
-        },
-      );
 
-      console.log('len :', res.userTradeHistories?.length);
-      const tradeHistory = res.userTradeHistories
-        .filter((it) => {
-          return (
-            it.action === LedgerAction.SAVED ||
-            it.action === LedgerAction.USED ||
-            it.action === LedgerAction.CHANGED
-          );
-        })
-        .map((it) => {
-          return {
-            id: it.id,
-            action: it.action,
-            actionName:
-              it.cancel === true
-                ? 'CANCEL'
-                : it.action === LedgerAction.SAVED
-                ? 'SAVED'
-                : it.action === LedgerAction.CHANGED
-                ? 'CHANGED'
-                : 'USED',
-            loyaltyType: it.loyaltyType,
-            loyaltyTypeName: it.loyaltyType === 0 ? 'POINT' : 'TOKEN',
-            amountPoint: it.amountPoint,
-            amountToken: it.amountToken,
-            amountValue: it.amountValue,
-            blockTimestamp: it.blockTimestamp,
-          };
-        });
-      const history = scheduledHistory.concat(tradeHistory);
-      // const history = [
-      //   {
-      //     action: 1,
-      //     actionName: 'SAVED',
-      //     amountPoint: '10000000000000',
-      //     blockTimestamp: '1710296615',
-      //     currency: process.env.EXPO_PUBLIC_CURRENCY,
-      //     id: '0x3312188d36afff93ee6b6784c1372be0bd37db34f94069b1f917e97904193b4901000000',
-      //     increase: '2500000000000',
-      //     loyaltyTypeName: 'POINT',
-      //   },
-      //   {
-      //     action: 1,
-      //     actionName: 'SAVED',
-      //     amountPoint: '7500000000000',
-      //     blockTimestamp: '1710296579',
-      //     currency: process.env.EXPO_PUBLIC_CURRENCY,
-      //     id: '0x4a0ac844d4f16bfbaa4fa0b01cf17bfa24581496f69c756ae2887ba9a51de19201000000',
-      //     increase: '7500000000000',
-      //     loyaltyTypeName: 'POINT',
-      //   },
-      // ];
       history.sort(function (a, b) {
         // 오름차순
         return a.blockTimestamp > b.blockTimestamp
@@ -182,15 +120,7 @@ const TransferMainChainHistory = observer(({ navigation }) => {
                   justifyContent='space-between'>
                   <VStack>
                     <ParaText fontSize={14} fontWeight={400} lightHeight={20}>
-                      {item.actionName === 'SCHEDULED'
-                        ? t('user.wallet.history.body.text.e')
-                        : item.actionName === 'CANCEL'
-                        ? t('wallet.history.body.text.a')
-                        : item.actionName === 'SAVED'
-                        ? t('wallet.history.body.text.b')
-                        : item.actionName === 'USED'
-                        ? t('wallet.history.body.text.c')
-                        : t('user.wallet.history.body.text.d')}
+                      TO : {truncateMiddleString(item.to || '', 16)}
                     </ParaText>
                     <ParaText
                       fontSize={15}
@@ -202,31 +132,19 @@ const TransferMainChainHistory = observer(({ navigation }) => {
                   </VStack>
                   <HStack alignItems='center' justifyContent='flex-end'>
                     <NumberText>
-                      {item.actionName === 'CANCEL' ||
-                      item.actionName === 'SAVED' ||
-                      item.actionName === 'SCHEDULED'
-                        ? '+'
-                        : item.actionName === 'USED'
-                        ? '-'
-                        : ''}
                       {convertProperValue(
-                        item.loyaltyType === 1
-                          ? new Amount(
-                              BigNumber.from(item.amountToken),
-                              9,
-                            ).toBOAString()
-                          : new Amount(
-                              BigNumber.from(item.amountPoint),
-                              9,
-                            ).toBOAString(),
-                        item.loyaltyType,
+                        new Amount(
+                          BigNumber.from(item.value),
+                          18,
+                        ).toBOAString(),
+                        1,
                       )}{' '}
                     </NumberText>
                     <Para3Text
                       pt={4}
                       color='#12121D'
                       style={{ fontWeight: 400 }}>
-                      {item.loyaltyTypeName}
+                      ACC
                     </Para3Text>
                   </HStack>
                 </HStack>
