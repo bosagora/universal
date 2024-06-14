@@ -53,29 +53,25 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
   console.log(timeConverter(0));
   useEffect(() => {
     const fetchHistory = async () => {
-      const res = await secretStore.client.shop.getWithdrawTradeHistory(
+      const res = await secretStore.client.shop.getRefundHistory(
         userStore.shopId,
-        {
-          limit: 100,
-          skip: 0,
-          sortDirection: 'desc',
-          sortBy: 'blockNumber',
-        },
+        1,
+        100,
       );
 
       console.log('len :', res);
-      console.log('len :', res.shopTradeHistories?.length);
-      const history = res.shopTradeHistories
+      console.log('len :', res.items?.length);
+      const history = res.items
         .filter((it) => {
-          return it.action === 11 || it.action === 12;
+          return it.action === 3;
         })
         .map((it) => {
           return {
             id: it.id,
             action: it.action,
             increase: it.increase,
-            actionName: it.action === 11 ? 'OPEN_WITHDRAWN' : 'CLOSE_WITHDRAWN',
-            amount: it.action === 11 ? it.increase : it.increase,
+            actionName: 'REFUND',
+            amount: it.increase,
             blockTimestamp: it.blockTimestamp,
           };
         });
@@ -129,12 +125,12 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
                     {convertShopProperValue(
                       new Amount(
                         BigNumber.from(item.increase),
-                        9,
+                        18,
                       ).toBOAString(),
                     )}{' '}
                   </NumberText>
                   <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-                    {userStore.currency.toUpperCase()}
+                    Point(s)
                   </Para3Text>
                 </HStack>
               </HStack>
