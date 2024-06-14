@@ -25,11 +25,11 @@ export function convertProperValue(str, type, dec = 2, trunc = 10) {
 
 export function convertShopProperValue(
   str,
-  currency = 'krw',
+  currency = process.env.EXPO_PUBLIC_CURRENCY,
   dec = 2,
   trunc = 10,
 ) {
-  if (currency.toLowerCase() === 'krw') dec = -1;
+  if (currency.toLowerCase() === process.env.EXPO_PUBLIC_CURRENCY) dec = -1;
   return numberWithCommas(truncateString(toFix(str, dec), trunc));
 }
 

@@ -61,12 +61,11 @@ const MileageHistory = observer(({ navigation }) => {
 
       const scheduledHistory = resEst.map((it) => {
         return {
-          id: it.blockTimestamp + it.purchaseId,
+          id: it.timestamp + it.purchaseId,
           action: LedgerAction.SAVED,
           actionName: 'SCHEDULED',
 
           amountPoint: it.providePoint.substring(0, it.providePoint.length - 9),
-          amountToken: it.provideToken.substring(0, it.provideToken.length - 9),
           amountValue: it.provideValue,
           blockTimestamp: it.timestamp,
         };
@@ -85,7 +84,7 @@ const MileageHistory = observer(({ navigation }) => {
           return (
             it.action === LedgerAction.SAVED ||
             it.action === LedgerAction.USED ||
-            it.action === LedgerAction.CHANGED
+            it.action === LedgerAction.CHANGED_TO_TOKEN
           );
         })
         .map((it) => {
@@ -97,39 +96,17 @@ const MileageHistory = observer(({ navigation }) => {
                 ? 'CANCEL'
                 : it.action === LedgerAction.SAVED
                 ? 'SAVED'
-                : it.action === LedgerAction.CHANGED
+                : it.action === LedgerAction.CHANGED_TO_TOKEN
                 ? 'CHANGED'
                 : 'USED',
 
             amountPoint: it.amountPoint,
-            amountToken: it.amountToken,
             amountValue: it.amountValue,
             blockTimestamp: it.blockTimestamp,
           };
         });
       const history = scheduledHistory.concat(tradeHistory);
-      // const history = [
-      //   {
-      //     action: 1,
-      //     actionName: 'SAVED',
-      //     amountPoint: '10000000000000',
-      //     blockTimestamp: '1710296615',
-      //     currency: 'krw',
-      //     id: '0x3312188d36afff93ee6b6784c1372be0bd37db34f94069b1f917e97904193b4901000000',
-      //     increase: '2500000000000',
-      //     loyaltyTypeName: 'POINT',
-      //   },
-      //   {
-      //     action: 1,
-      //     actionName: 'SAVED',
-      //     amountPoint: '7500000000000',
-      //     blockTimestamp: '1710296579',
-      //     currency: 'krw',
-      //     id: '0x4a0ac844d4f16bfbaa4fa0b01cf17bfa24581496f69c756ae2887ba9a51de19201000000',
-      //     increase: '7500000000000',
-      //     loyaltyTypeName: 'POINT',
-      //   },
-      // ];
+
       history.sort(function (a, b) {
         // 오름차순
         return a.blockTimestamp > b.blockTimestamp
