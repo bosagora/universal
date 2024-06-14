@@ -20,7 +20,7 @@ import {
 } from '@gluestack-ui/themed';
 import { Amount, BOACoin } from 'dms-sdk-client-v2';
 import {
-  compareFloatTexts,
+  greaterFloatTexts,
   convertProperValue,
   convertShopProperValue,
   truncateMiddleString,
@@ -268,8 +268,8 @@ const Index = observer(({ navigation }) => {
       const balance = convertProperValue(refundableAmount.toBOAString(), 0);
       if (
         validateNumber(v) &&
-        compareFloatTexts(v, 0) &&
-        compareFloatTexts(balance, v)
+        greaterFloatTexts(v, 0) &&
+        greaterFloatTexts(balance, v)
       ) {
         userStore.setLoading(true);
         formik.setFieldValue('n1', v);

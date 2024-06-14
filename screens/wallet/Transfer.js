@@ -13,7 +13,7 @@ import {
 import MobileHeader from '../../components/MobileHeader';
 import { getClient } from '../../utils/client';
 import {
-  compareFloatTexts,
+  greaterFloatTexts,
   convertProperValue,
   subFloatTexts,
   truncateMiddleString,
@@ -184,8 +184,8 @@ const Transfer = observer(({ navigation }) => {
     const fee = userStore.isMainChainTransfer ? mainChainFee : sideChainFee;
     if (
       validateNumberWithDecimal(vv) &&
-      compareFloatTexts(vv, fee.toBOAString()) &&
-      compareFloatTexts(balance, vv)
+      greaterFloatTexts(vv, fee.toBOAString()) &&
+      greaterFloatTexts(balance, vv)
     ) {
       setAbleToDo(true);
       const aa = subFloatTexts(vv, fee.toBOAString());
