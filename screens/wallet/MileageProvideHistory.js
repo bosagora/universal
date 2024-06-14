@@ -60,11 +60,8 @@ const MileageProvideHistory = observer(({ navigation }) => {
       const scheduledHistory = resEst.map((it) => {
         return {
           id: it.timestamp + it.purchaseId,
-          action: it.action,
-          increase: it.providedAmount.substring(
-            0,
-            it.providedAmount.length - 9,
-          ),
+          action: 0,
+          increase: it.providedAmount,
           currency: it.currency,
           actionName: 'SCHEDULED',
           amount: it.providedAmount,
@@ -86,7 +83,7 @@ const MileageProvideHistory = observer(({ navigation }) => {
         })
         .map((it) => {
           return {
-            id: it.id,
+            id: it.transactionHash,
             action: it.action,
             increase: it.increase,
             currency: it.currency,
@@ -168,7 +165,7 @@ const MileageProvideHistory = observer(({ navigation }) => {
                       {convertShopProperValue(
                         new Amount(
                           BigNumber.from(item.increase),
-                          9,
+                          18,
                         ).toBOAString(),
                         item.currency,
                       )}{' '}
@@ -177,7 +174,7 @@ const MileageProvideHistory = observer(({ navigation }) => {
                       pt={4}
                       color='#12121D'
                       style={{ fontWeight: 400 }}>
-                      {item.currency.toUpperCase()}
+                      Point(s)
                     </Para3Text>
                   </HStack>
                 </HStack>

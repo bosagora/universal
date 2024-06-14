@@ -266,7 +266,29 @@ const UserWallet = observer(({ navigation }) => {
       alert(t('user.wallet.alert.convert.fail') + JSON.stringify(e.message));
     }
   };
-  const refundToToken = async () => {};
+  const refundToToken = async () => {
+    try {
+      userStore.setLoading(true);
+      const amount = Amount.make(
+        refundFormik.values.refundablePoints,
+        18,
+      ).value;
+      const steps = [];
+      for await (const step of secretStore.client.shop.refund(
+        userStore.shopId,
+        amount,
+      )) {
+        console.log('exchangeToToken step :', step);
+        steps.push(step);
+      }
+      userStore.setLoading(false);
+    } catch (e) {
+      await Clipboard.setStringAsync(JSON.stringify(e));
+      console.log('error : ', e);
+      userStore.setLoading(false);
+      alert(t('wallet.modal.a.alert.fail') + JSON.stringify(e.message));
+    }
+  };
 
   const goToDeposit = (tp) => {
     if (tp === 'deposit') {
@@ -378,6 +400,7 @@ const UserWallet = observer(({ navigation }) => {
       console.log('form values :', values);
       refundToToken().then((v) => console.log('refunded to token'));
       resetForm();
+      setShowRefundPointModal(false);
     },
   });
 
@@ -980,7 +1003,7 @@ const UserWallet = observer(({ navigation }) => {
                             {refundableAmount.value.gt(BigNumber.from(0)) ? (
                               <WrapButton
                                 h={36}
-                                onPress={() => handleRequest()}>
+                                onPress={() => setShowRefundPointModal(true)}>
                                 <PinButtonText
                                   style={{
                                     fontWeight: 500,
