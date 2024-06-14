@@ -114,7 +114,7 @@ const Transfer = observer(({ navigation }) => {
     try {
       userStore.setLoading(true);
       const amount = Amount.make(formik.values.amount, 18).value;
-      let depositId = '';
+      console.log('main chain transfer');
       const steps = [];
       for await (const step of secretStore.client.ledger.transferInMainChain(
         receiveAddress,
@@ -139,14 +139,8 @@ const Transfer = observer(({ navigation }) => {
       userStore.setLoading(true);
       const amount = Amount.make(formik.values.amount, 18).value;
       let depositId = '';
+      console.log('Transfer');
 
-      const type =
-        await secretStore.client.ledger.getLoyaltyType(receiveAddress);
-      if (type !== 1) {
-        userStore.setLoading(false);
-        alert('미등록 또는 토큰을 사용할 수 없는 주소로 전송할 수 없습니다.');
-        return;
-      }
       const steps = [];
       for await (const step of secretStore.client.ledger.transfer(
         receiveAddress,
