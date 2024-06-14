@@ -161,7 +161,10 @@ const UserWallet = observer(({ navigation }) => {
         );
 
       const userTokenCurrencyConv = new BOACoin(userTokenCurrencyRate);
-      // console.log('userTokenCurrencyConv :', userTokenCurrencyConv.toBOAString());
+      console.log(
+        'userTokenCurrencyConv :',
+        userTokenCurrencyConv.toBOAString(),
+      );
       setUserTokenRate(userTokenCurrencyConv);
 
       let userTokenMainnetCurrencyRate =
@@ -185,7 +188,7 @@ const UserWallet = observer(({ navigation }) => {
 
       // console.log('oneTokenCurrencyRate :', oneTokenCurrencyRate.toString());
       const oneTokenConv = new BOACoin(oneTokenCurrencyRate);
-      // console.log('oneTokenConv :', oneTokenConv.toBOAString());
+      console.log('oneTokenConv :', oneTokenConv.toBOAString());
       setOneTokenRate(oneTokenConv);
 
       const userPoint = await secretStore.client.ledger.getPointBalance(
@@ -1079,14 +1082,8 @@ const UserWallet = observer(({ navigation }) => {
                             ≒{' '}
                             {convertProperValue(
                               userTokenRate.toBOAString(),
-                              userStore.currency.toLowerCase() ===
-                                process.env.EXPO_PUBLIC_CURRENCY
-                                ? 0
-                                : 1,
-                              userStore.currency.toLowerCase() ===
-                                process.env.EXPO_PUBLIC_CURRENCY
-                                ? 0
-                                : 2,
+                              0,
+                              2,
                             )}{' '}
                             {userStore.currency.toUpperCase()}
                           </AppleSDGothicNeoSBText>
@@ -1096,7 +1093,11 @@ const UserWallet = observer(({ navigation }) => {
                             lineHeight={22}
                             fontWeight={400}>
                             (1 {t('token.name')} ≒{' '}
-                            {convertProperValue(oneTokenRate.toBOAString(), 0)}{' '}
+                            {convertProperValue(
+                              oneTokenRate.toBOAString(),
+                              1,
+                              5,
+                            )}{' '}
                             {userStore.currency.toUpperCase()})
                           </AppleSDGothicNeoSBText>
                           {process.env.EXPO_PUBLIC_APP_KIND === 'user' ? (
