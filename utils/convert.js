@@ -13,7 +13,7 @@ export function truncateMiddleString(str, num = 10) {
     return str;
   }
 }
-function toFix(str, dec = 2) {
+export function toFix(str, dec = 2) {
   const index = str.indexOf('.');
   return str.slice(0, index + (dec + 1));
 }
@@ -145,7 +145,7 @@ export function validateNumber(numberString) {
   return regex.test(numberString);
 }
 
-export function compareFloatTexts(floatText1, floatText2) {
+export function greaterFloatTexts(floatText1, floatText2) {
   const float1 = parseFloat(floatText1);
   const float2 = parseFloat(floatText2);
 
@@ -154,6 +154,17 @@ export function compareFloatTexts(floatText1, floatText2) {
   }
 
   return float1 > float2;
+}
+
+export function greaterAndEqualFloatTexts(floatText1, floatText2) {
+  const float1 = parseFloat(floatText1);
+  const float2 = parseFloat(floatText2);
+
+  if (isNaN(float1) || isNaN(float2)) {
+    return false;
+  }
+
+  return float1 >= float2;
 }
 
 export function subFloatTexts(floatText1, floatText2) {

@@ -56,16 +56,12 @@ const DepositHistory = observer(({ navigation }) => {
     const fetchHistory = async () => {
       const res = await secretStore.client.ledger.getDepositAndWithdrawHistory(
         secretStore.address,
-        {
-          limit: 100,
-          skip: 0,
-          sortDirection: 'desc',
-          sortBy: 'blockNumber',
-        },
+        1,
+        100,
       );
-
-      console.log('len :', res.userTradeHistories?.length);
-      const tradeHistory = res.userTradeHistories
+      console.log('items : ', res.items);
+      console.log('len :', res.items?.length);
+      const tradeHistory = res.items
         .filter((it) => {
           return (
             it.action === LedgerAction.DEPOSITED ||
@@ -74,12 +70,11 @@ const DepositHistory = observer(({ navigation }) => {
         })
         .map((it) => {
           return {
-            id: it.id,
+            id: it.transactionHash,
             action: it.action,
             actionName:
               it.action === LedgerAction.WITHDRAWN ? 'WITHDRAWN' : 'DEPOSITED',
-            loyaltyType: it.loyaltyType,
-            loyaltyTypeName: 'TOKEN',
+
             amountPoint: it.amountPoint,
             amountToken: it.amountToken,
             amountValue: it.amountValue,
@@ -146,23 +141,18 @@ const DepositHistory = observer(({ navigation }) => {
                         ? '-'
                         : ''}
                       {convertProperValue(
-                        item.loyaltyType === 1
-                          ? new Amount(
-                              BigNumber.from(item.amountToken),
-                              9,
-                            ).toBOAString()
-                          : new Amount(
-                              BigNumber.from(item.amountPoint),
-                              9,
-                            ).toBOAString(),
-                        item.loyaltyType,
+                        new Amount(
+                          BigNumber.from(item.amountToken),
+                          18,
+                        ).toBOAString(),
+                        1,
                       )}{' '}
                     </NumberText>
                     <Para3Text
                       pt={4}
                       color='#12121D'
                       style={{ fontWeight: 400 }}>
-                      {item.loyaltyTypeName}
+                      ACC
                     </Para3Text>
                   </HStack>
                 </HStack>

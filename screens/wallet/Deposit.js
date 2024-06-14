@@ -11,7 +11,7 @@ import {
 } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import {
-  compareFloatTexts,
+  greaterFloatTexts,
   convertProperValue,
   subFloatTexts,
   validateNumberWithDecimal,
@@ -198,8 +198,8 @@ const Deposit = observer(({ navigation }) => {
     console.log('balance :', balance);
     if (
       validateNumberWithDecimal(vv) &&
-      compareFloatTexts(vv, sideChainFee.toBOAString()) &&
-      compareFloatTexts(balance, vv)
+      greaterFloatTexts(vv, sideChainFee.toBOAString()) &&
+      greaterFloatTexts(balance, vv)
     ) {
       setAbleToDo(true);
       const aa = subFloatTexts(vv, fee.toBOAString());

@@ -18,12 +18,14 @@ import {
   Input,
   InputField,
 } from '@gluestack-ui/themed';
-import { Amount, BOACoin } from 'dms-sdk-client-v2';
+import { Amount, BOACoin, NormalSteps } from 'dms-sdk-client-v2';
 import {
-  compareFloatTexts,
+  greaterFloatTexts,
   convertProperValue,
   truncateMiddleString,
   validateNumber,
+  greaterAndEqualFloatTexts,
+  toFix,
 } from '../../utils/convert';
 import { ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -134,12 +136,12 @@ const UserWallet = observer(({ navigation }) => {
 
   async function setWalletData() {
     try {
-      const tokenBalance = await secretStore.client.ledger.getSideChainBalance(
+      const tokenBalance = await secretStore.client.ledger.getTokenBalance(
         secretStore.address,
       );
       // console.log('tokenBalance :', tokenBalance.toString());
       const tokenBalConv = new BOACoin(tokenBalance);
-      console.log('tokenBalance :', tokenBalConv.toBOAString());
+      // console.log('tokenBalance :', tokenBalConv.toBOAString());
       setUserTokenBalance(tokenBalConv);
 
       const tokenMainnetBalance =
@@ -183,14 +185,14 @@ const UserWallet = observer(({ navigation }) => {
 
       // console.log('oneTokenCurrencyRate :', oneTokenCurrencyRate.toString());
       const oneTokenConv = new BOACoin(oneTokenCurrencyRate);
-      // console.log('boaBal :', boaConv.toBOAString());
+      // console.log('oneTokenConv :', oneTokenConv.toBOAString());
       setOneTokenRate(oneTokenConv);
 
       const userPoint = await secretStore.client.ledger.getPointBalance(
         secretStore.address,
       );
       const payableConv = new BOACoin(userPoint);
-      console.log('userPoint :', payableConv.toBOAString());
+      // console.log('userPoint :', payableConv.toBOAString());
       setPayablePoint(payableConv);
 
       let pointCurrencyRate = await secretStore.client.currency.pointToCurrency(
@@ -245,7 +247,25 @@ const UserWallet = observer(({ navigation }) => {
     console.log('handle QR sheet : ', secretStore.showQRSheet);
   };
 
-  const exchangeToToken = async () => {};
+  const exchangeToToken = async () => {
+    try {
+      userStore.setLoading(true);
+      const amount = Amount.make(pointFormik.values.points, 18).value;
+      const steps = [];
+      for await (const step of secretStore.client.ledger.exchangePointToToken(
+        amount,
+      )) {
+        console.log('exchangeToToken step :', step);
+        steps.push(step);
+      }
+      userStore.setLoading(false);
+    } catch (e) {
+      await Clipboard.setStringAsync(JSON.stringify(e));
+      console.log('error : ', e);
+      userStore.setLoading(false);
+      alert(t('user.wallet.alert.convert.fail') + JSON.stringify(e.message));
+    }
+  };
   const refundToToken = async () => {};
 
   const goToDeposit = (tp) => {
@@ -285,21 +305,31 @@ const UserWallet = observer(({ navigation }) => {
       console.log('exchange form values :', values);
       exchangeToToken().then((v) => console.log('exchanged to token'));
       resetForm();
+      setShowConvertPointModal(false);
     },
   });
 
   const setMaxAvailablePointAmount = () => {
-    const balance = convertProperValue(payablePoint.toBOAString(), 0);
+    const balance = payablePoint.toBOAString();
     setTokenAmountForPoint(balance);
   };
 
   const setTokenAmountForPoint = async (v) => {
     try {
-      const balance = convertProperValue(payablePoint.toBOAString(), 0);
+      const balance = payablePoint.toBOAString();
+      v = parseInt(v).toFixed(0);
+      console.log('setTokenAmountForPoint > v :', v);
+      console.log('setTokenAmountForPoint > balance :', balance);
+      console.log('validNumber :', validateNumber(v));
+      console.log('greaterFloatTexts :', greaterFloatTexts(v, 0));
+      console.log(
+        'greaterAndEqualFloatTexts :',
+        greaterAndEqualFloatTexts(balance, v),
+      );
       if (
         validateNumber(v) &&
-        compareFloatTexts(v, 0) &&
-        compareFloatTexts(balance, v)
+        greaterFloatTexts(v, 0) &&
+        greaterAndEqualFloatTexts(balance, v)
       ) {
         userStore.setLoading(true);
         pointFormik.setFieldValue('points', v);
@@ -359,10 +389,11 @@ const UserWallet = observer(({ navigation }) => {
   const setRefundPointAmount = async (v) => {
     try {
       const balance = convertProperValue(refundableAmount.toBOAString(), 0);
+      console.log('validNumber :', validateNumber(v));
       if (
         validateNumber(v) &&
-        compareFloatTexts(v, 0) &&
-        compareFloatTexts(balance, v)
+        greaterFloatTexts(v, 0) &&
+        greaterAndEqualFloatTexts(balance, v)
       ) {
         userStore.setLoading(true);
         refundFormik.setFieldValue('refundablePoints', v);
@@ -648,14 +679,8 @@ const UserWallet = observer(({ navigation }) => {
                                   (1 {t('token.name')} ≒{' '}
                                   {convertProperValue(
                                     oneTokenRate.toBOAString(),
-                                    userStore.currency.toLowerCase() ===
-                                      process.env.EXPO_PUBLIC_CURRENCY
-                                      ? 0
-                                      : 1,
-                                    userStore.currency.toLowerCase() ===
-                                      process.env.EXPO_PUBLIC_CURRENCY
-                                      ? 0
-                                      : 5,
+                                    1,
+                                    5,
                                   )}{' '}
                                   {userStore.currency.toUpperCase()})
                                 </AppleSDGothicNeoSBText>
@@ -1048,17 +1073,7 @@ const UserWallet = observer(({ navigation }) => {
                             lineHeight={22}
                             fontWeight={400}>
                             (1 {t('token.name')} ≒{' '}
-                            {convertProperValue(
-                              oneTokenRate.toBOAString(),
-                              userStore.currency.toLowerCase() ===
-                                process.env.EXPO_PUBLIC_CURRENCY
-                                ? 0
-                                : 1,
-                              userStore.currency.toLowerCase() ===
-                                process.env.EXPO_PUBLIC_CURRENCY
-                                ? 0
-                                : 5,
-                            )}{' '}
+                            {convertProperValue(oneTokenRate.toBOAString(), 0)}{' '}
                             {userStore.currency.toUpperCase()})
                           </AppleSDGothicNeoSBText>
                           {process.env.EXPO_PUBLIC_APP_KIND === 'user' ? (
@@ -1371,14 +1386,8 @@ const UserWallet = observer(({ navigation }) => {
                                 (1 {t('token.name')} ≒{' '}
                                 {convertProperValue(
                                   oneTokenRate.toBOAString(),
-                                  userStore.currency.toLowerCase() ===
-                                    process.env.EXPO_PUBLIC_CURRENCY
-                                    ? 0
-                                    : 1,
-                                  userStore.currency.toLowerCase() ===
-                                    process.env.EXPO_PUBLIC_CURRENCY
-                                    ? 0
-                                    : 5,
+                                  1,
+                                  5,
                                 )}{' '}
                                 {userStore.currency.toUpperCase()})
                               </AppleSDGothicNeoSBText>
