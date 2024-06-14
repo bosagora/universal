@@ -119,15 +119,19 @@ const TransferMainChainHistory = observer(({ navigation }) => {
                   alignItems='center'
                   justifyContent='space-between'>
                   <VStack>
-                    <ParaText fontSize={14} fontWeight={400} lightHeight={20}>
-                      TO : {truncateMiddleString(item.to || '', 16)}
-                    </ParaText>
                     <ParaText
+                      mb={2}
                       fontSize={15}
                       fontWeight={500}
                       lightHeight={16}
                       color='#707070'>
                       {timeConverter(item.blockTimestamp)}
+                    </ParaText>
+                    <ParaText fontSize={14} fontWeight={400} lightHeight={20}>
+                      FROM : {truncateMiddleString(item.from || '', 16)}
+                    </ParaText>
+                    <ParaText fontSize={14} fontWeight={400} lightHeight={20}>
+                      TO : {truncateMiddleString(item.to || '', 16)}
                     </ParaText>
                   </VStack>
                   <HStack alignItems='center' justifyContent='flex-end'>

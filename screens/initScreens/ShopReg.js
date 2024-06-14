@@ -178,8 +178,7 @@ const ShopReg = observer(({ navigation }) => {
                     label={process.env.EXPO_PUBLIC_CURRENCY}
                     value={process.env.EXPO_PUBLIC_CURRENCY}
                     defaultValue={true}></SelectItem>
-                  <SelectItem label='USD' value='usd' isDisabled={false} />
-                  <SelectItem label='PHP' value='php' isDisabled={false} />
+                  <SelectItem label='USD' value='usd' isDisabled={true} />
                 </SelectContent>
               </SelectPortal>
             </Select>
