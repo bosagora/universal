@@ -510,8 +510,9 @@ const UserWallet = observer(({ navigation }) => {
                                   ≒{' '}
                                   {convertProperValue(
                                     payablePointRate.toBOAString(),
+                                    0,
                                   )}{' '}
-                                  {userStore.currency}
+                                  {userStore.currency.toUpperCase()}
                                 </AppleSDGothicNeoSBText>
                                 <AppleSDGothicNeoSBText
                                   color='#555555'
@@ -521,14 +522,16 @@ const UserWallet = observer(({ navigation }) => {
                                   (1 Point ≒{' '}
                                   {convertProperValue(
                                     onePointRate.toBOAString(),
-                                    userStore.currency.toLowerCase() === 'krw'
+                                    userStore.currency.toLowerCase() ===
+                                      process.env.EXPO_PUBLIC_CURRENCY
                                       ? 0
                                       : 1,
-                                    userStore.currency.toLowerCase() === 'krw'
+                                    userStore.currency.toLowerCase() ===
+                                      process.env.EXPO_PUBLIC_CURRENCY
                                       ? 0
                                       : 5,
                                   )}{' '}
-                                  {userStore.currency} )
+                                  {userStore.currency.toUpperCase()} )
                                 </AppleSDGothicNeoSBText>
 
                                 <Box mt='$6' w='$full' pb={20}>
@@ -626,14 +629,16 @@ const UserWallet = observer(({ navigation }) => {
                                   ≒{' '}
                                   {convertProperValue(
                                     userTokenRate.toBOAString(),
-                                    userStore.currency.toLowerCase() === 'krw'
+                                    userStore.currency.toLowerCase() ===
+                                      process.env.EXPO_PUBLIC_CURRENCY
                                       ? 0
                                       : 1,
-                                    userStore.currency.toLowerCase() === 'krw'
+                                    userStore.currency.toLowerCase() ===
+                                      process.env.EXPO_PUBLIC_CURRENCY
                                       ? 0
                                       : 2,
                                   )}{' '}
-                                  {userStore.currency}
+                                  {userStore.currency.toUpperCase()}
                                 </AppleSDGothicNeoSBText>
                                 <AppleSDGothicNeoSBText
                                   color='#555555'
@@ -643,14 +648,16 @@ const UserWallet = observer(({ navigation }) => {
                                   (1 {t('token.name')} ≒{' '}
                                   {convertProperValue(
                                     oneTokenRate.toBOAString(),
-                                    userStore.currency.toLowerCase() === 'krw'
+                                    userStore.currency.toLowerCase() ===
+                                      process.env.EXPO_PUBLIC_CURRENCY
                                       ? 0
                                       : 1,
-                                    userStore.currency.toLowerCase() === 'krw'
+                                    userStore.currency.toLowerCase() ===
+                                      process.env.EXPO_PUBLIC_CURRENCY
                                       ? 0
                                       : 5,
                                   )}{' '}
-                                  {userStore.currency})
+                                  {userStore.currency.toUpperCase()})
                                 </AppleSDGothicNeoSBText>
 
                                 <HStack py={20} px={20} flex={1} space='md'>
@@ -1024,10 +1031,12 @@ const UserWallet = observer(({ navigation }) => {
                             ≒{' '}
                             {convertProperValue(
                               userTokenRate.toBOAString(),
-                              userStore.currency.toLowerCase() === 'krw'
+                              userStore.currency.toLowerCase() ===
+                                process.env.EXPO_PUBLIC_CURRENCY
                                 ? 0
                                 : 1,
-                              userStore.currency.toLowerCase() === 'krw'
+                              userStore.currency.toLowerCase() ===
+                                process.env.EXPO_PUBLIC_CURRENCY
                                 ? 0
                                 : 2,
                             )}{' '}
@@ -1041,10 +1050,12 @@ const UserWallet = observer(({ navigation }) => {
                             (1 {t('token.name')} ≒{' '}
                             {convertProperValue(
                               oneTokenRate.toBOAString(),
-                              userStore.currency.toLowerCase() === 'krw'
+                              userStore.currency.toLowerCase() ===
+                                process.env.EXPO_PUBLIC_CURRENCY
                                 ? 0
                                 : 1,
-                              userStore.currency.toLowerCase() === 'krw'
+                              userStore.currency.toLowerCase() ===
+                                process.env.EXPO_PUBLIC_CURRENCY
                                 ? 0
                                 : 5,
                             )}{' '}
@@ -1341,10 +1352,12 @@ const UserWallet = observer(({ navigation }) => {
                                 ≒{' '}
                                 {convertProperValue(
                                   userTokenMainnetRate.toBOAString(),
-                                  userStore.currency.toLowerCase() === 'krw'
+                                  userStore.currency.toLowerCase() ===
+                                    process.env.EXPO_PUBLIC_CURRENCY
                                     ? 0
                                     : 1,
-                                  userStore.currency.toLowerCase() === 'krw'
+                                  userStore.currency.toLowerCase() ===
+                                    process.env.EXPO_PUBLIC_CURRENCY
                                     ? 0
                                     : 2,
                                 )}{' '}
@@ -1358,10 +1371,12 @@ const UserWallet = observer(({ navigation }) => {
                                 (1 {t('token.name')} ≒{' '}
                                 {convertProperValue(
                                   oneTokenRate.toBOAString(),
-                                  userStore.currency.toLowerCase() === 'krw'
+                                  userStore.currency.toLowerCase() ===
+                                    process.env.EXPO_PUBLIC_CURRENCY
                                     ? 0
                                     : 1,
-                                  userStore.currency.toLowerCase() === 'krw'
+                                  userStore.currency.toLowerCase() ===
+                                    process.env.EXPO_PUBLIC_CURRENCY
                                     ? 0
                                     : 5,
                                 )}{' '}

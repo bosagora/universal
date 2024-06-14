@@ -142,12 +142,13 @@ const App = observer(() => {
 
       userStore.setLoading(false);
       // console.log('app.index > userStore : ', userStore);
-      if (userStore.currency === '') {
+      if (userStore.currency !== process.env.EXPO_PUBLIC_CURRENCY) {
         console.log('init locale');
         const deviceLocales = getLocales()[0];
         console.log('deviceLocales :', deviceLocales);
 
-        userStore.setCurrency(deviceLocales.currencyCode);
+        // userStore.setCurrency(deviceLocales.currencyCode);
+        userStore.setCurrency(process.env.EXPO_PUBLIC_CURRENCY);
         userStore.setLang(deviceLocales.languageCode);
         userStore.setCountry(deviceLocales.regionCode);
         userStore.setLangTag(deviceLocales.languageTag);

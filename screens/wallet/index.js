@@ -496,8 +496,14 @@ const Index = observer(({ navigation }) => {
                 ≒{' '}
                 {convertProperValue(
                   userTokenRate.toBOAString(),
-                  userStore.currency.toLowerCase() === 'krw' ? 0 : 1,
-                  userStore.currency.toLowerCase() === 'krw' ? 0 : 2,
+                  userStore.currency.toLowerCase() ===
+                    process.env.EXPO_PUBLIC_CURRENCY
+                    ? 0
+                    : 1,
+                  userStore.currency.toLowerCase() ===
+                    process.env.EXPO_PUBLIC_CURRENCY
+                    ? 0
+                    : 2,
                 )}{' '}
                 {userStore.currency.toUpperCase()}
               </AppleSDGothicNeoSBText>
@@ -509,8 +515,14 @@ const Index = observer(({ navigation }) => {
                 (1 {t('token.name')} ≒{' '}
                 {convertProperValue(
                   oneTokenRate.toBOAString(),
-                  userStore.currency.toLowerCase() === 'krw' ? 0 : 1,
-                  userStore.currency.toLowerCase() === 'krw' ? 0 : 5,
+                  userStore.currency.toLowerCase() ===
+                    process.env.EXPO_PUBLIC_CURRENCY
+                    ? 0
+                    : 1,
+                  userStore.currency.toLowerCase() ===
+                    process.env.EXPO_PUBLIC_CURRENCY
+                    ? 0
+                    : 5,
                 )}{' '}
                 {userStore.currency.toUpperCase()})
               </AppleSDGothicNeoSBText>
