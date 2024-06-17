@@ -29,6 +29,7 @@
   "import": "Import",
   "export": "Export",
   "transfer": "Transfer",
+  "send": "Send",
   "withdraw": "Withdraw",
   "deposit": "Deposit",
   "refund": "Refund",

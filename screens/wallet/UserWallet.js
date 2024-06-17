@@ -1344,7 +1344,7 @@ const UserWallet = observer(({ navigation }) => {
                     )}
                     <Box mt={20} w='$full'>
                       <Box>
-                        <Box pb={80} bg='white' rounded='$xl'>
+                        <Box px={20} pb={20} bg='white' rounded='$xl'>
                           <HStack
                             mt={20}
                             mx={18}
@@ -1417,32 +1417,30 @@ const UserWallet = observer(({ navigation }) => {
                               </AppleSDGothicNeoSBText>
                             </VStack>
                           </>
+
+                          <Box mt='$6'>
+                            <WrapButton
+                              bg='black'
+                              borderColor='#8A8A8A'
+                              borderRadius='$lg'
+                              borderWidth='$1'
+                              onPress={() => {
+                                goToTransfer('mainChainTransfer');
+                              }}>
+                              <RobotoMediumText
+                                style={{
+                                  fontWeight: 500,
+                                  lineHeight: 16,
+                                  fontSize: 15,
+                                  color: '#fff',
+                                }}>
+                                {t('send')}
+                              </RobotoMediumText>
+                            </WrapButton>
+                          </Box>
                         </Box>
                       </Box>
                     </Box>
-
-                    <HStack py={20} flex={1}>
-                      <Box flex={1}>
-                        <WrapButton
-                          bg='black'
-                          borderColor='#8A8A8A'
-                          borderRadius='$lg'
-                          borderWidth='$1'
-                          onPress={() => {
-                            goToTransfer('mainChainTransfer');
-                          }}>
-                          <RobotoMediumText
-                            style={{
-                              fontWeight: 500,
-                              lineHeight: 16,
-                              fontSize: 15,
-                              color: '#fff',
-                            }}>
-                            {t('transfer')}
-                          </RobotoMediumText>
-                        </WrapButton>
-                      </Box>
-                    </HStack>
                   </VStack>
                 </ScrollView>
               </Box>

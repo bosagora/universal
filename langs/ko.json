@@ -29,6 +29,7 @@
   "import": "가져오기",
   "export": "내보내기",
   "transfer": "전송",
+  "send": "보내기",
   "withdraw": "인출",
   "deposit": "예치",
   "refund": "환불",
