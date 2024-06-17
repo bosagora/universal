@@ -102,7 +102,7 @@ const Transfer = observer(({ navigation }) => {
 
     onSubmit: (values, { resetForm }) => {
       console.log('form values :', values);
-      if (receiveAddress === '') return;
+      if (receiveAddress === '' || !ableToDo) return;
       if (userStore.isMainChainTransfer)
         doMainChainTransfer().then((v) => navigation.navigate('Wallet'));
       else doSideChainTransfer().then((v) => navigation.navigate('Wallet'));
