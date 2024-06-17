@@ -57,7 +57,7 @@ const MileageHistory = observer(({ navigation }) => {
       const resEst = await secretStore.client.ledger.getEstimatedSaveHistory(
         secretStore.address,
       );
-      console.log('resEst:', resEst);
+      console.log(' MileageHistory > resEst:', resEst);
 
       const scheduledHistory = resEst.map((it) => {
         return {
@@ -65,7 +65,7 @@ const MileageHistory = observer(({ navigation }) => {
           action: LedgerAction.SAVED,
           actionName: 'SCHEDULED',
 
-          amountPoint: it.providePoint.substring(0, it.providePoint.length - 9),
+          amountPoint: it.providePoint,
           amountValue: it.provideValue,
           blockTimestamp: it.timestamp,
         };
