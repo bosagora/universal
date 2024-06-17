@@ -161,10 +161,10 @@ const UserWallet = observer(({ navigation }) => {
         );
 
       const userTokenCurrencyConv = new BOACoin(userTokenCurrencyRate);
-      console.log(
-        'userTokenCurrencyConv :',
-        userTokenCurrencyConv.toBOAString(),
-      );
+      // console.log(
+      //   'userTokenCurrencyConv :',
+      //   userTokenCurrencyConv.toBOAString(),
+      // );
       setUserTokenRate(userTokenCurrencyConv);
 
       let userTokenMainnetCurrencyRate =
@@ -188,7 +188,7 @@ const UserWallet = observer(({ navigation }) => {
 
       // console.log('oneTokenCurrencyRate :', oneTokenCurrencyRate.toString());
       const oneTokenConv = new BOACoin(oneTokenCurrencyRate);
-      console.log('oneTokenConv :', oneTokenConv.toBOAString());
+      // console.log('oneTokenConv :', oneTokenConv.toBOAString());
       setOneTokenRate(oneTokenConv);
 
       const userPoint = await secretStore.client.ledger.getPointBalance(
@@ -247,7 +247,6 @@ const UserWallet = observer(({ navigation }) => {
 
   const handleQRSheet = async () => {
     secretStore.setShowQRSheet(!secretStore.showQRSheet);
-    console.log('handle QR sheet : ', secretStore.showQRSheet);
   };
 
   const exchangeToToken = async () => {
@@ -328,6 +327,7 @@ const UserWallet = observer(({ navigation }) => {
 
     onSubmit: (values, { resetForm }) => {
       console.log('exchange form values :', values);
+      if (!validExchangePoint) return;
       exchangeToToken().then((v) => console.log('exchanged to token'));
       resetForm();
       setShowConvertPointModal(false);
@@ -401,6 +401,7 @@ const UserWallet = observer(({ navigation }) => {
 
     onSubmit: (values, { resetForm }) => {
       console.log('form values :', values);
+      if (!validRefundPoint) return;
       refundToToken().then((v) => console.log('refunded to token'));
       resetForm();
       setShowRefundPointModal(false);
@@ -591,7 +592,7 @@ const UserWallet = observer(({ navigation }) => {
                                   {userStore.currency.toUpperCase()} )
                                 </AppleSDGothicNeoSBText>
 
-                                <Box mt='$6' w='$full' pb={20}>
+                                <Box mt='$3' w='$full' pb={20}>
                                   <WrapButton
                                     mt={10}
                                     mx={18}
@@ -618,7 +619,6 @@ const UserWallet = observer(({ navigation }) => {
 
                                   <WrapButton
                                     mx={18}
-                                    mb={8}
                                     bg='black'
                                     borderColor='#8A8A8A'
                                     borderRadius='$lg'

@@ -101,6 +101,7 @@ const Deposit = observer(({ navigation }) => {
 
     onSubmit: (values, { resetForm }) => {
       console.log('form values :', values);
+      if (!ableToDo) return;
       if (userStore.isDeposit)
         doDeposit().then((v) => navigation.navigate('Wallet'));
       else doWithdraw().then((v) => navigation.navigate('Wallet'));
