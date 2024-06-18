@@ -18,7 +18,7 @@ import {
   Input,
   InputField,
 } from '@gluestack-ui/themed';
-import { Amount, BOACoin } from 'dms-sdk-client-v2';
+import { Amount, BOACoin } from 'acc-sdk-client-v2';
 import {
   greaterFloatTexts,
   convertProperValue,
