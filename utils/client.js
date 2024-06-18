@@ -12,6 +12,7 @@ export async function getClient(screen = 'unknown') {
   const DMS_SDK_LINK = {
     development: SupportedNetwork.ACC_DEVNET,
     preview: SupportedNetwork.ACC_DEVNET,
+    test: SupportedNetwork.ACC_TESTNET,
     product: SupportedNetwork.ACC_MAINNET,
   };
 
