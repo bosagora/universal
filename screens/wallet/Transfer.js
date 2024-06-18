@@ -19,7 +19,7 @@ import {
   truncateMiddleString,
   validateNumberWithDecimal,
 } from '../../utils/convert';
-import { Amount, BOACoin } from 'dms-sdk-client-v2';
+import { Amount, BOACoin } from 'acc-sdk-client-v2';
 import { useTranslation } from 'react-i18next';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
 import {

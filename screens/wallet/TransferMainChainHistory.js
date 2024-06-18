@@ -9,7 +9,7 @@ import {
   timePadding,
   truncateMiddleString,
 } from '../../utils/convert';
-import { Amount, BOACoin, LedgerAction } from 'dms-sdk-client-v2';
+import { Amount, BOACoin, LedgerAction } from 'acc-sdk-client-v2';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useTranslation } from 'react-i18next';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';

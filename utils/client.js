@@ -4,7 +4,7 @@ import {
   Context,
   LIVE_CONTRACTS,
   SupportedNetwork,
-} from 'dms-sdk-client-v2';
+} from 'acc-sdk-client-v2';
 import '@ethersproject/shims';
 import { Wallet } from 'ethers';
 
