@@ -1,13 +1,15 @@
 import { getSecureValue } from './secure.store';
+import { LIVE_CONTRACTS, SupportedNetwork } from 'acc-sdk-client-v2';
+import '@ethersproject/shims';
+import { Wallet } from '@ethersproject/wallet';
+global.XMLHttpRequest = require('xhr2');
+
 import {
   Client,
   Context,
-  LIVE_CONTRACTS,
-  SupportedNetwork,
+  ContextBuilder,
+  ContextParams,
 } from 'acc-sdk-client-v2';
-import '@ethersproject/shims';
-import { Wallet } from 'ethers';
-
 export async function getClient(screen = 'unknown') {
   const DMS_SDK_LINK = {
     development: SupportedNetwork.ACC_DEVNET,
@@ -30,34 +32,26 @@ export async function getClient(screen = 'unknown') {
     return { pKey, address };
   }
   const { pKey, address } = await fetchKey();
-  function createClient(privateKey) {
-    const ctx = new Context({
-      network: LIVE_CONTRACTS[sdkLink].network,
-      signer: new Wallet(privateKey),
-      web3Providers: LIVE_CONTRACTS[sdkLink].web3Endpoint,
-      relayEndpoint: LIVE_CONTRACTS[sdkLink].relayEndpoint,
-      graphqlNodes: [{ url: LIVE_CONTRACTS[sdkLink].graphqlEndpoint }],
-      ledgerAddress: LIVE_CONTRACTS[sdkLink].LedgerAddress,
-      tokenAddress: LIVE_CONTRACTS[sdkLink].LoyaltyTokenAddress,
-      phoneLinkAddress: LIVE_CONTRACTS[sdkLink].PhoneLinkCollectionAddress,
-      validatorAddress: LIVE_CONTRACTS[sdkLink].ValidatorAddress,
-      currencyRateAddress: LIVE_CONTRACTS[sdkLink].CurrencyRateAddress,
-      shopAddress: LIVE_CONTRACTS[sdkLink].ShopAddress,
-      loyaltyProviderAddress: LIVE_CONTRACTS[sdkLink].LoyaltyProviderAddress,
-      loyaltyConsumerAddress: LIVE_CONTRACTS[sdkLink].LoyaltyConsumerAddress,
-      loyaltyExchangerAddress: LIVE_CONTRACTS[sdkLink].LoyaltyExchangerAddress,
-      loyaltyTransferAddress: LIVE_CONTRACTS[sdkLink].LoyaltyTransferAddress,
-      loyaltyBridgeAddress: LIVE_CONTRACTS[sdkLink].LoyaltyBridgeAddress,
-    });
-    console.log('web3Endpoint :', LIVE_CONTRACTS[sdkLink].web3Endpoint);
-    console.log('relayEndpoint :', LIVE_CONTRACTS[sdkLink].relayEndpoint);
-    console.log(
-      'LoyaltyTokenAddress :',
-      LIVE_CONTRACTS[sdkLink].LoyaltyTokenAddress,
-    );
-    return new Client(ctx);
+  async function createClient(privateKey) {
+    console.log('23423');
+    try {
+      const contextParams =
+        ContextBuilder.buildContextParamsOfDevnet(privateKey);
+      console.log(JSON.stringify(contextParams));
+
+      const context = ContextBuilder.buildContextOfDevnet(privateKey);
+      const client = new Client(context);
+
+      console.log((await client.ledger.getEndpoint('/')).toString());
+      const relayStatus = await client.ledger.isRelayUp();
+      console.log('relayStatus :', relayStatus);
+
+      return client;
+    } catch (e) {
+      console.log('c e :', e);
+    }
   }
-  const client = createClient(pKey);
+  const client = await createClient(pKey);
   console.log('Client > client :', client);
   console.log('Client > address :', address);
   return { client, address };

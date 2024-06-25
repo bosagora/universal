@@ -32,7 +32,7 @@ import * as Clipboard from 'expo-clipboard';
 import { BigNumber } from '@ethersproject/bignumber/src.ts';
 import { getSecureValue, saveSecureValue } from '../../utils/secure.store';
 import '@ethersproject/shims';
-import { Wallet } from 'ethers';
+import { Wallet } from '@ethersproject/wallet';
 import * as Device from 'expo-device';
 
 import MobileHeader from '../../components/MobileHeader';
