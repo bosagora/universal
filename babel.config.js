@@ -3,7 +3,6 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      'expo-router/babel',
       'react-native-reanimated/plugin',
       ['@babel/plugin-transform-flow-strip-types', { loose: true }],
       ['@babel/plugin-proposal-class-properties', { loose: true }],
