@@ -33,7 +33,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { WrapButton, WrapHistoryButton } from '../../components/styled/button';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { WithLocalSvg } from 'react-native-svg';
+import { WithLocalSvg } from 'react-native-svg/css';
 
 import bs from '../../assets/images/bosagora.svg';
 import * as Clipboard from 'expo-clipboard';
