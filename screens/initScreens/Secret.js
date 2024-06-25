@@ -7,7 +7,7 @@ import { saveSecure, saveSecureValue } from '../../utils/secure.store';
 import ImportShopPrivateKey from '../../components/ImportShopPrivateKey';
 import { Box, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
-import { Wallet } from 'ethers';
+import { Wallet } from '@ethersproject/wallet';
 import * as Device from 'expo-device';
 import { getClient } from '../../utils/client';
 import { AUTH_STATE } from '../../stores/user.store';

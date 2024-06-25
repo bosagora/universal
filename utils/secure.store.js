@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import '@ethersproject/shims';
 import 'react-native-get-random-values';
-import { Wallet } from 'ethers';
+import { Wallet } from '@ethersproject/wallet';
 
 export async function saveSecureValue(key, value) {
   await SecureStore.setItemAsync(key, value);

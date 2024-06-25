@@ -57,7 +57,7 @@ import * as yup from 'yup';
 import MobileHeader from '../../components/MobileHeader';
 import { BigNumber } from '@ethersproject/bignumber/src.ts';
 import { getSecureValue } from '../../utils/secure.store';
-import { Wallet } from 'ethers';
+import { Wallet } from '@ethersproject/wallet';
 
 const UserWallet = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -141,7 +141,7 @@ const UserWallet = observer(({ navigation }) => {
       );
       // console.log('tokenBalance :', tokenBalance.toString());
       const tokenBalConv = new BOACoin(tokenBalance);
-      // console.log('tokenBalance :', tokenBalConv.toBOAString());
+      console.log('tokenBalance :', tokenBalConv.toBOAString());
       setUserTokenBalance(tokenBalConv);
 
       const tokenMainnetBalance =
