@@ -42,10 +42,6 @@ export async function getClient(screen = 'unknown') {
       const context = ContextBuilder.buildContextOfDevnet(privateKey);
       const client = new Client(context);
 
-      console.log((await client.ledger.getEndpoint('/')).toString());
-      const relayStatus = await client.ledger.isRelayUp();
-      console.log('relayStatus :', relayStatus);
-
       return client;
     } catch (e) {
       console.log('c e :', e);
