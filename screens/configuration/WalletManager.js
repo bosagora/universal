@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import 'react-native-get-random-values';
 import '@ethersproject/shims';
-import { ethers } from 'ethers';
 import * as Clipboard from 'expo-clipboard';
 
 import {
@@ -57,7 +56,6 @@ import {
 import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
 import { registerPushTokenWithClient } from '../../utils/push.token';
 import { truncateMiddleString } from '../../utils/convert';
-const { Wallet } = ethers;
 
 const WalletManager = observer(({ navigation }) => {
   const { t } = useTranslation();

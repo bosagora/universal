@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import { isAddress } from '@ethersproject/address';
 import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
 import {
@@ -193,7 +193,7 @@ const Transfer = observer(({ navigation }) => {
 
   const changeReceiver = (v) => {
     console.log('reciever : ', v);
-    const isEthAddress = ethers.utils.isAddress(v);
+    const isEthAddress = isAddress(v);
     console.log('isEthAddress :', isEthAddress);
     if (isEthAddress) {
       formik.setFieldValue('receiver', '');
