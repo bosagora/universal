@@ -422,7 +422,7 @@ function MainStackScreen(userStore) {
         <MainStack.Screen
           name='TabScreens'
           component={TabScreens}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: 'back' }}
         />
         <MainStack.Screen
           name='Temp'
