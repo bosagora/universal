@@ -11,16 +11,6 @@ import {
   ContextParams,
 } from 'acc-sdk-client-v2';
 export async function getClient(screen = 'unknown') {
-  const DMS_SDK_LINK = {
-    development: SupportedNetwork.ACC_DEVNET,
-    preview: SupportedNetwork.ACC_DEVNET,
-    test: SupportedNetwork.ACC_TESTNET,
-    product: SupportedNetwork.ACC_MAINNET,
-  };
-
-  const sdkLink =
-    DMS_SDK_LINK[process.env.EXPO_PUBLIC_ENV || process.env.ENVIRONMENT];
-
   async function fetchKey() {
     let pKey = await getSecureValue('privateKey');
     if (pKey.includes('0x')) {
@@ -33,13 +23,25 @@ export async function getClient(screen = 'unknown') {
   }
   const { pKey, address } = await fetchKey();
   async function createClient(privateKey) {
-    console.log('23423');
+    console.log('createClient > env network :', process.env.EXPO_PUBLIC_ENV);
     try {
       const contextParams =
-        ContextBuilder.buildContextParamsOfDevnet(privateKey);
+        process.env.EXPO_PUBLIC_ENV === 'development' ||
+        process.env.EXPO_PUBLIC_ENV === 'preview'
+          ? ContextBuilder.buildContextParamsOfDevnet(privateKey)
+          : process.env.EXPO_PUBLIC_ENV === 'test'
+          ? ContextBuilder.buildContextParamsOfTestnet(privateKey)
+          : ContextBuilder.buildContextParamsOfMainnet(privateKey);
       console.log(JSON.stringify(contextParams));
 
-      const context = ContextBuilder.buildContextOfDevnet(privateKey);
+      const context =
+        process.env.EXPO_PUBLIC_ENV === 'development' ||
+        process.env.EXPO_PUBLIC_ENV === 'preview'
+          ? ContextBuilder.buildContextOfDevnet(privateKey)
+          : process.env.EXPO_PUBLIC_ENV === 'test'
+          ? ContextBuilder.buildContextOfTestnet(privateKey)
+          : ContextBuilder.buildContextOfMainnet(privateKey);
+
       const client = new Client(context);
 
       return client;
