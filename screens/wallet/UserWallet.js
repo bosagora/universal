@@ -1333,6 +1333,8 @@ const UserWallet = observer(({ navigation }) => {
                         <SubHeaderText color='white' mt={7}>
                           {process.env.EXPO_PUBLIC_ENV === 'product'
                             ? t('wallet.heading.description.mainnet')
+                            : process.env.EXPO_PUBLIC_ENV === 'test'
+                            ? t('wallet.heading.description.testnet')
                             : t('wallet.heading.description.devnet')}
                         </SubHeaderText>
                       </>
@@ -1342,6 +1344,8 @@ const UserWallet = observer(({ navigation }) => {
                         subTitle={
                           process.env.EXPO_PUBLIC_ENV === 'product'
                             ? t('wallet.heading.description.mainnet')
+                            : process.env.EXPO_PUBLIC_ENV === 'test'
+                            ? t('wallet.heading.description.testnet')
                             : t('wallet.heading.description.devnet')
                         }></MobileHeader>
                     )}
