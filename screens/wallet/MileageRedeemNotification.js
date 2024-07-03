@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, HStack, VStack } from '@gluestack-ui/themed';
 import MobileHeader from '../../components/MobileHeader';
 import '@ethersproject/shims';
-import { Amount, LoyaltyType, NormalSteps } from 'acc-sdk-client-v2';
+import { Amount, NormalSteps } from 'acc-sdk-client-v2';
 import {
   checkValidPeriod,
   convertProperValue,
@@ -33,7 +33,6 @@ const MileageRedeemNotification = observer(({ navigation }) => {
   const [purchaseId, setPurchaseId] = useState('');
   const [amount, setAmount] = useState(new Amount(0, 18));
   const [useAmount, setUseAmount] = useState(new Amount(0, 18));
-  const [loyaltyType, setLoyaltyType] = useState(0);
   const [currency, setCurrency] = useState('');
   const [hasPayment, setHasPayment] = useState(false);
   const [expired, setExpired] = useState(false);
@@ -83,9 +82,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
     setPurchaseId(info.purchaseId);
     setAmount(new Amount(info.amount, 18));
     setCurrency(info.currency);
-    const mm = info.loyaltyType === 0 ? info.paidPoint : info.paidToken;
-    setUseAmount(new Amount(mm, 18));
-    setLoyaltyType(info.loyaltyType);
+    setUseAmount(new Amount(info.paidPoint, 18));
     await saveShopInfo(cc, info.shopId);
   };
 
@@ -196,8 +193,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
               {t('wallet.redeem.header.body.a')} :
             </RobotoMediumText>
             <RobotoSemiBoldText>
-              {convertProperValue(useAmount.toBOAString())}{' '}
-              {loyaltyType === LoyaltyType.POINT ? 'POINT' : 'TOKEN'}
+              {convertProperValue(useAmount.toBOAString())} POINT
             </RobotoSemiBoldText>
           </HStack>
           <WrapDivider></WrapDivider>
