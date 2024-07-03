@@ -75,7 +75,6 @@ const ShopNotification = observer(() => {
     }
     try {
       const steps = [];
-      const isUp = await secretStore.client.ledger.isRelayUp();
       for await (const step of secretStore.client.shop.approveUpdate(
         taskId,
         shopId,
