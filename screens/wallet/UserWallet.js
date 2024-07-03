@@ -141,7 +141,7 @@ const UserWallet = observer(({ navigation }) => {
       );
       // console.log('tokenBalance :', tokenBalance.toString());
       const tokenBalConv = new BOACoin(tokenBalance);
-      console.log('tokenBalance :', tokenBalConv.toBOAString());
+      // console.log('tokenBalance :', tokenBalConv.toBOAString());
       setUserTokenBalance(tokenBalConv);
 
       const tokenMainnetBalance =
@@ -216,7 +216,7 @@ const UserWallet = observer(({ navigation }) => {
           userStore.currency.toLowerCase(),
         );
       const onePointConv = new BOACoin(onePointCurrencyRate);
-      console.log('onePointAmount :', onePointConv.toBOAString());
+      // console.log('onePointAmount :', onePointConv.toBOAString());
       setOnePointRate(onePointConv);
     } catch (e) {
       console.log('setWalletData > e2:', e);

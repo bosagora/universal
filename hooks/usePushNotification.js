@@ -87,7 +87,7 @@ export const usePushNotification = (userStore, loyaltyStore, pinStore) => {
           timestamp: data.timestamp,
           timeout: data.timeout,
         };
-
+        //
         // alert(
         //   'notification data :' + JSON.stringify(response.notification.request),
         // );

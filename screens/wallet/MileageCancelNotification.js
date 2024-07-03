@@ -36,7 +36,7 @@ import RootPaddingBox2 from '../../components/RootPaddingBox2';
 
 const MileageCancelNotification = observer(() => {
   const { t } = useTranslation();
-  const { pinStore, loyaltyStore, userStore } = useStores();
+  const { pinStore, loyaltyStore, userStore, secretStore } = useStores();
   const [shopName, setShopName] = useState('');
   const [purchaseId, setPurchaseId] = useState('');
   const [amount, setAmount] = useState(new Amount(0, 18));
