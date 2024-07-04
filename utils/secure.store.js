@@ -28,8 +28,12 @@ export async function saveSecure(key, secretStore, invalid) {
     alert(invalid);
     return;
   }
-  secretStore.setAddress(wallet.address);
-  await saveSecureValue('address', wallet.address);
-  await saveSecureValue('privateKey', key);
-  secretStore.setClient();
+  try {
+    secretStore.setAddress(wallet.address);
+    await saveSecureValue('address', wallet.address);
+    await saveSecureValue('privateKey', key);
+    await secretStore.setClient();
+  } catch (e) {
+    alert('saveSecure :' + JSON.stringify(e.message));
+  }
 }
