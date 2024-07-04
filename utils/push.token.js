@@ -9,8 +9,11 @@ export async function registerPushTokenWithClient(cc, userStore, appKind) {
     userStore.setRegisteredPushToken(false);
     return false;
   }
-
+  // alert(
+  //   'registerPushTokenWithClient > userStore : ' + JSON.stringify(userStore),
+  // );
   const token = userStore.expoPushToken;
+  // alert('expo token :' + token);
   const language = userStore.lang.toLowerCase();
   const os = Platform.OS === 'android' ? 'android' : 'iOS';
   try {
@@ -23,7 +26,8 @@ export async function registerPushTokenWithClient(cc, userStore, appKind) {
     userStore.setRegisteredPushToken(true);
     return true;
   } catch (e) {
-    await Clipboard.setStringAsync(JSON.stringify(e));
+    // await Clipboard.setStringAsync(JSON.stringify(e));
+    alert('register push ' + JSON.stringify(e.message));
     console.log('error : ', e);
     return false;
   }

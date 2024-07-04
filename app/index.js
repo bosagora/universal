@@ -141,7 +141,7 @@ const App = observer(() => {
       setIsStoreLoaded(true);
 
       userStore.setLoading(false);
-      // console.log('app.index > userStore : ', userStore);
+
       if (userStore.currency !== process.env.EXPO_PUBLIC_CURRENCY) {
         console.log('init locale');
         const deviceLocales = getLocales()[0];

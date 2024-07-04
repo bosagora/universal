@@ -31,28 +31,32 @@ const Secret = observer(({ navigation }) => {
   }, []);
 
   async function createWallet() {
-    const wallet = Wallet.createRandom();
+    try {
+      const wallet = Wallet.createRandom();
 
-    console.log('address :', wallet.address);
-    console.log('mnemonic :', wallet.mnemonic);
-    console.log('privateKey :', wallet.privateKey);
+      console.log('address :', wallet.address);
+      console.log('mnemonic :', wallet.mnemonic);
+      console.log('privateKey :', wallet.privateKey);
 
-    await saveSecureValue('address', wallet.address);
-    await saveSecureValue('mnemonic', JSON.stringify(wallet.mnemonic));
-    await saveSecureValue('privateKey', wallet.privateKey);
+      await saveSecureValue('address', wallet.address);
+      await saveSecureValue('mnemonic', JSON.stringify(wallet.mnemonic));
+      await saveSecureValue('privateKey', wallet.privateKey);
 
-    secretStore.setClient();
+      await secretStore.setClient();
 
-    if (Device.isDevice) {
-      await registerPushTokenWithClient(
-        secretStore.client,
-        userStore,
-        process.env.EXPO_PUBLIC_APP_KIND,
-      );
-      resetPinCode();
-    } else {
-      console.log('Not on device.');
-      resetPinCode();
+      if (Device.isDevice) {
+        await registerPushTokenWithClient(
+          secretStore.client,
+          userStore,
+          process.env.EXPO_PUBLIC_APP_KIND,
+        );
+        resetPinCode();
+      } else {
+        console.log('Not on device.');
+        resetPinCode();
+      }
+    } catch (e) {
+      alert('error createWallet :' + JSON.stringify(e.message));
     }
   }
 
