@@ -1509,7 +1509,12 @@ const UserWallet = observer(({ navigation }) => {
               alignItems: 'center',
             }}>
             <Spinner size='large' />
-            <SubHeaderText textAlign='center' color='white' mt={20}>
+            <SubHeaderText
+              textAlign='center'
+              color={
+                process.env.EXPO_PUBLIC_APP_KIND === 'user' ? 'white' : 'black'
+              }
+              mt={20}>
               {t('wallet.init.data')}
             </SubHeaderText>
           </Box>
