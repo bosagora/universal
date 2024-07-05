@@ -93,6 +93,7 @@
   "shop.body.text.a": "Store/shop name",
   "shop.body.text.b": "Currency",
 
+  "wallet.init.data": "Please wait a moment \nwhile we load your wallet information.",
   "wallet.toast.copy": "copied your wallet address.",
   "wallet.heading.description": "{{appName}} Store/shop Loyalty status and settlement history",
   "wallet.heading.description.mainnet": "Mainnet",

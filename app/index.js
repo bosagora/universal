@@ -77,6 +77,7 @@ import DepositHistory from '../screens/wallet/DepositHistory';
 import Deposit from '../screens/wallet/Deposit';
 import Transfer from '../screens/wallet/Transfer';
 import TransferMainChainHistory from '../screens/wallet/TransferMainChainHistory';
+import { RobotoSemiBoldText } from '../components/styled/text';
 
 const InitStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -153,7 +154,11 @@ const App = observer(() => {
         userStore.setCountry(deviceLocales.regionCode);
         userStore.setLangTag(deviceLocales.languageTag);
         userStore.setCountryPhoneCode(
-          deviceLocales.regionCode == 'KR' ? '82' : '',
+          deviceLocales.regionCode == 'KR'
+            ? '82'
+            : deviceLocales.regionCode == 'PH'
+            ? '63'
+            : '',
         );
         i18n
           .changeLanguage(deviceLocales.languageCode, afterChangeLang)
@@ -366,6 +371,7 @@ const App = observer(() => {
                 alignItems: 'center',
               }}>
               <ActivityIndicator size={'large'} color={'white'} />
+              <Text>shopName</Text>
             </View>
           </View>
         </BottomSheetModalProvider>
