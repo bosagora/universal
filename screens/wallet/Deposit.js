@@ -64,31 +64,17 @@ const Deposit = observer(({ navigation }) => {
   const [receiveAmount, setReceiveAmount] = useState(0);
   useEffect(() => {
     const fetchHistory = async () => {
-      const newBalanceMainChain =
-        await secretStore.client.ledger.getMainChainBalance(
-          secretStore.address,
-        );
-      console.log('mainChain balance :', newBalanceMainChain);
-      const balanceMainChainConv = new BOACoin(newBalanceMainChain);
+      const summary = await secretStore.client.ledger.getSummary(
+        secretStore.address,
+      );
+      const balanceMainChainConv = new BOACoin(summary.mainChain.token.balance);
       setBalanceMainChain(balanceMainChainConv);
 
-      const newBalanceSideChain =
-        await secretStore.client.ledger.getTokenBalance(secretStore.address);
-      console.log('sideChain balance :', newBalanceSideChain);
-      const balanceSideChainConv = new BOACoin(newBalanceSideChain);
+      const balanceSideChainConv = new BOACoin(summary.ledger.token.balance);
       setBalanceSideChain(balanceSideChainConv);
-      console.log('balanceSideChainConv :', balanceSideChainConv.toBOAString());
+      const sideChainFee1 = new BOACoin(summary.protocolFees.deposit);
+      const mainChainFee1 = new BOACoin(summary.protocolFees.deposit);
 
-      const sideChainInfo =
-        await secretStore.client.ledger.getChainInfoOfSideChain();
-      const mainChainInfo =
-        await secretStore.client.ledger.getChainInfoOfMainChain();
-      const sideChainFee1 = new BOACoin(sideChainInfo.network.bridgeFee);
-      const mainChainFee1 = new BOACoin(mainChainInfo.network.bridgeFee);
-      console.log(
-        'sideChainInfo.network.bridgeFee :',
-        sideChainInfo.network.bridgeFee,
-      );
       setSideChainFee(sideChainFee1);
       setMainChainFee(mainChainFee1);
     };

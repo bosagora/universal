@@ -4011,17 +4011,17 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
-acc-contracts-lib-v2@~2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/acc-contracts-lib-v2/-/acc-contracts-lib-v2-2.1.4.tgz#12b723dee5292f9b995e48ce4034481e99b78815"
-  integrity sha512-M3bl8iruo46o2rFgPNJrGkOcQl78sopcb2wUXfHLU1MhWjUFxHuxn9EUp9XcYxaHcWXv9kPH+44q692E04HWEg==
+acc-contracts-lib-v2@~2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/acc-contracts-lib-v2/-/acc-contracts-lib-v2-2.3.1.tgz#a62f82ec3c405609cad6d5c8aceea51b38a0c9f5"
+  integrity sha512-X+8ebqq1bhrywYRp5wb1dHUf8CvBU6JgTur8fVdX/n22U8Y0iD/0ngy6hg8x6dgRcFF+MoA3QLnghP7pT9tdPw==
   dependencies:
     ethers "5.7.0"
 
-acc-sdk-client-v2@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/acc-sdk-client-v2/-/acc-sdk-client-v2-2.4.0.tgz#f3bd7b9f6e30132684f5b0c70bf0f1fb56520f73"
-  integrity sha512-sB3T0FVSpK46TyP3J+YRVhB5bDEM1/uko291Dk+Zsv6x4svP6OnzM5UvVOTmcO5gurbG4rCEv343DXCXRset+g==
+acc-sdk-client-v2@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/acc-sdk-client-v2/-/acc-sdk-client-v2-2.5.1.tgz#9319c87b4080aab5e084956c8491ccccdba57164"
+  integrity sha512-v5BZ+baRtC8EY+TomS13hKI2BQmkLMJlPFAfv2FNYmA8HCA5ayUKNpPQZtHekxOuK3C4JTLUlP62UlZhDEpMGg==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/abstract-signer" "^5.7.0"
@@ -4035,7 +4035,7 @@ acc-sdk-client-v2@^2.4.0:
     "@ethersproject/providers" "^5.7.0"
     "@ethersproject/random" "^5.7.0"
     "@ethersproject/wallet" "^5.7.0"
-    acc-contracts-lib-v2 "~2.1.4"
+    acc-contracts-lib-v2 "~2.3.1"
     acc-sdk-common-v2 "~2.0.0"
     unfetch "~4.2.0"
 
@@ -5570,11 +5570,6 @@ expo-notifications@~0.28.9:
     expo-application "~5.9.0"
     expo-constants "~16.0.0"
     fs-extra "^9.1.0"
-
-expo-permissions@~14.2.1:
-  version "14.2.1"
-  resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-14.2.1.tgz#da4a7ef45e13da99032960528267cc9ca8e964b8"
-  integrity sha512-jXGnOODtDMFvK7cwo7wIRPcnA7m1bie80gJ5BdL6Vs5kgCU7+RCLOCp3sBw7TKRPIlVMmQDhZA62bGzoBV0hkA==
 
 expo-router@~3.5.16:
   version "3.5.16"
