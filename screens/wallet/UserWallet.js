@@ -100,6 +100,9 @@ const UserWallet = observer(({ navigation }) => {
   );
   const [validRefundPoint, setValidRefundPoint] = useState(false);
   const [init, setInit] = useState(false);
+  const [tokenSymbol, setTokenSymbol] = useState('');
+  const [tokenName, setTokenName] = useState('');
+  const [currency, setCurrency] = useState('');
 
   useEffect(() => {
     console.log('================= UserWallet > userStore', userStore);
@@ -135,93 +138,42 @@ const UserWallet = observer(({ navigation }) => {
     }, 5000);
     userStore.setWalletInterval(id);
   }
-
   async function setWalletData() {
     // alert('setWalletData >>');
     try {
-      const userPoint = await secretStore.client.ledger.getPointBalance(
+      const summary = await secretStore.client.ledger.getSummary(
         secretStore.address,
       );
-      const payableConv = new BOACoin(userPoint);
-      // console.log('userPoint :', payableConv.toBOAString());
+      setTokenName(summary.tokenInfo.name);
+      setTokenSymbol(summary.tokenInfo.symbol);
+      setCurrency(summary.exchangeRate.currency.symbol);
+
+      const payableConv = new BOACoin(summary.ledger.point.balance);
       setPayablePoint(payableConv);
 
-      const tokenBalance = await secretStore.client.ledger.getTokenBalance(
-        secretStore.address,
-      );
-      // console.log('tokenBalance :', tokenBalance.toString());
-      const tokenBalConv = new BOACoin(tokenBalance);
-      // console.log('tokenBalance :', tokenBalConv.toBOAString());
-      // alert('tokenBalance :' + tokenBalConv.toBOAString());
+      const tokenBalConv = new BOACoin(summary.ledger.token.balance);
       setUserTokenBalance(tokenBalConv);
 
-      const tokenMainnetBalance =
-        await secretStore.client.ledger.getMainChainBalance(
-          secretStore.address,
-        );
-      // console.log('tokenBalance :', tokenBalance.toString());
-      const tokenMainnetBalConv = new BOACoin(tokenMainnetBalance);
-      // console.log('tokenMainnetBalConv :', tokenMainnetBalConv.toBOAString());
+      const tokenMainnetBalConv = new BOACoin(summary.mainChain.token.balance);
       setUserTokenMainnetBalance(tokenMainnetBalConv);
 
-      // const tokenAmount = Amount.make(tokenBalance, 18).value;
-      let userTokenCurrencyRate =
-        await secretStore.client.currency.tokenToCurrency(
-          tokenBalance,
-          userStore.currency.toLowerCase(),
-        );
-
-      const userTokenCurrencyConv = new BOACoin(userTokenCurrencyRate);
-      // console.log(
-      //   'userTokenCurrencyConv :',
-      //   userTokenCurrencyConv.toBOAString(),
-      // );
+      const userTokenCurrencyConv = new BOACoin(summary.ledger.token.value);
       setUserTokenRate(userTokenCurrencyConv);
 
-      let userTokenMainnetCurrencyRate =
-        await secretStore.client.currency.tokenToCurrency(
-          tokenMainnetBalance,
-          userStore.currency.toLowerCase(),
-        );
-
       const userTokenCurrencyMainnetConv = new BOACoin(
-        userTokenMainnetCurrencyRate,
+        summary.mainChain.token.value,
       );
-      // console.log(
-      //   'userTokenCurrencyConv :',
-      //   userTokenCurrencyConv.toBOAString(),
-      // );
       setUserTokenMainnetRate(userTokenCurrencyMainnetConv);
 
-      const oneTokenAmount = BOACoin.make(1, 18).value;
-      let oneTokenCurrencyRate =
-        await secretStore.client.currency.tokenToCurrency(
-          oneTokenAmount,
-          userStore.currency.toLowerCase(),
-        );
-
-      // console.log('oneTokenCurrencyRate :', oneTokenCurrencyRate.toString());
-      const oneTokenConv = new BOACoin(oneTokenCurrencyRate);
-      // console.log('oneTokenConv :', oneTokenConv.toBOAString());
+      const oneTokenConv = new BOACoin(summary.exchangeRate.currency.value);
       setOneTokenRate(oneTokenConv);
 
-      let pointCurrencyRate = await secretStore.client.currency.pointToCurrency(
-        userPoint,
-        userStore.currency,
-      );
-      const pointRateConv = new BOACoin(pointCurrencyRate);
-      // console.log('pointRateConv :', pointRateConv.toBOAString());
+      const pointRateConv = new BOACoin(summary.exchangeRate.token.value);
       setPayablePointRate(pointRateConv);
 
-      const onePointAmount = BOACoin.make(1, 18).value;
-      let onePointCurrencyRate =
-        await secretStore.client.currency.pointToCurrency(
-          onePointAmount,
-          userStore.currency.toLowerCase(),
-        );
-      const onePointConv = new BOACoin(onePointCurrencyRate);
-      // console.log('onePointAmount :', onePointConv.toBOAString());
+      const onePointConv = new BOACoin(summary.exchangeRate.currency.value);
       setOnePointRate(onePointConv);
+
       setInit(true);
     } catch (e) {
       console.log('setWalletData > e2:', e);
@@ -722,13 +674,13 @@ const UserWallet = observer(({ navigation }) => {
                                       fontSize={16}
                                       lineHeight={22}
                                       fontWeight={400}>
-                                      (1 {t('token.name')} ≒{' '}
+                                      (1 {tokenSymbol} ≒{' '}
                                       {convertProperValue(
                                         oneTokenRate.toBOAString(),
                                         1,
                                         5,
                                       )}{' '}
-                                      {userStore.currency.toUpperCase()})
+                                      {currency.toUpperCase()})
                                     </AppleSDGothicNeoSBText>
 
                                     <HStack py={20} px={20} flex={1} space='md'>
@@ -893,7 +845,7 @@ const UserWallet = observer(({ navigation }) => {
                                         {convertProperValue(
                                           receiveTokenAmount.toBOAString(),
                                         )}
-                                        {'     '} KIOS
+                                        {'     '} {tokenSymbol}
                                       </RobotoSemiBoldText>
                                     </HStack>
                                   </VStack>
@@ -1127,20 +1079,20 @@ const UserWallet = observer(({ navigation }) => {
                                   0,
                                   2,
                                 )}{' '}
-                                {userStore.currency.toUpperCase()}
+                                {currency.toUpperCase()}
                               </AppleSDGothicNeoSBText>
                               <AppleSDGothicNeoSBText
                                 color='#555555'
                                 fontSize={16}
                                 lineHeight={22}
                                 fontWeight={400}>
-                                (1 {t('token.name')} ≒{' '}
+                                (1 {tokenSymbol} ≒{' '}
                                 {convertProperValue(
                                   oneTokenRate.toBOAString(),
                                   1,
                                   5,
                                 )}{' '}
-                                {userStore.currency.toUpperCase()})
+                                {currency.toUpperCase()})
                               </AppleSDGothicNeoSBText>
                               {process.env.EXPO_PUBLIC_APP_KIND === 'user' ? (
                                 <HStack py={20} px={20} flex={1} space='md'>
@@ -1451,20 +1403,20 @@ const UserWallet = observer(({ navigation }) => {
                                         ? 0
                                         : 2,
                                     )}{' '}
-                                    {userStore.currency.toUpperCase()}
+                                    {currency.toUpperCase()}
                                   </AppleSDGothicNeoSBText>
                                   <AppleSDGothicNeoSBText
                                     color='#555555'
                                     fontSize={16}
                                     lineHeight={22}
                                     fontWeight={400}>
-                                    (1 {t('token.name')} ≒{' '}
+                                    (1 {tokenSymbol} ≒{' '}
                                     {convertProperValue(
                                       oneTokenRate.toBOAString(),
                                       1,
                                       5,
                                     )}{' '}
-                                    {userStore.currency.toUpperCase()})
+                                    {currency.toUpperCase()})
                                   </AppleSDGothicNeoSBText>
                                 </VStack>
                               </>
