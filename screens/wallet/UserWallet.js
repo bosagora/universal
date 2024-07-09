@@ -103,10 +103,19 @@ const UserWallet = observer(({ navigation }) => {
   const [tokenSymbol, setTokenSymbol] = useState('');
   const [tokenName, setTokenName] = useState('');
   const [currency, setCurrency] = useState('');
-
+  function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0;
+  }
   useEffect(() => {
     console.log('================= UserWallet > userStore', userStore);
-    setWalletData();
+    // setWalletData();
+    if (process.env.EXPO_PUBLIC_APP_KIND === 'user')
+      setWalletData(loyaltyStore.balanceData);
+    if (process.env.EXPO_PUBLIC_APP_KIND === 'shop') {
+      console.log('init shop data :', loyaltyStore.shopData);
+      setShopData(loyaltyStore.shopData);
+    }
+
     fetchClient()
       .then(() =>
         console.log(
@@ -130,7 +139,7 @@ const UserWallet = observer(({ navigation }) => {
 
     const id = setInterval(async () => {
       try {
-        await setWalletData();
+        if (process.env.EXPO_PUBLIC_APP_KIND === 'user') await setWalletData();
         if (process.env.EXPO_PUBLIC_APP_KIND === 'shop') await setShopData();
       } catch (e) {
         console.log('setWalletData > e1:', e);
@@ -147,6 +156,7 @@ const UserWallet = observer(({ navigation }) => {
       setTokenName(summary.tokenInfo.name);
       setTokenSymbol(summary.tokenInfo.symbol);
       setCurrency(summary.exchangeRate.currency.symbol);
+      // userStore.setCurrency(summary.exchangeRate.currency.symbol);
 
       const payableConv = new BOACoin(summary.ledger.point.balance);
       setPayablePoint(payableConv);
@@ -180,19 +190,30 @@ const UserWallet = observer(({ navigation }) => {
     }
   }
 
-  async function setShopData() {
+  async function setShopData(data) {
     try {
-      const shopInfo = await secretStore.client.shop.getShopInfo(
-        userStore.shopId,
-      );
+      const summary =
+        data && !isEmptyObject(data)
+          ? data
+          : await secretStore.client.shop.getSummary(userStore.shopId);
 
-      const convProvidedAmount = new Amount(shopInfo.providedAmount, 18);
-      const convUsedAmount = new Amount(shopInfo.usedAmount, 18);
-      const convRefundedAmount = new Amount(shopInfo.refundedAmount, 18);
-      const refundableAmountTmp =
-        await secretStore.client.shop.getRefundableAmount(userStore.shopId);
+      loyaltyStore.setShopData(summary);
+
+      setTokenName(summary.tokenInfo.name);
+      setTokenSymbol(summary.tokenInfo.symbol);
+      setCurrency(summary.exchangeRate.currency.symbol);
+
+      const convProvidedAmount = new Amount(
+        summary.shopInfo.providedAmount,
+        18,
+      );
+      const convUsedAmount = new Amount(summary.shopInfo.usedAmount, 18);
+      const convRefundedAmount = new Amount(
+        summary.shopInfo.refundedAmount,
+        18,
+      );
       const convRefundableAmount = new Amount(
-        refundableAmountTmp.refundableAmount,
+        summary.shopInfo.refundableAmount,
         18,
       );
 
@@ -922,7 +943,7 @@ const UserWallet = observer(({ navigation }) => {
                                 pt={4}
                                 color='#12121D'
                                 style={{ fontWeight: 400 }}>
-                                Point
+                                {currency}
                               </Para3Text>
                             </HStack>
                           </Box>
@@ -940,7 +961,7 @@ const UserWallet = observer(({ navigation }) => {
                                 pt={4}
                                 color='#12121D'
                                 style={{ fontWeight: 400 }}>
-                                Point
+                                {currency}
                               </Para3Text>
                             </HStack>
                           </Box>
@@ -983,7 +1004,7 @@ const UserWallet = observer(({ navigation }) => {
                                     pt={4}
                                     color='#12121D'
                                     style={{ fontWeight: 400 }}>
-                                    Point
+                                    {currency}
                                   </Para3Text>
                                 </HStack>
                               </Box>
@@ -1025,7 +1046,7 @@ const UserWallet = observer(({ navigation }) => {
                                 pt={4}
                                 color='#12121D'
                                 style={{ fontWeight: 400 }}>
-                                Point
+                                {currency}
                               </Para3Text>
                             </HStack>
                           </Box>

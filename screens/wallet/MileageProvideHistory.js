@@ -174,7 +174,7 @@ const MileageProvideHistory = observer(({ navigation }) => {
                       pt={4}
                       color='#12121D'
                       style={{ fontWeight: 400 }}>
-                      Point(s)
+                      {item.currency.toUpperCase()}
                     </Para3Text>
                   </HStack>
                 </HStack>

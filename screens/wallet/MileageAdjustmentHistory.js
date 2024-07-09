@@ -130,7 +130,7 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
                     )}{' '}
                   </NumberText>
                   <Para3Text pt={4} color='#12121D' style={{ fontWeight: 400 }}>
-                    Point(s)
+                    {userStore.currency.toUpperCase()}
                   </Para3Text>
                 </HStack>
               </HStack>

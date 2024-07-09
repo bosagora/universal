@@ -4018,10 +4018,10 @@ acc-contracts-lib-v2@~2.3.1:
   dependencies:
     ethers "5.7.0"
 
-acc-sdk-client-v2@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/acc-sdk-client-v2/-/acc-sdk-client-v2-2.5.1.tgz#9319c87b4080aab5e084956c8491ccccdba57164"
-  integrity sha512-v5BZ+baRtC8EY+TomS13hKI2BQmkLMJlPFAfv2FNYmA8HCA5ayUKNpPQZtHekxOuK3C4JTLUlP62UlZhDEpMGg==
+acc-sdk-client-v2@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/acc-sdk-client-v2/-/acc-sdk-client-v2-2.5.2.tgz#73af72868b0e6e905b898c4d737d25caa6e1936e"
+  integrity sha512-34tPg4xp/BNLdmWDtDk0+fMxCLNSuRJnKWKE6rpH3TrU52mTUO3eIqB1nPEFg7ZwPiHFV3GqY8pIS8BLofbXkQ==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/abstract-signer" "^5.7.0"
@@ -4035,8 +4035,10 @@ acc-sdk-client-v2@^2.5.1:
     "@ethersproject/providers" "^5.7.0"
     "@ethersproject/random" "^5.7.0"
     "@ethersproject/wallet" "^5.7.0"
+    "@types/google-libphonenumber" "^7.4.30"
     acc-contracts-lib-v2 "~2.3.1"
     acc-sdk-common-v2 "~2.0.0"
+    google-libphonenumber "^3.2.35"
     unfetch "~4.2.0"
 
 acc-sdk-common-v2@~2.0.0:
@@ -6073,6 +6075,11 @@ google-libphonenumber@^3.2.34:
   version "3.2.34"
   resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.34.tgz#ef29b53be0f9fb517aaa53d26a541150f86ec921"
   integrity sha512-CLwkp0lZvMywh6dCh0T3Fm8XsfJhLAupc8AECwYkJNQBPW8wQPrv/tV0oFKCs8FMw+pTQyNPZoycgBzYjqtTZQ==
+
+google-libphonenumber@^3.2.35:
+  version "3.2.35"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.35.tgz#887bbac68b0e13c6a3a52e3971129b320ceb1759"
+  integrity sha512-en9hgw54urlwBT0F+IULsJmdpeLpq5aQoTONIdp5jVIRviONPMfplUKdaCPBrHBlZNm49iVuZGR/V05IWqlvLQ==
 
 gopd@^1.0.1:
   version "1.0.1"
