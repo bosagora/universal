@@ -175,5 +175,5 @@ export function subFloatTexts(floatText1, floatText2) {
     return '0';
   }
 
-  return (float1 - float2).toString();
+  return (float1 - float2).toFixed(2);
 }
