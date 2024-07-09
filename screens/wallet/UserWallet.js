@@ -553,18 +553,18 @@ const UserWallet = observer(({ navigation }) => {
                                     </AppleSDGothicNeoSBText>
                                   </HStack>
                                   <VStack alignItems='center' pt={10}>
-                                    <AppleSDGothicNeoSBText
-                                      color='#555555'
-                                      fontSize={16}
-                                      lineHeight={22}
-                                      fontWeight={400}>
-                                      ≒{' '}
-                                      {convertProperValue(
-                                        payablePointRate.toBOAString(),
-                                        0,
-                                      )}{' '}
-                                      {userStore.currency.toUpperCase()}
-                                    </AppleSDGothicNeoSBText>
+                                    {/*<AppleSDGothicNeoSBText*/}
+                                    {/*  color='#555555'*/}
+                                    {/*  fontSize={16}*/}
+                                    {/*  lineHeight={22}*/}
+                                    {/*  fontWeight={400}>*/}
+                                    {/*  ≒{' '}*/}
+                                    {/*  {convertProperValue(*/}
+                                    {/*    payablePointRate.toBOAString(),*/}
+                                    {/*    0,*/}
+                                    {/*  )}{' '}*/}
+                                    {/*  {userStore.currency.toUpperCase()}*/}
+                                    {/*</AppleSDGothicNeoSBText>*/}
                                     <AppleSDGothicNeoSBText
                                       color='#555555'
                                       fontSize={16}
