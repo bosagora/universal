@@ -62,11 +62,20 @@ const Deposit = observer(({ navigation }) => {
   const [mainChainFee, setMainChainFee] = useState(new BOACoin(0));
   const [ableToDo, setAbleToDo] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState(0);
+
+  const [tokenSymbol, setTokenSymbol] = useState('');
+  const [tokenName, setTokenName] = useState('');
+  const [currency, setCurrency] = useState('');
+
   useEffect(() => {
     const fetchHistory = async () => {
       const summary = await secretStore.client.ledger.getSummary(
         secretStore.address,
       );
+      setTokenName(summary.tokenInfo.name);
+      setTokenSymbol(summary.tokenInfo.symbol);
+      setCurrency(summary.exchangeRate.currency.symbol);
+
       const balanceMainChainConv = new BOACoin(summary.mainChain.token.balance);
       setBalanceMainChain(balanceMainChainConv);
 
@@ -314,7 +323,7 @@ const Deposit = observer(({ navigation }) => {
                         fontSize={20}
                         lineHeight={22}
                         fontWeight={500}>
-                        KIOS
+                        {tokenSymbol}
                       </AppleSDGothicNeoSBText>
                     </HStack>
                     <HStack alignItems='center' justifyContent='flex-start'>

@@ -371,7 +371,6 @@ const App = observer(() => {
                 alignItems: 'center',
               }}>
               <ActivityIndicator size={'large'} color={'white'} />
-              <Text>shopName</Text>
             </View>
           </View>
         </BottomSheetModalProvider>
