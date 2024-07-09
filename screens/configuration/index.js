@@ -148,7 +148,7 @@ const Configuration = observer(({ navigation }) => {
         ' ' +
         Constants.expoConfig?.version +
         '/' +
-        Constants.expoConfig?.extra.updateCode +
+        process.env.EXPO_PUBLIC_UPDATE_CODE +
         ' (' +
         process.env.EXPO_PUBLIC_ENV +
         ') ',

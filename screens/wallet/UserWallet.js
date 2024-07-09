@@ -147,16 +147,19 @@ const UserWallet = observer(({ navigation }) => {
     }, 5000);
     userStore.setWalletInterval(id);
   }
-  async function setWalletData() {
+  async function setWalletData(data) {
     // alert('setWalletData >>');
     try {
-      const summary = await secretStore.client.ledger.getSummary(
-        secretStore.address,
-      );
+      const summary =
+        data && !isEmptyObject(data)
+          ? data
+          : await secretStore.client.ledger.getSummary(secretStore.address);
+
       setTokenName(summary.tokenInfo.name);
       setTokenSymbol(summary.tokenInfo.symbol);
       setCurrency(summary.exchangeRate.currency.symbol);
-      // userStore.setCurrency(summary.exchangeRate.currency.symbol);
+
+      loyaltyStore.setBalanceData(summary);
 
       const payableConv = new BOACoin(summary.ledger.point.balance);
       setPayablePoint(payableConv);
