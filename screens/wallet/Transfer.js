@@ -18,6 +18,7 @@ import {
   subFloatTexts,
   truncateMiddleString,
   validateNumberWithDecimal,
+  greaterAndEqualFloatTexts,
 } from '../../utils/convert';
 import { Amount, BOACoin } from 'acc-sdk-client-v2';
 import { useTranslation } from 'react-i18next';
@@ -173,7 +174,7 @@ const Transfer = observer(({ navigation }) => {
     if (
       validateNumberWithDecimal(vv) &&
       greaterFloatTexts(vv, fee.toBOAString()) &&
-      greaterFloatTexts(balance, vv)
+      greaterAndEqualFloatTexts(balance, vv)
     ) {
       setAbleToDo(true);
       const aa = subFloatTexts(vv, fee.toBOAString());

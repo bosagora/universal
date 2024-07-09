@@ -15,6 +15,7 @@ import {
   convertProperValue,
   subFloatTexts,
   validateNumberWithDecimal,
+  greaterAndEqualFloatTexts,
 } from '../../utils/convert';
 import { Amount, BOACoin, NormalSteps } from 'acc-sdk-client-v2';
 import { useTranslation } from 'react-i18next';
@@ -186,16 +187,20 @@ const Deposit = observer(({ navigation }) => {
     console.log('change value :', v);
     console.log('change include comma :', v.includes(','));
     const vv = v.includes(',') ? v.split(',').join('') : v;
+    console.log('1');
     formik.setFieldValue('n1', vv);
+    console.log('2');
     const fee = userStore.isDeposit ? mainChainFee : sideChainFee;
+    console.log('3');
     const balance = userStore.isDeposit
       ? balanceMainChain.toBOAString()
       : balanceSideChain.toBOAString();
     console.log('balance :', balance);
+    console.log('sideChainFee.toBOAString() :', sideChainFee.toBOAString());
     if (
       validateNumberWithDecimal(vv) &&
       greaterFloatTexts(vv, sideChainFee.toBOAString()) &&
-      greaterFloatTexts(balance, vv)
+      greaterAndEqualFloatTexts(balance, vv)
     ) {
       setAbleToDo(true);
       const aa = subFloatTexts(vv, fee.toBOAString());
