@@ -6,6 +6,9 @@ class LoyaltyStore {
   payment = {};
   lastUpdateTime = 1608854400;
 
+  shopData = {};
+  balanceData = {};
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -13,6 +16,8 @@ class LoyaltyStore {
     this.boa = {};
     this.kios = {};
     this.payment = {};
+    this.shopData = {};
+    this.balanceData = {};
 
     this.lastUpdateTime = 1608854400;
   }
@@ -30,6 +35,12 @@ class LoyaltyStore {
 
   setLastUpdateTime = (time) => {
     this.lastUpdateTime = time;
+  };
+  setShopData = (data) => {
+    this.shopData = data;
+  };
+  setBalanceData = (data) => {
+    this.balanceData = data;
   };
 }
 
