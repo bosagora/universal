@@ -900,6 +900,7 @@ const UserWallet = observer(({ navigation }) => {
                                 <Box flex={1} mr={5}>
                                   <WrapWhiteButton
                                     onPress={() => {
+                                      pointFormik.setFieldValue('points', '');
                                       setShowConvertPointModal(false);
                                     }}>
                                     <ActiveWhiteButtonText>
@@ -1334,6 +1335,12 @@ const UserWallet = observer(({ navigation }) => {
                                 <Box flex={1} mr={5}>
                                   <WrapWhiteButton
                                     onPress={() => {
+                                      console.log('close refund modal');
+                                      refundFormik.setFieldValue(
+                                        'refundablePoints',
+                                        '',
+                                      );
+
                                       setShowRefundPointModal(false);
                                     }}>
                                     <ActiveWhiteButtonText>
