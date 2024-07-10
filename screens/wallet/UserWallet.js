@@ -428,7 +428,10 @@ const UserWallet = observer(({ navigation }) => {
         refundFormik.setFieldValue('refundablePoints', v);
         const inputAmount = Amount.make(v, 18).value;
         const convertedToken =
-          await secretStore.client.currency.pointToToken(inputAmount);
+          await secretStore.client.currency.currencyToToken(
+            inputAmount,
+            currency,
+          );
         const amount = new BOACoin(convertedToken);
         console.log('converted token amount :', amount.toBOAString());
         setReceiveRefundTokenAmount(amount);
@@ -1271,7 +1274,7 @@ const UserWallet = observer(({ navigation }) => {
                                         fontSize={20}
                                         lineHeight={22}
                                         fontWeight={500}>
-                                        Point
+                                        {currency}
                                       </AppleSDGothicNeoSBText>
                                     </HStack>
                                     <HStack
