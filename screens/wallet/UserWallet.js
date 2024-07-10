@@ -224,6 +224,23 @@ const UserWallet = observer(({ navigation }) => {
       setUsedAmount(convUsedAmount);
       setRefundedAmount(convRefundedAmount);
       setRefundableAmount(convRefundableAmount);
+
+      const tokenBalConv = new BOACoin(summary.ledger.token.balance);
+      setUserTokenBalance(tokenBalConv);
+
+      const tokenMainnetBalConv = new BOACoin(summary.mainChain.token.balance);
+      setUserTokenMainnetBalance(tokenMainnetBalConv);
+
+      const userTokenCurrencyConv = new BOACoin(summary.ledger.token.value);
+      setUserTokenRate(userTokenCurrencyConv);
+
+      const userTokenCurrencyMainnetConv = new BOACoin(
+        summary.mainChain.token.value,
+      );
+      setUserTokenMainnetRate(userTokenCurrencyMainnetConv);
+
+      const oneTokenConv = new BOACoin(summary.exchangeRate.currency.value);
+      setOneTokenRate(oneTokenConv);
     } catch (e) {
       console.log('setShopData > ', e);
     }
