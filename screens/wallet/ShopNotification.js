@@ -73,6 +73,7 @@ const ShopNotification = observer(() => {
       pinStore.setNextScreen('Wallet');
       return;
     }
+    userStore.setLoading(true);
     try {
       const steps = [];
       for await (const step of secretStore.client.shop.approveUpdate(
@@ -96,6 +97,7 @@ const ShopNotification = observer(() => {
         }
       }
       if (steps.length === 3 && steps[2].key === 'approved') {
+        userStore.setLoading(false);
         const time = Math.round(+new Date() / 1000);
         loyaltyStore.setLastUpdateTime(time);
         userStore.setCurrency(currency.toUpperCase());
@@ -105,6 +107,7 @@ const ShopNotification = observer(() => {
         alert(t('wallet.shop.update.done'));
       }
     } catch (e) {
+      userStore.setLoading(false);
       console.log('e :', e);
       loyaltyStore.setPayment({});
       pinStore.setNextScreen('Wallet');

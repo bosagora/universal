@@ -25,7 +25,7 @@ import RootPaddingBox2 from '../../components/RootPaddingBox2';
 
 const MileageRedeemNotification = observer(({ navigation }) => {
   const { t } = useTranslation();
-  const { pinStore, loyaltyStore, secretStore } = useStores();
+  const { pinStore, loyaltyStore, secretStore, userStore } = useStores();
   const [values, setValues] = useState(['T1', 'T2']);
 
   const [shopName, setShopName] = useState('');
@@ -87,6 +87,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
   };
 
   async function confirmRedeem() {
+    userStore.setLoading(true);
     try {
       const steps = [];
 
@@ -116,6 +117,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
         }
       }
       if (steps.length === 3 && steps[2].key === 'approved') {
+        userStore.setLoading(false);
         const time = Math.round(+new Date() / 1000);
         loyaltyStore.setLastUpdateTime(time);
         loyaltyStore.setPayment({});
@@ -124,6 +126,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
       }
     } catch (e) {
       console.log('e :', e);
+      userStore.setLoading(false);
       loyaltyStore.setPayment({});
       pinStore.setNextScreen('Wallet');
       alert(t('wallet.redeem.use.fail') + 'e:' + e.message);
