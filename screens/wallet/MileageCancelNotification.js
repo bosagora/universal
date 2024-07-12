@@ -93,7 +93,7 @@ const MileageCancelNotification = observer(() => {
       pinStore.setNextScreen('Wallet');
       return;
     }
-
+    userStore.setLoading(true);
     try {
       const steps = [];
       for await (const step of secretStore.client.ledger.approveCancelPayment(
@@ -117,6 +117,7 @@ const MileageCancelNotification = observer(() => {
         }
       }
       if (steps.length === 3 && steps[2].key === 'approved') {
+        userStore.setLoading(false);
         const time = Math.round(+new Date() / 1000);
         loyaltyStore.setLastUpdateTime(time);
         loyaltyStore.setPayment({});
@@ -124,6 +125,7 @@ const MileageCancelNotification = observer(() => {
         alert(t('wallet.cancel.use.done'));
       }
     } catch (e) {
+      userStore.setLoading(false);
       console.log('e :', e);
       loyaltyStore.setPayment({});
       pinStore.setNextScreen('Wallet');
