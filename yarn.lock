@@ -4011,17 +4011,17 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
-acc-contracts-lib-v2@~2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/acc-contracts-lib-v2/-/acc-contracts-lib-v2-2.3.1.tgz#a62f82ec3c405609cad6d5c8aceea51b38a0c9f5"
-  integrity sha512-X+8ebqq1bhrywYRp5wb1dHUf8CvBU6JgTur8fVdX/n22U8Y0iD/0ngy6hg8x6dgRcFF+MoA3QLnghP7pT9tdPw==
+acc-contracts-lib-v2@~2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/acc-contracts-lib-v2/-/acc-contracts-lib-v2-2.5.0.tgz#2a1cfa376c5915e3a11545fcdc954376bbeec578"
+  integrity sha512-EUhHCcwAYAsjw4LE2zf2MbtdMiI8Ugk80LoNEg3eJGpnFr5w1BT2nIoAgIKkK1H5znSXk7UVpngjeyv2xkLhKA==
   dependencies:
     ethers "5.7.0"
 
-acc-sdk-client-v2@^2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/acc-sdk-client-v2/-/acc-sdk-client-v2-2.5.2.tgz#73af72868b0e6e905b898c4d737d25caa6e1936e"
-  integrity sha512-34tPg4xp/BNLdmWDtDk0+fMxCLNSuRJnKWKE6rpH3TrU52mTUO3eIqB1nPEFg7ZwPiHFV3GqY8pIS8BLofbXkQ==
+acc-sdk-client-v2@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/acc-sdk-client-v2/-/acc-sdk-client-v2-2.7.0.tgz#c2ae4e88f41c665f6f3354be40bfeb7fa73dd31f"
+  integrity sha512-8DYU6SssegudyE/IvYjf7gAUrbB6V8z8vB+nce4fICHq1Bl3ouj0jiLdPe9xST0swyLMshYjE6waa1Xohw1KXw==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/abstract-signer" "^5.7.0"
@@ -4036,7 +4036,7 @@ acc-sdk-client-v2@^2.5.2:
     "@ethersproject/random" "^5.7.0"
     "@ethersproject/wallet" "^5.7.0"
     "@types/google-libphonenumber" "^7.4.30"
-    acc-contracts-lib-v2 "~2.3.1"
+    acc-contracts-lib-v2 "~2.5.0"
     acc-sdk-common-v2 "~2.0.0"
     google-libphonenumber "^3.2.35"
     unfetch "~4.2.0"
