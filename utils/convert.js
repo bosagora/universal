@@ -72,7 +72,7 @@ export function getName(lang, type, key) {
     if (type === 'appName') {
       switch (key) {
         case 'kios':
-          ret = 'KIOS';
+          ret = 'ACC';
           break;
         case 'pnb':
           ret = 'PNB';
@@ -86,7 +86,7 @@ export function getName(lang, type, key) {
     } else if (type === 'tokenName') {
       switch (key) {
         case 'kios':
-          ret = 'KIOS';
+          ret = 'ACC';
           break;
         case 'pnb':
           ret = 'PNB';
