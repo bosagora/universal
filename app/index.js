@@ -78,6 +78,7 @@ import Deposit from '../screens/wallet/Deposit';
 import Transfer from '../screens/wallet/Transfer';
 import TransferMainChainHistory from '../screens/wallet/TransferMainChainHistory';
 import { RobotoSemiBoldText } from '../components/styled/text';
+import UpdateActionSheet from '../screens/UpdateActionSheet';
 
 const InitStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -176,21 +177,22 @@ const App = observer(() => {
           });
       }
     };
-    async function onFetchUpdateAsync() {
-      try {
-        const update = await Updates.checkForUpdateAsync();
-
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync();
-          await Updates.reloadAsync();
-        }
-      } catch (error) {
-        // You can also add an alert() to see the error message in case of an error when fetching updates.
-        alert(`Error fetching latest Expo update: ${error}`);
-      }
-    }
+    // async function onFetchUpdateAsync() {
+    //   try {
+    //     const update = await Updates.checkForUpdateAsync();
+    //
+    //     if (update.isAvailable) {
+    //       await Updates.fetchUpdateAsync();
+    //       await Updates.reloadAsync();
+    //     }
+    //   } catch (error) {
+    //     // You can also add an alert() to see the error message in case of an error when fetching updates.
+    //     alert(`Error fetching latest Expo update: ${error}`);
+    //   }
+    // }
+    // if (Device.isDevice) onFetchUpdateAsync();
+    //
     rehydrate();
-    if (Device.isDevice) onFetchUpdateAsync();
   }, [userStore.currency]);
   function afterChangeLang(it) {
     console.log('afterChangeLang:', it);
@@ -345,6 +347,7 @@ const App = observer(() => {
               )}
 
               <QRActionSheet />
+              <UpdateActionSheet />
               <TermActionSheet />
               <PrivacyActionSheet />
               <ShopNotification />

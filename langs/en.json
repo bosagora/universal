@@ -37,6 +37,10 @@
   "fee": "Fee",
   "available": "available",
   "received.amount": "received amount",
+  "skip" : "Skip",
+  "update" : "Update",
+
+  "update.action.header" : "Updates to the app make bug fixes and additional features available.",
 
   "button.press.a": "Confirm",
   "button.press.b": "Cancel",
