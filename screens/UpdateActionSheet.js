@@ -33,7 +33,7 @@ const UpdateActionSheet = observer(() => {
           const update = await Updates.checkForUpdateAsync();
 
           if (update.isAvailable) {
-            alert('update :' + JSON.stringify(update));
+            // alert('update :' + JSON.stringify(update));
             setShowUpdate(true);
           }
         } catch (error) {
