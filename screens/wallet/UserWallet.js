@@ -1371,7 +1371,7 @@ const UserWallet = observer(({ navigation }) => {
                 <Box>
                   <Box>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                      <VStack mt={50} alignItems='flex-start'>
+                      <VStack mt={50} mb={120} alignItems='flex-start'>
                         {process.env.EXPO_PUBLIC_APP_KIND === 'user' ? (
                           <>
                             <HeaderText color='white'>BOSagora</HeaderText>
