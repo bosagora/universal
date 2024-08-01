@@ -78,7 +78,9 @@ const QRActionSheet = observer(() => {
                   <Box w='$full' p={20}>
                     {secretStore.address ? (
                       temporaryAccount == '00000' ? (
-                        <ActivityIndicator size='large' />
+                        <Box w={150} height={150} pt={60}>
+                          <ActivityIndicator size='large' />
+                        </Box>
                       ) : (
                         <QRCode size={150} value={temporaryAccount} />
                       )
