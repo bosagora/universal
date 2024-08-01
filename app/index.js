@@ -79,6 +79,7 @@ import Transfer from '../screens/wallet/Transfer';
 import TransferMainChainHistory from '../screens/wallet/TransferMainChainHistory';
 import { RobotoSemiBoldText } from '../components/styled/text';
 import UpdateActionSheet from '../screens/UpdateActionSheet';
+import secretStore from '../stores/secret.store';
 
 const InitStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -130,7 +131,7 @@ global.Buffer = require('buffer').Buffer;
 
 const App = observer(() => {
   const [isStoreLoaded, setIsStoreLoaded] = useState(false);
-  const { pinStore, userStore, loyaltyStore } = useStores();
+  const { pinStore, userStore, loyaltyStore, secretStore } = useStores();
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const { i18n } = useTranslation();
@@ -238,6 +239,7 @@ const App = observer(() => {
             'App has come to the foreground! > backgroundAt :',
             pinStore.backgrounAt,
           );
+          secretStore.setShowQRSheet(false);
           pinStore.setBackground(false);
           const time = Math.round(+new Date() / 1000);
           console.log('now :', time);
@@ -268,6 +270,7 @@ const App = observer(() => {
           pinStore.setBackgroundAt(time);
         }
         pinStore.setBackground(true);
+        secretStore.setShowQRSheet(false);
         appState.current = nextAppState;
         setAppStateVisible(appState.current);
         console.log('After AppState', appState.current);
