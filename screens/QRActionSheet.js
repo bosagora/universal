@@ -9,7 +9,11 @@ import {
   HStack,
   ActionsheetContent,
 } from '@gluestack-ui/themed';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useStores } from '../stores';
 import { observer } from 'mobx-react';
@@ -19,7 +23,7 @@ import { RobotoSemiBoldText } from '../components/styled/text';
 const QRActionSheet = observer(() => {
   const { t } = useTranslation();
   const { secretStore } = useStores();
-  const [temporaryAccount, setTemporaryAccount] = useState('erertertererter');
+  const [temporaryAccount, setTemporaryAccount] = useState('00000');
   useEffect(() => {
     try {
       async function fetchTemporaryAccount() {
@@ -34,15 +38,15 @@ const QRActionSheet = observer(() => {
       console.log('e :', e);
     }
   }, [secretStore.showQRSheet]);
-  const handleClose = () =>
+  const handleClose = () => {
     secretStore.setShowQRSheet(!secretStore.showQRSheet);
+    setTemporaryAccount('00000');
+  };
   return (
     <Box>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <Actionsheet
-          isOpen={temporaryAccount !== '00000' && secretStore.showQRSheet}
-          onClose={handleClose}>
+        <Actionsheet isOpen={secretStore.showQRSheet} onClose={handleClose}>
           <ActionsheetBackdrop bg='$borderLight200' />
           <ActionsheetContent bg='white' maxHeight='75%'>
             <ActionsheetDragIndicatorWrapper>
@@ -73,7 +77,11 @@ const QRActionSheet = observer(() => {
                   }}>
                   <Box w='$full' p={20}>
                     {secretStore.address ? (
-                      <QRCode size={150} value={temporaryAccount} />
+                      temporaryAccount == '00000' ? (
+                        <ActivityIndicator size='large' />
+                      ) : (
+                        <QRCode size={150} value={temporaryAccount} />
+                      )
                     ) : null}
                   </Box>
                 </Box>
