@@ -60,6 +60,9 @@
   "term.body.text.a": "[Required] Terms of Service",
   "term.body.text.b": "[Required] Privacy policy",
 
+  "network.header.title" : "Network",
+  "network.header.subtitle" : "Please select a network.",
+
   "secret.alert.push.fail": "Notification permission failed.",
   "secret.alert.wallet.done": "New wallet has been created.",
   "secret.alert.wallet.invalid": "Invalid key entered",

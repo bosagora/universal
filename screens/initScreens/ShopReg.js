@@ -51,7 +51,7 @@ const ShopReg = observer(({ navigation }) => {
     try {
       const shopId = ContractUtils.getShopId(
         secretStore.address,
-        process.env.EXPO_PUBLIC_ENV === 'test'
+        secretStore.network === 'testnet'
           ? LoyaltyNetworkID.ACC_TESTNET
           : LoyaltyNetworkID.ACC_MAINNET,
       );

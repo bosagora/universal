@@ -10,7 +10,7 @@ import {
   ContextBuilder,
   ContextParams,
 } from 'acc-sdk-client-v2';
-export async function getClient(screen = 'unknown') {
+export async function getClient(screen = 'unknown', network = 'testnet') {
   async function fetchKey() {
     let pKey = await getSecureValue('privateKey');
     if (pKey.includes('0x')) {
@@ -23,22 +23,16 @@ export async function getClient(screen = 'unknown') {
   }
   const { pKey, address } = await fetchKey();
   async function createClient(privateKey) {
-    console.log('createClient > env network :', process.env.EXPO_PUBLIC_ENV);
+    console.log('createClient > env network :', network);
     try {
       const contextParams =
-        process.env.EXPO_PUBLIC_ENV === 'development' ||
-        process.env.EXPO_PUBLIC_ENV === 'preview'
-          ? ContextBuilder.buildContextParamsOfDevnet(privateKey)
-          : process.env.EXPO_PUBLIC_ENV === 'test'
+        network === 'testnet'
           ? ContextBuilder.buildContextParamsOfTestnet(privateKey)
           : ContextBuilder.buildContextParamsOfMainnet(privateKey);
       console.log(JSON.stringify(contextParams));
 
       const context =
-        process.env.EXPO_PUBLIC_ENV === 'development' ||
-        process.env.EXPO_PUBLIC_ENV === 'preview'
-          ? ContextBuilder.buildContextOfDevnet(privateKey)
-          : process.env.EXPO_PUBLIC_ENV === 'test'
+        network === 'testnet'
           ? ContextBuilder.buildContextOfTestnet(privateKey)
           : ContextBuilder.buildContextOfMainnet(privateKey);
 

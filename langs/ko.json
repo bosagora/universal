@@ -59,6 +59,9 @@
   "term.body.text.a": "[필수] 서비스 이용약관 동의",
   "term.body.text.b": "[필수] 개인정보 수집 및 이용 동의",
 
+  "network.header.title" : "Network",
+  "network.header.subtitle" : "네트워크를 선택합니다.",
+
   "secret.alert.push.fail": "푸시 토큰 등록에 실패하였습니다.",
   "secret.alert.wallet.done": "새로운 지갑이 생성 되었습니다.",
   "secret.alert.wallet.invalid": "유효하지 않은 키 입니다.",
