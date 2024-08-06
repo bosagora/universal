@@ -80,6 +80,7 @@ import TransferMainChainHistory from '../screens/wallet/TransferMainChainHistory
 import { RobotoSemiBoldText } from '../components/styled/text';
 import UpdateActionSheet from '../screens/UpdateActionSheet';
 import secretStore from '../stores/secret.store';
+import Network from '../screens/initScreens/Network';
 
 const InitStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -401,6 +402,11 @@ function InitStackScreen() {
       <InitStack.Screen
         name='Secret'
         component={Secret}
+        options={{ headerShown: false }}
+      />
+      <InitStack.Screen
+        name='Network'
+        component={Network}
         options={{ headerShown: false }}
       />
       <InitStack.Screen

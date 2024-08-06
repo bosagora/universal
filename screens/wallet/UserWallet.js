@@ -461,7 +461,14 @@ const UserWallet = observer(({ navigation }) => {
       }>
       {init === true ? (
         <>
-          <Box alignItems='flex-end'>
+          <HStack alignItems='center' justifyContent='flex-end'>
+            <SubHeaderText
+              pr={10}
+              color={
+                process.env.EXPO_PUBLIC_APP_KIND === 'user' ? 'white' : 'black'
+              }>
+              {secretStore.network === 'testnet' ? 'Testnet' : ''}
+            </SubHeaderText>
             <Button
               bg='#5C66D5'
               rounded='$xl'
@@ -503,7 +510,7 @@ const UserWallet = observer(({ navigation }) => {
                 source={require('../../assets/images/copy.png')}
               />
             </Button>
-          </Box>
+          </HStack>
           <Carousel
             style={{ backgroundColor: 'red' }}
             layout={'default'}
@@ -1376,9 +1383,9 @@ const UserWallet = observer(({ navigation }) => {
                           <>
                             <HeaderText color='white'>BOSagora</HeaderText>
                             <SubHeaderText color='white' mt={7}>
-                              {process.env.EXPO_PUBLIC_ENV === 'product'
+                              {secretStore.network === 'mainnet'
                                 ? t('wallet.heading.description.mainnet')
-                                : process.env.EXPO_PUBLIC_ENV === 'test'
+                                : secretStore.network === 'testnet'
                                 ? t('wallet.heading.description.testnet')
                                 : t('wallet.heading.description.devnet')}
                             </SubHeaderText>
@@ -1387,9 +1394,9 @@ const UserWallet = observer(({ navigation }) => {
                           <MobileHeader
                             title='BOSagora'
                             subTitle={
-                              process.env.EXPO_PUBLIC_ENV === 'product'
+                              secretStore.network === 'mainnet'
                                 ? t('wallet.heading.description.mainnet')
-                                : process.env.EXPO_PUBLIC_ENV === 'test'
+                                : secretStore.network === 'testnet'
                                 ? t('wallet.heading.description.testnet')
                                 : t('wallet.heading.description.devnet')
                             }></MobileHeader>

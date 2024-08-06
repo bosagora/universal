@@ -304,7 +304,10 @@ const Index = observer(({ navigation }) => {
 
   return (
     <WrapBox style={{ backgroundColor: '#F3F3F4', paddingTop: 3 }}>
-      <Box alignItems='flex-end'>
+      <Box alignItems='flex-between'>
+        <ParaText style={{ color: '#fff' }}>
+          {truncateMiddleString(secretStore.address || '', 8)}
+        </ParaText>
         <Button
           bg='#5C66D5'
           rounded='$xl'

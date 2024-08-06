@@ -6,6 +6,7 @@ class SecretStore {
   address = '';
   mnemonic = '';
   client = null;
+  network = 'testnet';
 
   showQRSheet = false;
   showTermSheet = false;
@@ -13,7 +14,7 @@ class SecretStore {
 
   constructor() {
     makeAutoObservable(this);
-    getClient().then((it) => {
+    getClient('store', this.network).then((it) => {
       this.client = it.client;
       this.address = it.address;
     });
@@ -22,6 +23,8 @@ class SecretStore {
     this.pKey = '';
     this.address = '';
     this.mnemonic = '';
+    this.client = null;
+    this.network = 'testnet';
 
     this.showQRSheet = false;
     this.showTermSheet = false;
@@ -35,12 +38,15 @@ class SecretStore {
     this.address = address;
   };
   setClient = async () => {
-    const it = await getClient();
+    const it = await getClient('store', this.network);
     this.client = it.client;
     this.address = it.address;
   };
   setMnemonic = (mnemonic) => {
     this.mnemonic = mnemonic;
+  };
+  setNetwork = (network) => {
+    this.network = network;
   };
 
   setShowQRSheet = (show) => {
