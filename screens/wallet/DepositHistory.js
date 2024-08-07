@@ -94,7 +94,7 @@ const DepositHistory = observer(({ navigation }) => {
     <WrapBox
       style={{ paddingTop: 35, backgroundColor: userStore.contentColor }}>
       <MobileHeader
-        title={'Deposit & Withdraw History'}
+        title={t('user.wallet.link.deposit.history')}
         subTitle={
           historyData && historyData.length > 0
             ? t('wallet.history.header.subtitle.a') +
