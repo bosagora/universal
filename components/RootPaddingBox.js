@@ -16,7 +16,10 @@ const RootPaddingBox = observer(({ navigation }) => {
 
         zIndex: 2,
       }}>
-      <StatusBar style='dark' translucent={true} />
+      <StatusBar
+        style={userStore.contentColor === 'F3F3F4' ? 'dark' : 'light'}
+        translucent={true}
+      />
     </View>
   );
 });
