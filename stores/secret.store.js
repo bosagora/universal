@@ -14,10 +14,11 @@ class SecretStore {
 
   constructor() {
     makeAutoObservable(this);
-    getClient('store', this.network).then((it) => {
-      this.client = it.client;
-      this.address = it.address;
-    });
+    console.log('secret store > constructor > network :', this.network);
+    // getClient('store', this.network).then((it) => {
+    //   this.client = it.client;
+    //   this.address = it.address;
+    // });
   }
   reset() {
     this.pKey = '';
@@ -38,6 +39,7 @@ class SecretStore {
     this.address = address;
   };
   setClient = async () => {
+    console.log('secret store > setClient > network :', this.network);
     const it = await getClient('store', this.network);
     this.client = it.client;
     this.address = it.address;

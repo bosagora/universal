@@ -108,7 +108,9 @@ const UserWallet = observer(({ navigation }) => {
   }
   useEffect(() => {
     console.log('================= UserWallet > userStore', userStore);
-    // setWalletData();
+    console.log('================= UserWallet > secretStore', secretStore);
+    secretStore.setClient();
+
     if (process.env.EXPO_PUBLIC_APP_KIND === 'user')
       setWalletData(loyaltyStore.balanceData);
     if (process.env.EXPO_PUBLIC_APP_KIND === 'shop') {
