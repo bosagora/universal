@@ -599,18 +599,7 @@ const UserWallet = observer(({ navigation }) => {
                                       fontSize={16}
                                       lineHeight={22}
                                       fontWeight={400}>
-                                      (1 Point ≒{' '}
-                                      {convertProperValue(
-                                        onePointRate.toBOAString(),
-                                        userStore.currency.toLowerCase() ===
-                                          process.env.EXPO_PUBLIC_CURRENCY
-                                          ? 0
-                                          : 1,
-                                        userStore.currency.toLowerCase() ===
-                                          process.env.EXPO_PUBLIC_CURRENCY
-                                          ? 0
-                                          : 5,
-                                      )}{' '}
+                                      (1 Point = 1{' '}
                                       {userStore.currency.toUpperCase()} )
                                     </AppleSDGothicNeoSBText>
 
