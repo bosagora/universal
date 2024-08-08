@@ -44,7 +44,7 @@ const Network = observer(({ navigation }) => {
       <VStack mt={50}>
         <RadioGroup value={network} onChange={setNetwork}>
           <VStack space='sm'>
-            <Radio isDisabled={true} value='mainnet' aria-label='mainnet'>
+            <Radio value='mainnet' aria-label='mainnet'>
               <RadioIndicator mr='$2' rounded='$xl'>
                 <RadioIcon as={CircleIcon} fill='currentColor' />
               </RadioIndicator>
