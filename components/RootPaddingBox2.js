@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 const RootPaddingBox2 = observer(({ navigation }) => {
   return (
@@ -11,7 +12,9 @@ const RootPaddingBox2 = observer(({ navigation }) => {
         marginTop: -60,
 
         zIndex: 3,
-      }}></View>
+      }}>
+      <StatusBar style='dark' translucent={true} />
+    </View>
   );
 });
 
