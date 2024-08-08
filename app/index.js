@@ -210,7 +210,6 @@ const App = observer(() => {
     // 앱 초기 등록 화면이 아니고
     // 핀 코드 화면이 활성 상태 이고
     const initPincode = async () => {
-      console.log('userStore.state  :', userStore);
       if (userStore.state === 'DONE' && init === false) {
         init = true;
         // pinStore.setNextScreen('Wallet');

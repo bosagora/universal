@@ -27,7 +27,7 @@ import {
 const Network = observer(({ navigation }) => {
   const { t } = useTranslation();
   const { secretStore, userStore } = useStores();
-  const [network, setNetwork] = useState('testnet');
+  const [network, setNetwork] = useState('mainnet');
 
   function moveNext() {
     secretStore.setNetwork(network);
