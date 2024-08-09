@@ -125,6 +125,8 @@
   "wallet.modal.body.g": "Completed",
   "wallet.modal.body.h": "Press confirm to continue",
 
+  "user.wallet.alert.withdraw.fail": "Token withdrawal failed.",
+  "user.wallet.alert.deposit.fail": "Token deposit failed.",
   "user.wallet.alert.convert.fail": "Converting to ACC tokens failed.",
   "user.wallet.alert.convert.done": "Successfully converted to ACC tokens.",
   "user.wallet.heading": "My ACC Loyalty",
