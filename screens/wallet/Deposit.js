@@ -134,7 +134,7 @@ const Deposit = observer(({ navigation }) => {
       await Clipboard.setStringAsync(JSON.stringify(e));
       console.log('error : ', e);
       userStore.setLoading(false);
-      alert(t('phone.alert.reg.fail') + JSON.stringify(e.message));
+      alert(t('user.wallet.alert.deposit.fail') + JSON.stringify(e.message));
     }
   }
 
@@ -167,7 +167,7 @@ const Deposit = observer(({ navigation }) => {
       await Clipboard.setStringAsync(JSON.stringify(e));
       console.log('error : ', e);
       userStore.setLoading(false);
-      alert(t('phone.alert.reg.fail') + JSON.stringify(e.message));
+      alert(t('user.wallet.alert.withdraw.fail') + JSON.stringify(e.message));
     }
   }
 

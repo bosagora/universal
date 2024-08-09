@@ -124,6 +124,8 @@
   "wallet.modal.body.g": "완료",
   "wallet.modal.body.h": "계속 진행하려면 확인을 클릭하세요.",
 
+  "user.wallet.alert.withdraw.fail": "토큰 인출에 실패하였습니다.",
+  "user.wallet.alert.deposit.fail": "토큰 예치에 실패하였습니다.",
   "user.wallet.alert.convert.fail": "토큰 전환에 실패하였습니다.",
   "user.wallet.alert.convert.done": "토큰 전환에 성공하였습니다.",
   "user.wallet.heading": "나의 ACC 마일리지",
