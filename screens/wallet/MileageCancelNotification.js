@@ -68,7 +68,7 @@ const MileageCancelNotification = observer(() => {
           setHasPayment(false);
         }
       } catch (e) {
-        // alert('shop notificaiton error :' + JSON.stringify(e));
+        alert('shop notificaiton error :' + JSON.stringify(e.message));
       }
     }
     fetchClient().then();
@@ -80,11 +80,15 @@ const MileageCancelNotification = observer(() => {
   };
 
   const savePaymentInfo = async (cc, paymentId) => {
-    const info = await cc.ledger.getPaymentDetail(paymentId);
-    setPurchaseId(info.purchaseId);
-    setAmount(new Amount(info.amount, 18));
-    setCurrency(info.currency);
-    await saveShopInfo(cc, info.shopId);
+    try {
+      const info = await cc.ledger.getPaymentDetail(paymentId);
+      setPurchaseId(info.purchaseId);
+      setAmount(new Amount(info.amount, 18));
+      setCurrency(info.currency);
+      await saveShopInfo(cc, info.shopId);
+    } catch (e) {
+      alert('store cancel notification error:' + JSON.stringify(e.message));
+    }
   };
 
   async function confirmCancel() {

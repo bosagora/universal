@@ -97,7 +97,7 @@ export const usePushNotification = (userStore, loyaltyStore, pinStore) => {
           payment.type === 'shop_update' ||
           payment.type === 'shop_status'
         ) {
-          loyaltyStore.setPayment(payment);
+          loyaltyStore.setTmpPayment(payment);
         }
       });
 

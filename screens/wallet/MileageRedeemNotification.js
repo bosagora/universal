@@ -62,7 +62,7 @@ const MileageRedeemNotification = observer(({ navigation }) => {
           setHasPayment(false);
         }
       } catch (e) {
-        // alert('shop notificaiton error :' + JSON.stringify(e));
+        alert('Redeem notification error :' + JSON.stringify(e.message));
       }
     }
     fetchClient().then();
