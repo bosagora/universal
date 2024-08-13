@@ -45,6 +45,7 @@ const UpdateActionSheet = observer(() => {
       if (Device.isDevice) onFetchUpdateAsync();
     } catch (e) {
       console.log('e :', e);
+      alert('update error :' + e.message);
     }
   }, []);
   const doUpdate = async () => {
@@ -63,65 +64,62 @@ const UpdateActionSheet = observer(() => {
 
   return (
     <Box>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <Actionsheet isOpen={showUpdate}>
-          <ActionsheetBackdrop bg='$borderLight200' />
-          <ActionsheetContent bg='white' maxHeight='75%'>
-            <ActionsheetDragIndicatorWrapper>
-              <ActionsheetDragIndicator />
-            </ActionsheetDragIndicatorWrapper>
-            <VStack w='$full' p={20}>
-              <Box space='lg' pt='$4' m='$7' alignItems='center'>
-                <RobotoSemiBoldText fontSize={18}>
-                  {t('update.action.header')}
-                </RobotoSemiBoldText>
+      <Actionsheet isOpen={showUpdate}>
+        <ActionsheetBackdrop bg='$borderLight200' />
+        <ActionsheetContent bg='white' maxHeight='75%'>
+          <ActionsheetDragIndicatorWrapper>
+            <ActionsheetDragIndicator />
+          </ActionsheetDragIndicatorWrapper>
+          <VStack w='$full' p={20}>
+            <Box space='lg' pt='$4' m='$7' alignItems='center'>
+              <RobotoSemiBoldText fontSize={18}>
+                {t('update.action.header')}
+              </RobotoSemiBoldText>
+            </Box>
+
+            <HStack py={20} px={20} flex={1} space='md'>
+              <Box flex={1}>
+                <WrapButton
+                  bg='black'
+                  borderColor='#8A8A8A'
+                  borderRadius='$lg'
+                  borderWidth='$1'
+                  onPress={() => doNotUpdate()}>
+                  <RobotoMediumText
+                    style={{
+                      fontWeight: 500,
+                      lineHeight: 16,
+                      fontSize: 15,
+                      color: '#fff',
+                    }}>
+                    {t('skip')}
+                  </RobotoMediumText>
+                </WrapButton>
               </Box>
+              <Box flex={1}>
+                <WrapButton
+                  bg='black'
+                  borderColor='#8A8A8A'
+                  borderRadius='$lg'
+                  borderWidth='$1'
+                  onPress={() => doUpdate()}>
+                  <RobotoMediumText
+                    style={{
+                      fontWeight: 500,
+                      lineHeight: 16,
+                      fontSize: 15,
+                      color: '#fff',
+                    }}>
+                    {t('update')}
+                  </RobotoMediumText>
+                </WrapButton>
+              </Box>
+            </HStack>
 
-              <HStack py={20} px={20} flex={1} space='md'>
-                <Box flex={1}>
-                  <WrapButton
-                    bg='black'
-                    borderColor='#8A8A8A'
-                    borderRadius='$lg'
-                    borderWidth='$1'
-                    onPress={() => doNotUpdate()}>
-                    <RobotoMediumText
-                      style={{
-                        fontWeight: 500,
-                        lineHeight: 16,
-                        fontSize: 15,
-                        color: '#fff',
-                      }}>
-                      {t('skip')}
-                    </RobotoMediumText>
-                  </WrapButton>
-                </Box>
-                <Box flex={1}>
-                  <WrapButton
-                    bg='black'
-                    borderColor='#8A8A8A'
-                    borderRadius='$lg'
-                    borderWidth='$1'
-                    onPress={() => doUpdate()}>
-                    <RobotoMediumText
-                      style={{
-                        fontWeight: 500,
-                        lineHeight: 16,
-                        fontSize: 15,
-                        color: '#fff',
-                      }}>
-                      {t('update')}
-                    </RobotoMediumText>
-                  </WrapButton>
-                </Box>
-              </HStack>
-
-              <Box space='sm' pt='$1' m='$7'></Box>
-            </VStack>
-          </ActionsheetContent>
-        </Actionsheet>
-      </KeyboardAvoidingView>
+            <Box space='sm' pt='$1' m='$7'></Box>
+          </VStack>
+        </ActionsheetContent>
+      </Actionsheet>
     </Box>
   );
 });
