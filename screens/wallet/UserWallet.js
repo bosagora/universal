@@ -138,7 +138,7 @@ const UserWallet = observer(({ navigation }) => {
   }, []);
   useEffect(() => {
     secretStore.setClient().then(() => {
-      if (!isEmpty(loyaltyStore.tmpPayment)) {
+      if (!isEmpty(loyaltyStore.tmpPayment) && !userStore.inUpdate) {
         const payment = JSON.parse(JSON.stringify(loyaltyStore.tmpPayment));
         loyaltyStore.setTmpPayment({});
         loyaltyStore.setPayment(payment);
