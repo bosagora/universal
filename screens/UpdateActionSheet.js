@@ -24,7 +24,7 @@ import { WrapButton } from '../components/styled/button';
 
 const UpdateActionSheet = observer(() => {
   const { t } = useTranslation();
-  const { secretStore } = useStores();
+  const { userStore } = useStores();
   const [showUpdate, setShowUpdate] = useState(false);
   useEffect(() => {
     try {
@@ -34,6 +34,7 @@ const UpdateActionSheet = observer(() => {
 
           if (update.isAvailable) {
             // alert('update :' + JSON.stringify(update));
+            userStore.setInUpdate(true);
             setShowUpdate(true);
           }
         } catch (error) {
@@ -45,16 +46,18 @@ const UpdateActionSheet = observer(() => {
     } catch (e) {
       console.log('e :', e);
     }
-  }, [secretStore.showQRSheet]);
+  }, []);
   const doUpdate = async () => {
     setShowUpdate(false);
     if (Device.isDevice) {
+      userStore.setInUpdate(false);
       await Updates.fetchUpdateAsync();
       await Updates.reloadAsync();
     }
   };
 
   const doNotUpdate = () => {
+    userStore.setInUpdate(false);
     setShowUpdate(false);
   };
 

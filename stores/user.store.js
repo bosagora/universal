@@ -39,6 +39,7 @@ class UserStore {
   backgroundColor = '#ffffff';
   isDeposit = true;
   isMainChainTransfer = true;
+  inUpdate = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -69,8 +70,12 @@ class UserStore {
     this.backgroundColor = '#ffffff';
     this.isDeposit = true;
     this.isMainChainTransfer = true;
+    this.inUpdate = false;
   }
 
+  setInUpdate = (update) => {
+    this.inUpdate = update;
+  };
   setAuthState = (state) => {
     this.state = state;
   };
