@@ -27,6 +27,7 @@ import {
   validateNumber,
   greaterAndEqualFloatTexts,
   toFix,
+  isEmpty,
 } from '../../utils/convert';
 import {
   ScrollView,
@@ -106,10 +107,10 @@ const UserWallet = observer(({ navigation }) => {
   function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
   }
+
   useEffect(() => {
     console.log('================= UserWallet > userStore', userStore);
     console.log('================= UserWallet > secretStore', secretStore);
-    secretStore.setClient();
 
     if (process.env.EXPO_PUBLIC_APP_KIND === 'user')
       setWalletData(loyaltyStore.balanceData);
@@ -119,16 +120,31 @@ const UserWallet = observer(({ navigation }) => {
     }
 
     fetchClient()
-      .then(() =>
+      .then(() => {
         console.log(
           'end of wallet fetch client > last :',
           loyaltyStore.lastUpdateTime,
-        ),
-      )
+        );
+      })
       .catch((error) => {
         console.log(error);
       });
+    // loyaltyStore.setPayment({
+    //   id: '0x5f59d6b480ff5a30044dcd7fe3b28c69b6d0d725ca469d1b685b57dfc1055d7f',
+    //   type: 'cancel',
+    //   taskId:
+    //     '0xf7d3c6c310f5b53d62e96e363146b7da517ffaf063866923c6ce60683b154c91',
+    // });
   }, []);
+  useEffect(() => {
+    secretStore.setClient().then(() => {
+      if (!isEmpty(loyaltyStore.tmpPayment)) {
+        const payment = JSON.parse(JSON.stringify(loyaltyStore.tmpPayment));
+        loyaltyStore.setTmpPayment({});
+        loyaltyStore.setPayment(payment);
+      }
+    });
+  }, [loyaltyStore.tmpPayment]);
   async function fetchClient() {
     try {
       await fetchWithInterval();

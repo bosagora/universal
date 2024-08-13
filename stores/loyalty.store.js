@@ -4,6 +4,7 @@ class LoyaltyStore {
   boa = {};
   kios = {};
   payment = {};
+  tmpPayment = {};
   lastUpdateTime = 1608854400;
 
   shopData = {};
@@ -15,6 +16,7 @@ class LoyaltyStore {
   reset() {
     this.boa = {};
     this.kios = {};
+    this.tmpPayment = {};
     this.payment = {};
     this.shopData = {};
     this.balanceData = {};
@@ -31,6 +33,9 @@ class LoyaltyStore {
 
   setPayment = (payment) => {
     this.payment = payment;
+  };
+  setTmpPayment = (payment) => {
+    this.tmpPayment = payment;
   };
 
   setLastUpdateTime = (time) => {
