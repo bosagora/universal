@@ -101,7 +101,7 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
         <FlatList
           mt={40}
           data={historyData}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.transactionHash}
           renderItem={({ item }) => (
             <VStack>
               <HStack
