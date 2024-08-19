@@ -73,6 +73,7 @@ const MileageAdjustmentHistory = observer(({ navigation }) => {
             actionName: 'REFUND',
             amount: it.increase,
             blockTimestamp: it.blockTimestamp,
+            transactionHash: it.transactionHash,
           };
         });
       console.log('adjustment history :', history.slice(0, 3));
