@@ -568,7 +568,7 @@ const UserWallet = observer(({ navigation }) => {
                                   {/*  alt='alt'*/}
                                   {/*  source={require('../../assets/images/mypoint.png')}*/}
                                   {/*/>*/}
-                                  <NumberText color='#5C66D5'>
+                                  <NumberText color='#5C66D5' fontSize={15}>
                                     My Point
                                   </NumberText>
                                   <WrapHistoryButton
@@ -683,7 +683,7 @@ const UserWallet = observer(({ navigation }) => {
                                   {/*  alt='alt'*/}
                                   {/*  source={require('../../assets/images/mykios.png')}*/}
                                   {/*/>*/}
-                                  <NumberText color='#5C66D5'>
+                                  <NumberText color='#5C66D5' fontSize={15}>
                                     My ACC
                                   </NumberText>
                                   <WrapHistoryButton
@@ -1108,7 +1108,9 @@ const UserWallet = observer(({ navigation }) => {
                             {/*  alt='alt'*/}
                             {/*  source={require('../../assets/images/mykios.png')}*/}
                             {/*/>*/}
-                            <NumberText color='#5C66D5'>My ACC</NumberText>
+                            <NumberText color='#5C66D5' fontSize={15}>
+                              My ACC
+                            </NumberText>
                             <WrapHistoryButton
                               borderRadius='$full'
                               h={24}
@@ -1429,7 +1431,9 @@ const UserWallet = observer(({ navigation }) => {
                                 {/*  alt='alt'*/}
                                 {/*  source={require('../../assets/images/mykios.png')}*/}
                                 {/*/>*/}
-                                <NumberText color='#5C66D5'>My ACC</NumberText>
+                                <NumberText color='#5C66D5' fontSize={15}>
+                                  My ACC
+                                </NumberText>
                                 <WrapHistoryButton
                                   borderRadius='$full'
                                   h={24}
