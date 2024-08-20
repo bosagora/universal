@@ -42,6 +42,7 @@ import { WrapBox, WrapDivider } from '../../components/styled/layout';
 import {
   ActiveButtonText,
   ActiveWhiteButtonText,
+  AppleSDGothicNeoH,
   AppleSDGothicNeoSBText,
   HeaderText,
   NumberText,
@@ -568,9 +569,9 @@ const UserWallet = observer(({ navigation }) => {
                                   {/*  alt='alt'*/}
                                   {/*  source={require('../../assets/images/mypoint.png')}*/}
                                   {/*/>*/}
-                                  <NumberText color='#5C66D5' fontSize={15}>
+                                  <AppleSDGothicNeoH color='#5C66D5'>
                                     My Point
-                                  </NumberText>
+                                  </AppleSDGothicNeoH>
                                   <WrapHistoryButton
                                     borderRadius='$full'
                                     h={24}
@@ -683,9 +684,9 @@ const UserWallet = observer(({ navigation }) => {
                                   {/*  alt='alt'*/}
                                   {/*  source={require('../../assets/images/mykios.png')}*/}
                                   {/*/>*/}
-                                  <NumberText color='#5C66D5' fontSize={15}>
+                                  <AppleSDGothicNeoH color='#5C66D5'>
                                     My ACC
-                                  </NumberText>
+                                  </AppleSDGothicNeoH>
                                   <WrapHistoryButton
                                     borderRadius='$full'
                                     h={24}
@@ -1108,9 +1109,9 @@ const UserWallet = observer(({ navigation }) => {
                             {/*  alt='alt'*/}
                             {/*  source={require('../../assets/images/mykios.png')}*/}
                             {/*/>*/}
-                            <NumberText color='#5C66D5' fontSize={15}>
+                            <AppleSDGothicNeoH color='#5C66D5'>
                               My ACC
-                            </NumberText>
+                            </AppleSDGothicNeoH>
                             <WrapHistoryButton
                               borderRadius='$full'
                               h={24}
@@ -1431,9 +1432,9 @@ const UserWallet = observer(({ navigation }) => {
                                 {/*  alt='alt'*/}
                                 {/*  source={require('../../assets/images/mykios.png')}*/}
                                 {/*/>*/}
-                                <NumberText color='#5C66D5' fontSize={15}>
+                                <AppleSDGothicNeoH color='#5C66D5'>
                                   My ACC
-                                </NumberText>
+                                </AppleSDGothicNeoH>
                                 <WrapHistoryButton
                                   borderRadius='$full'
                                   h={24}

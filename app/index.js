@@ -283,6 +283,7 @@ const App = observer(() => {
   }, []);
 
   const [fontsLoaded, fontError] = useFonts({
+    'AppleSDGothic-NeoH': require('../assets/fonts/AppleSDGothic/AppleSDGothicNeoH.ttf'),
     'AppleSDGothic-NeoB': require('../assets/fonts/AppleSDGothic/AppleSDGothicNeoB.ttf'),
     'AppleSDGothic-NeoEB': require('../assets/fonts/AppleSDGothic/AppleSDGothicNeoEB.ttf'),
     'AppleSDGothic-NeoSB': require('../assets/fonts/AppleSDGothic/AppleSDGothicNeoSB.ttf'),
