@@ -562,12 +562,15 @@ const UserWallet = observer(({ navigation }) => {
                                   mx={18}
                                   alignItems='center'
                                   justifyContent='space-between'>
-                                  <Image
-                                    h={18}
-                                    w={87}
-                                    alt='alt'
-                                    source={require('../../assets/images/mypoint.png')}
-                                  />
+                                  {/*<Image*/}
+                                  {/*  h={18}*/}
+                                  {/*  w={87}*/}
+                                  {/*  alt='alt'*/}
+                                  {/*  source={require('../../assets/images/mypoint.png')}*/}
+                                  {/*/>*/}
+                                  <NumberText color='#5C66D5'>
+                                    My Point
+                                  </NumberText>
                                   <WrapHistoryButton
                                     borderRadius='$full'
                                     h={24}
@@ -674,12 +677,15 @@ const UserWallet = observer(({ navigation }) => {
                                   mx={18}
                                   alignItems='center'
                                   justifyContent='space-between'>
-                                  <Image
-                                    h={18}
-                                    w={87}
-                                    alt='alt'
-                                    source={require('../../assets/images/mykios.png')}
-                                  />
+                                  {/*<Image*/}
+                                  {/*  h={18}*/}
+                                  {/*  w={87}*/}
+                                  {/*  alt='alt'*/}
+                                  {/*  source={require('../../assets/images/mykios.png')}*/}
+                                  {/*/>*/}
+                                  <NumberText color='#5C66D5'>
+                                    My ACC
+                                  </NumberText>
                                   <WrapHistoryButton
                                     borderRadius='$full'
                                     h={24}
@@ -1096,12 +1102,13 @@ const UserWallet = observer(({ navigation }) => {
                             mx={18}
                             alignItems='center'
                             justifyContent='space-between'>
-                            <Image
-                              h={18}
-                              w={87}
-                              alt='alt'
-                              source={require('../../assets/images/mykios.png')}
-                            />
+                            {/*<Image*/}
+                            {/*  h={18}*/}
+                            {/*  w={87}*/}
+                            {/*  alt='alt'*/}
+                            {/*  source={require('../../assets/images/mykios.png')}*/}
+                            {/*/>*/}
+                            <NumberText color='#5C66D5'>My ACC</NumberText>
                             <WrapHistoryButton
                               borderRadius='$full'
                               h={24}
@@ -1413,15 +1420,16 @@ const UserWallet = observer(({ navigation }) => {
                             <Box px={20} pb={20} bg='white' rounded='$xl'>
                               <HStack
                                 mt={20}
-                                mx={18}
+                                mx={10}
                                 alignItems='center'
                                 justifyContent='space-between'>
-                                <Image
-                                  h={18}
-                                  w={87}
-                                  alt='alt'
-                                  source={require('../../assets/images/mykios.png')}
-                                />
+                                {/*<Image*/}
+                                {/*  h={18}*/}
+                                {/*  w={87}*/}
+                                {/*  alt='alt'*/}
+                                {/*  source={require('../../assets/images/mykios.png')}*/}
+                                {/*/>*/}
+                                <NumberText color='#5C66D5'>My ACC</NumberText>
                                 <WrapHistoryButton
                                   borderRadius='$full'
                                   h={24}
