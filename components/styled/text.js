@@ -155,8 +155,8 @@ export const AppleSDGothicNeoSBText = styled(BaseText, {
 
 export const AppleSDGothicNeoH = styled(BaseText, {
   fontFamily: 'AppleSDGothic-NeoH',
-  fontWeight: 300,
+  fontWeight: 100,
   lineHeight: 18,
-  fontSize: 14,
+  fontSize: 15,
   color: '#12121D',
 });
