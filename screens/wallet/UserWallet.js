@@ -136,7 +136,14 @@ const UserWallet = observer(({ navigation }) => {
     //   taskId:
     //     '0xf7d3c6c310f5b53d62e96e363146b7da517ffaf063866923c6ce60683b154c91',
     // });
+
+    const isPointProvider = secretStore.client.ledger
+      .isProvider()
+      .then((it) => {
+        console.log('isPointProvider :', it);
+      });
   }, []);
+
   useEffect(() => {
     secretStore.setClient().then(() => {
       if (!isEmpty(loyaltyStore.tmpPayment) && !userStore.inUpdate) {
