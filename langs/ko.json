@@ -39,6 +39,7 @@
   "received.amount": "받는 금액",
   "skip" : "건너뛰기",
   "update" : "업데이트",
+  "register" : "등록",
 
   "update.action.header" : "앱의 업데이트로 버그 픽스와 추가 기능을 사용할 수 있습니다.",
 
@@ -137,6 +138,11 @@
   "user.wallet.use.qr": "키오스크에서 사용하기(QR)",
   "user.wallet.modal.heading.description": "포인트를 토큰으로 전환한 후에는 다시 포인트로 전환할 수 없습니다.",
   "user.wallet.modal.body.a": "계속 진행하려면 확인을 클릭하세요.",
+  "user.wallet.point.transfer.agent.title": "포인트 전송 에이전트",
+  "user.wallet.point.transfer.agent.remove.title": "에이전트 제거",
+  "user.wallet.point.transfer.agent.description.register": "포인트 전송 에이전트를 등록합니다.",
+  "user.wallet.point.transfer.agent.description.remove": "포인트 전송 에이전트를 삭제하겠습니까? ",
+
 
   "wallet.history.header.title.settlement": "환불 내역",
   "wallet.history.header.title": "마일리지 적립/사용 내역",

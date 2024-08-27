@@ -39,7 +39,7 @@
   "received.amount": "received amount",
   "skip" : "Skip",
   "update" : "Update",
-
+  "register" : "Register",
   "update.action.header" : "Updates to the app make bug fixes and additional features available.",
 
   "button.press.a": "Confirm",
@@ -138,6 +138,11 @@
   "user.wallet.use.qr": "Use at kiosk(QR)",
   "user.wallet.modal.heading.description": "Once your points are converted to tokens, you can't convert them back to points.",
   "user.wallet.modal.body.a": "Click confirm to continue.",
+  "user.wallet.point.transfer.agent.title": "Point Transfer Agent",
+  "user.wallet.point.transfer.agent.remove.title": "Remove the agent",
+  "user.wallet.point.transfer.agent.description.register": "Register a Point Transfer Agent",
+  "user.wallet.point.transfer.agent.description.remove": "Are you sure you want to delete the Point Transfer Agent?",
+
 
   "wallet.history.header.title.settlement": "Refund history",
   "wallet.history.header.title": "Loyalty collection/redemption history",

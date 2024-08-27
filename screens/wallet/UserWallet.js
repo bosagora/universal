@@ -68,6 +68,9 @@ import MobileHeader from '../../components/MobileHeader';
 import { BigNumber } from '@ethersproject/bignumber/src.ts';
 import { getSecureValue } from '../../utils/secure.store';
 import { Wallet } from '@ethersproject/wallet';
+import { isAddress } from '@ethersproject/address';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import PointDistributor from '../../components/PointDistributor';
 
 const UserWallet = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -105,6 +108,9 @@ const UserWallet = observer(({ navigation }) => {
   const [tokenSymbol, setTokenSymbol] = useState('');
   const [tokenName, setTokenName] = useState('');
   const [currency, setCurrency] = useState('');
+
+  const [isPointProvider, setIsPointProvider] = useState(false);
+
   function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
   }
@@ -136,12 +142,6 @@ const UserWallet = observer(({ navigation }) => {
     //   taskId:
     //     '0xf7d3c6c310f5b53d62e96e363146b7da517ffaf063866923c6ce60683b154c91',
     // });
-
-    const isPointProvider = secretStore.client.ledger
-      .isProvider()
-      .then((it) => {
-        console.log('isPointProvider :', it);
-      });
   }, []);
 
   useEffect(() => {
@@ -151,6 +151,10 @@ const UserWallet = observer(({ navigation }) => {
         loyaltyStore.setTmpPayment({});
         loyaltyStore.setPayment(payment);
       }
+      secretStore.client.ledger.isProvider().then((isProvider) => {
+        console.log('isPointProvider :', isProvider);
+        setIsPointProvider(isProvider);
+      });
     });
   }, [loyaltyStore.tmpPayment]);
   async function fetchClient() {
@@ -678,6 +682,8 @@ const UserWallet = observer(({ navigation }) => {
                                   </VStack>
                                 </>
                               </Box>
+
+                              {isPointProvider ? <PointDistributor /> : null}
 
                               <Box mt={10} bg='white' rounded='$xl'>
                                 <HStack
