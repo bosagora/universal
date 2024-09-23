@@ -4018,10 +4018,10 @@ acc-contracts-lib-v2@~2.6.1:
   dependencies:
     ethers "5.7.0"
 
-acc-sdk-client-v2@^2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/acc-sdk-client-v2/-/acc-sdk-client-v2-2.9.0.tgz#1f557c4ef318b7041e389aee2d6089256fded333"
-  integrity sha512-pqkol+wHFggDvDofmhEyZUoDqOUiv+OfLyAaqSfXGGSSTZ5myVN7C9oCnwMnqpe6FQeUiiF/3SvFFJUXKdooug==
+acc-sdk-client-v2@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/acc-sdk-client-v2/-/acc-sdk-client-v2-2.10.0.tgz#38552a3c4ef723765ba6aee30f8edb564a62c0d8"
+  integrity sha512-1v+ezISsuYUbHBFoC5b5dpZwViYB0PIdxReqm4txzLCR4h2gLQnGIwZAc2x2RxCqErtWuAU8q4U4ly2xOdorMA==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/abstract-signer" "^5.7.0"

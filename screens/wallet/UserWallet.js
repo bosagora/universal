@@ -110,6 +110,8 @@ const UserWallet = observer(({ navigation }) => {
   const [currency, setCurrency] = useState('');
 
   const [isPointProvider, setIsPointProvider] = useState(false);
+  const [availableBridge, setAvailableBridge] = useState(false);
+  const [availableExchange, setAvailableExchange] = useState(false);
 
   function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
@@ -154,6 +156,12 @@ const UserWallet = observer(({ navigation }) => {
       secretStore.client.ledger.isProvider().then((isProvider) => {
         console.log('isPointProvider :', isProvider);
         setIsPointProvider(isProvider);
+      });
+      secretStore.client.ledger.getSystemInfo().then((info) => {
+        // console.log('getSystemInfo :', info);
+        setAvailableBridge(info.support.loyaltyBridge || false);
+        setAvailableExchange(info.support.exchange || false);
+        console.log('availableBridge :', availableBridge);
       });
     });
   }, [loyaltyStore.tmpPayment]);
@@ -661,10 +669,15 @@ const UserWallet = observer(({ navigation }) => {
 
                                       <WrapButton
                                         mx={18}
-                                        bg='black'
+                                        bg={
+                                          availableExchange
+                                            ? 'black'
+                                            : '#cccccc'
+                                        }
                                         borderColor='#8A8A8A'
                                         borderRadius='$lg'
                                         borderWidth='$1'
+                                        isDisabled={!availableExchange}
                                         onPress={() =>
                                           setShowConvertPointModal(true)
                                         }>
@@ -764,10 +777,15 @@ const UserWallet = observer(({ navigation }) => {
                                     <HStack py={20} px={20} flex={1} space='md'>
                                       <Box flex={1}>
                                         <WrapButton
-                                          bg='black'
+                                          bg={
+                                            availableBridge
+                                              ? 'black'
+                                              : '#cccccc'
+                                          }
                                           borderColor='#8A8A8A'
                                           borderRadius='$lg'
                                           borderWidth='$1'
+                                          isDisabled={!availableBridge}
                                           onPress={() =>
                                             goToDeposit('deposit')
                                           }>
@@ -784,10 +802,15 @@ const UserWallet = observer(({ navigation }) => {
                                       </Box>
                                       <Box flex={1}>
                                         <WrapButton
-                                          bg='black'
+                                          bg={
+                                            availableBridge
+                                              ? 'black'
+                                              : '#cccccc'
+                                          }
                                           borderColor='#8A8A8A'
                                           borderRadius='$lg'
                                           borderWidth='$1'
+                                          isDisabled={!availableBridge}
                                           onPress={() =>
                                             goToDeposit('withdraw')
                                           }>
@@ -1176,67 +1199,28 @@ const UserWallet = observer(({ navigation }) => {
                                 )}{' '}
                                 {currency.toUpperCase()})
                               </AppleSDGothicNeoSBText>
-                              {process.env.EXPO_PUBLIC_APP_KIND === 'user' ? (
-                                <HStack py={20} px={20} flex={1} space='md'>
-                                  <Box flex={1}>
-                                    <WrapButton
-                                      bg='black'
-                                      borderColor='#8A8A8A'
-                                      borderRadius='$lg'
-                                      borderWidth='$1'
-                                      onPress={() => goToDeposit('deposit')}>
-                                      <RobotoMediumText
-                                        style={{
-                                          fontWeight: 500,
-                                          lineHeight: 16,
-                                          fontSize: 15,
-                                          color: '#fff',
-                                        }}>
-                                        {t('deposit')}
-                                      </RobotoMediumText>
-                                    </WrapButton>
-                                  </Box>
-                                  <Box flex={1}>
-                                    <WrapButton
-                                      bg='black'
-                                      borderColor='#8A8A8A'
-                                      borderRadius='$lg'
-                                      borderWidth='$1'
-                                      onPress={() => goToDeposit('withdraw')}>
-                                      <RobotoMediumText
-                                        style={{
-                                          fontWeight: 500,
-                                          lineHeight: 16,
-                                          fontSize: 15,
-                                          color: '#fff',
-                                        }}>
-                                        {t('withdraw')}
-                                      </RobotoMediumText>
-                                    </WrapButton>
-                                  </Box>
-                                </HStack>
-                              ) : (
-                                <HStack py={20} px={20} flex={1}>
-                                  <Box flex={1}>
-                                    <WrapButton
-                                      bg='black'
-                                      borderColor='#8A8A8A'
-                                      borderRadius='$lg'
-                                      borderWidth='$1'
-                                      onPress={() => goToDeposit('withdraw')}>
-                                      <RobotoMediumText
-                                        style={{
-                                          fontWeight: 500,
-                                          lineHeight: 16,
-                                          fontSize: 15,
-                                          color: '#fff',
-                                        }}>
-                                        {t('withdraw')}
-                                      </RobotoMediumText>
-                                    </WrapButton>
-                                  </Box>
-                                </HStack>
-                              )}
+
+                              <HStack py={20} px={20} flex={1}>
+                                <Box flex={1}>
+                                  <WrapButton
+                                    bg={availableBridge ? 'black' : '#cccccc'}
+                                    borderColor='#8A8A8A'
+                                    borderRadius='$lg'
+                                    borderWidth='$1'
+                                    isDisabled={!availableBridge}
+                                    onPress={() => goToDeposit('withdraw')}>
+                                    <RobotoMediumText
+                                      style={{
+                                        fontWeight: 500,
+                                        lineHeight: 16,
+                                        fontSize: 15,
+                                        color: '#fff',
+                                      }}>
+                                      {t('withdraw')}
+                                    </RobotoMediumText>
+                                  </WrapButton>
+                                </Box>
+                              </HStack>
                             </VStack>
                           </>
                         </Box>
