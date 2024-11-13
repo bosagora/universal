@@ -15,7 +15,8 @@ eas update --branch preview --message "i18n 26-2"
 ### device
 eas device:create
 
-## Update App
+## Update Configuration
+eas update:configure
 ### 변경 시 조치
 version : build 설치 필요
 ios.buildVersion / android.versionCode : update 필요

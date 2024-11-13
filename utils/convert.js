@@ -66,71 +66,19 @@ export function checkValidPeriod(timestamp, timeout) {
   } else return false;
 }
 
-export function getName(lang, type, key) {
-  let ret = '';
-  if (lang === 'en') {
-    if (type === 'appName') {
-      switch (key) {
-        case 'kios':
-          ret = 'ACC';
-          break;
-        case 'pnb':
-          ret = 'PNB';
-          break;
-        case 'acc':
-          ret = 'ACC';
-          break;
-        default:
-          ret = '';
-      }
-    } else if (type === 'tokenName') {
-      switch (key) {
-        case 'kios':
-          ret = 'ACC';
-          break;
-        case 'pnb':
-          ret = 'PNB';
-          break;
-        case 'acc':
-          ret = 'ACC';
-          break;
-        default:
-          ret = '';
-      }
-    }
-  } else {
-    if (type === 'appName') {
-      switch (key) {
-        case 'kios':
-          ret = '키오스';
-          break;
-        case 'pnb':
-          ret = 'PNB';
-          break;
-        case 'acc':
-          ret = 'ACC';
-          break;
-        default:
-          ret = '';
-      }
-    } else if (type === 'tokenName') {
-      switch (key) {
-        case 'kios':
-          ret = 'KIOS';
-          break;
-        case 'pnb':
-          ret = 'PNB';
-          break;
-        case 'acc':
-          ret = 'ACC';
-          break;
-        default:
-          ret = '';
-      }
-    }
-  }
+const names = {
+  en: {
+    appName: { kios: 'ACC', pnb: 'PNB', acc: 'ACCcoin' },
+    tokenName: { kios: 'ACC', pnb: 'PNB', acc: 'ACC' },
+  },
+  other: {
+    appName: { kios: '키오스', pnb: 'PNB', acc: 'ACCcoin' },
+    tokenName: { kios: 'KIOS', pnb: 'PNB', acc: 'ACC' },
+  },
+};
 
-  return ret;
+export function getName(lang, type, key) {
+  return names[lang === 'en' ? 'en' : 'other'][type][key] || '';
 }
 
 export function validateNumberWithDecimal(numberString) {
