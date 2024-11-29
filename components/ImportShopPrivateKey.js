@@ -52,7 +52,7 @@ const ImportShopPrivateKey = observer(
         if (length > 0) {
           const shopList = await client.shop.getShops(0, length.toNumber());
           setShopIds(shopList);
-          await saveShopInfo(shopList[0]);
+          await saveShopInfo(userStore.shopId || shopList[0]);
         } else {
           setShopIds([]);
         }

@@ -81,9 +81,9 @@ const MileageProvideHistory = observer(({ navigation }) => {
         .filter((it) => {
           return it.action === 1 || it.action === 2;
         })
-        .map((it) => {
+        .map((it, idx) => {
           return {
-            id: it.transactionHash,
+            id: it.transactionHash + idx,
             action: it.action,
             increase: it.increase,
             currency: it.currency,
