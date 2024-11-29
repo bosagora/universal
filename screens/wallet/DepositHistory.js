@@ -68,9 +68,9 @@ const DepositHistory = observer(({ navigation }) => {
             it.action === LedgerAction.WITHDRAWN
           );
         })
-        .map((it) => {
+        .map((it, idx) => {
           return {
-            id: it.transactionHash,
+            id: it.transactionHash + idx,
             action: it.action,
             actionName:
               it.action === LedgerAction.WITHDRAWN ? 'WITHDRAWN' : 'DEPOSITED',
