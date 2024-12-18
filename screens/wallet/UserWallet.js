@@ -71,6 +71,7 @@ import { Wallet } from '@ethersproject/wallet';
 import { isAddress } from '@ethersproject/address';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import PointDistributor from '../../components/PointDistributor';
+import { MobileType } from 'acc-sdk-client-v2';
 
 const UserWallet = observer(({ navigation }) => {
   const { t } = useTranslation();
@@ -116,7 +117,32 @@ const UserWallet = observer(({ navigation }) => {
   function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
   }
-
+  useEffect(() => {
+    console.log(
+      '===== >>> UserWallet > useEffect > userStore.expoPushToken',
+      userStore.expoPushToken,
+    );
+    console.log(
+      '===== >>> UserWallet > useEffect > userStore.currentRoute',
+      userStore.currentRoute,
+    );
+    secretStore.client.ledger &&
+      secretStore.client.ledger
+        .isExistsMobileAccountToken(
+          userStore.expoPushToken,
+          process.env.EXPO_PUBLIC_APP_KIND === 'user'
+            ? MobileType.USER_APP
+            : MobileType.SHOP_APP,
+        )
+        .then((v) => {
+          console.log('isExistsMobileAccountToken :', v);
+          userStore.setRegisteredPushToken(v);
+        });
+  }, [
+    secretStore.client.ledger,
+    userStore.expoPushToken,
+    userStore.currentRoute,
+  ]);
   useEffect(() => {
     console.log('================= UserWallet > userStore', userStore);
     console.log('================= UserWallet > secretStore', secretStore);

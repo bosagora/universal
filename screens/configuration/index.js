@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { Box, FlatList, HStack, VStack, Switch } from '@gluestack-ui/themed';
+import {
+  Box,
+  FlatList,
+  HStack,
+  VStack,
+  Switch,
+  Button,
+} from '@gluestack-ui/themed';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useStores } from '../../stores';
 import { PinCodeT } from 'react-native-pincode-bosagora-ys';
@@ -8,7 +15,10 @@ import { Pressable } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Constants from 'expo-constants';
 import { registerForPushNotificationsAsync } from '../../hooks/usePushNotification';
-import { registerPushTokenWithClient } from '../../utils/push.token';
+import {
+  activatePushNotification,
+  registerPushTokenWithClient,
+} from '../../utils/push.token';
 import MobileHeader from '../../components/MobileHeader';
 import { WrapBox, WrapDivider } from '../../components/styled/layout';
 import { RobotoMediumText } from '../../components/styled/text';
@@ -18,11 +28,9 @@ const Configuration = observer(({ navigation }) => {
   const { pinStore, userStore, secretStore } = useStores();
   const [bioAuthenticationEnabled, setBioAuthenticationEnabled] =
     useState(false);
-  const [registeredPushToken, setRegisteredPushToken] = useState(false);
 
   useEffect(() => {
     setBioAuthenticationEnabled(userStore.enableBio);
-    setRegisteredPushToken(userStore.registeredPushToken);
     pinStore.setMode(PinCodeT.Modes.Enter);
     pinStore.setSuccessEnter(false);
     pinStore.setVisible(false);
@@ -31,26 +39,13 @@ const Configuration = observer(({ navigation }) => {
     setBioAuthenticationEnabled(toggleState);
     userStore.setEnableBio(toggleState);
   };
-  const togglePushNotification = async (toggleState) => {
-    setRegisteredPushToken(toggleState);
-    const ret = await registerForPushNotificationsAsync(userStore);
-    if (ret === 'denied') {
-      alert(t('permission.body.text.b', { appName: t('app.name') }));
-      return;
-    }
-
-    if (toggleState && ret === 'granted') {
-      const regRet = await registerPushTokenWithClient(
-        secretStore.client,
-        userStore,
-        process.env.EXPO_PUBLIC_APP_KIND,
-      );
-      if (regRet) {
-        setRegisteredPushToken(true);
-      }
-    } else {
-      setRegisteredPushToken(false);
-    }
+  const activatePush = async (toggleState) => {
+    await activatePushNotification(
+      t,
+      secretStore,
+      userStore,
+      process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? userStore.shopId : null,
+    );
   };
   const toggleQuickApproval = async (toggleState) => {
     userStore.setLoading(true);
@@ -189,11 +184,24 @@ const Configuration = observer(({ navigation }) => {
                       value={bioAuthenticationEnabled}
                     />
                   ) : item.id === '4a0f5869' ? (
-                    <Switch
-                      size='sm'
-                      onToggle={togglePushNotification}
-                      value={registeredPushToken}
-                    />
+                    userStore.registeredPushToken ? (
+                      <RobotoMediumText
+                        fontSize={12}
+                        lightHeight={24}
+                        fontWeight={500}>
+                        Active
+                      </RobotoMediumText>
+                    ) : (
+                      <Button onPress={activatePush} size='sm'>
+                        <RobotoMediumText
+                          fontSize={12}
+                          lightHeight={24}
+                          fontWeight={500}
+                          color='white'>
+                          Activate
+                        </RobotoMediumText>
+                      </Button>
+                    )
                   ) : item.id === 'f44a0869' ? (
                     <Switch
                       size='sm'

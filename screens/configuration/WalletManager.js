@@ -54,7 +54,10 @@ import {
   SubHeaderText,
 } from '../../components/styled/text';
 import { WrapButton, WrapWhiteButton } from '../../components/styled/button';
-import { registerPushTokenWithClient } from '../../utils/push.token';
+import {
+  activatePushNotification,
+  registerPushTokenWithClient,
+} from '../../utils/push.token';
 import { truncateMiddleString } from '../../utils/convert';
 
 const WalletManager = observer(({ navigation }) => {
@@ -88,29 +91,14 @@ const WalletManager = observer(({ navigation }) => {
 
   async function saveKey(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
-    let ret = false;
+    await activatePushNotification(t, secretStore, userStore);
+    // let ret = false;
     try {
-      if (Device.isDevice) {
-        ret = await registerPushTokenWithClient(
-          secretStore.client,
-          userStore,
-          process.env.EXPO_PUBLIC_APP_KIND,
-        );
-      } else {
-        ret = true;
-        console.log('Not on device.');
-      }
-    } catch (e) {
-      ret = false;
-    }
-
-    if (ret) {
       alert(t('config.wallet.alert.import.done'));
       navigation.navigate('Wallet');
-    } else {
+    } catch (e) {
       alert(t('config.wallet.alert.import.fail'));
     }
-
     userStore.setLoading(false);
     setFromOtherWallet(true);
   }
@@ -122,23 +110,9 @@ const WalletManager = observer(({ navigation }) => {
   }
 
   async function afterSelectingShop() {
-    if (Device.isDevice) {
-      const ret = await registerPushTokenWithClient(
-        secretStore.client,
-        userStore,
-        process.env.EXPO_PUBLIC_APP_KIND,
-      );
-      if (ret) {
-        alert(t('config.wallet.alert.import.done'));
-        navigation.navigate('Wallet');
-      } else {
-        alert(t('config.wallet.alert.import.fail'));
-      }
-    } else {
-      console.log('Not on device.');
-      alert(t('config.wallet.alert.import.done'));
-      navigation.navigate('Wallet');
-    }
+    alert(t('config.wallet.alert.import.done'));
+    await activatePushNotification(t, secretStore, userStore, userStore.shopId);
+    navigation.navigate('Wallet');
   }
 
   async function warnInitializeWallet() {

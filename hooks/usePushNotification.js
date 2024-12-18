@@ -49,7 +49,7 @@ export async function registerForPushNotificationsAsync(userStore) {
       }
     } else {
       console.log('Must be using a physical device for Push Notification.');
-      return 'granted';
+      return 'denied';
     }
   } catch (e) {
     alert('usePushNotification e :' + e.message);
