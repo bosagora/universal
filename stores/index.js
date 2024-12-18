@@ -9,9 +9,9 @@ import LoyaltyStore from './loyalty.store';
 
 class RootStore {
   constructor() {
+    this.secretStore = new SecretStore(this);
     this.userStore = new UserStore(this);
     this.noteStore = new NoteStore(this);
-    this.secretStore = new SecretStore(this);
     this.pinStore = new PinStore(this);
     this.loyaltyStore = new LoyaltyStore(this);
   }

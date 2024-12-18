@@ -10,9 +10,9 @@
   "wallet.manage": "지갑 관리",
   "wallet.init": "지갑 초기화",
 
-  "token.name" : "ACC",
+  "token.name": "ACC",
   "point": "포인트",
-  "token" : "토큰",
+  "token": "토큰",
   "phone.number": "전화번호",
   "shop": "상점",
   "purchase": "구매",
@@ -37,11 +37,11 @@
   "fee": "수수료",
   "available": "사용 가능",
   "received.amount": "받는 금액",
-  "skip" : "건너뛰기",
-  "update" : "업데이트",
-  "register" : "등록",
+  "skip": "건너뛰기",
+  "update": "업데이트",
+  "register": "등록",
 
-  "update.action.header" : "앱의 업데이트로 버그 픽스와 추가 기능을 사용할 수 있습니다.",
+  "update.action.header": "앱의 업데이트로 버그 픽스와 추가 기능을 사용할 수 있습니다.",
 
   "button.press.a": "확인",
   "button.press.b": "취소",
@@ -53,15 +53,16 @@
   "permission.header.subtitle": "서비스 이용을 위한 권한 요청",
   "permission.body.heading": "푸시 알림 권한",
   "permission.body.text.a": "통합 마일리지 사용 중에 사용을 확인, 취소 하는 등의 알림을\n사용자에게 통보하기 위해서는 모바일 푸시 알림 권한을 승인이 필요합니다.",
-  "permission.body.text.b": "알림 설정이 되어 있지 않은 경우, 설정 > 알림 > {{appName}} 에서 '알림\n허용' 을 선택해 주세요.",
+  "permission.body.text.b": "알림 설정이 되어 있지 않은 경우, '설정'에서 알림을 허용해 주세요.",
+  "permission.body.text.c": "알림이 비활성화 되어 있습니다. 우선 앱 설정에서 알림을 활성화 한 후에 다시 시도해 주세요.",
 
   "term.header.title": "약관 동의",
   "term.header.subtitle": "서비스 이용을 위한 약관",
   "term.body.text.a": "[필수] 서비스 이용약관 동의",
   "term.body.text.b": "[필수] 개인정보 수집 및 이용 동의",
 
-  "network.header.title" : "Network",
-  "network.header.subtitle" : "네트워크를 선택합니다.",
+  "network.header.title": "Network",
+  "network.header.subtitle": "네트워크를 선택합니다.",
 
   "secret.alert.push.fail": "푸시 토큰 등록에 실패하였습니다.",
   "secret.alert.wallet.done": "새로운 지갑이 생성 되었습니다.",
@@ -142,7 +143,6 @@
   "user.wallet.point.transfer.agent.remove.title": "에이전트 제거",
   "user.wallet.point.transfer.agent.description.register": "포인트 전송 에이전트를 등록합니다.",
   "user.wallet.point.transfer.agent.description.remove": "포인트 전송 에이전트를 삭제하겠습니까? ",
-
 
   "wallet.history.header.title.settlement": "환불 내역",
   "wallet.history.header.title": "마일리지 적립/사용 내역",

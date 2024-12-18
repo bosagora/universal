@@ -328,6 +328,7 @@ const App = observer(() => {
               const currentRouteName =
                 navigationRef.current.getCurrentRoute().name;
 
+              userStore.setCurrentRoute(currentRouteName);
               if (previousRouteName !== currentRouteName) {
                 // Do something here with it
               }

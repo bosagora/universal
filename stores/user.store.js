@@ -40,8 +40,9 @@ class UserStore {
   isDeposit = true;
   isMainChainTransfer = true;
   inUpdate = false;
+  currentRoute = '';
 
-  constructor() {
+  constructor(secureStore) {
     makeAutoObservable(this);
   }
 
@@ -71,6 +72,7 @@ class UserStore {
     this.isDeposit = true;
     this.isMainChainTransfer = true;
     this.inUpdate = false;
+    this.currentRoute = '';
   }
 
   setInUpdate = (update) => {
@@ -156,6 +158,9 @@ class UserStore {
   };
   setIsMainChainTransfer = (flag) => {
     this.isMainChainTransfer = flag;
+  };
+  setCurrentRoute = (route) => {
+    this.currentRoute = route;
   };
 }
 export default UserStore;

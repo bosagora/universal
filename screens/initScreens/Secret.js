@@ -13,7 +13,10 @@ import { getClient } from '../../utils/client';
 import { AUTH_STATE } from '../../stores/user.store';
 import { useTranslation } from 'react-i18next';
 import ImportPrivateKey from '../../components/ImportPrivateKey';
-import { registerPushTokenWithClient } from '../../utils/push.token';
+import {
+  activatePushNotification,
+  registerPushTokenWithClient,
+} from '../../utils/push.token';
 import { WrapBox } from '../../components/styled/layout';
 import { WrapButton } from '../../components/styled/button';
 import { ActiveButtonText } from '../../components/styled/text';
@@ -42,19 +45,14 @@ const Secret = observer(({ navigation }) => {
       await saveSecureValue('mnemonic', JSON.stringify(wallet.mnemonic));
       await saveSecureValue('privateKey', wallet.privateKey);
 
-      await secretStore.setClient();
+      await saveSecure(
+        wallet.privateKey,
+        secretStore,
+        t('secret.alert.wallet.invalid'),
+      );
+      await activatePushNotification(t, secretStore, userStore);
 
-      if (Device.isDevice) {
-        await registerPushTokenWithClient(
-          secretStore.client,
-          userStore,
-          process.env.EXPO_PUBLIC_APP_KIND,
-        );
-        resetPinCode();
-      } else {
-        console.log('Not on device.');
-        resetPinCode();
-      }
+      resetPinCode();
     } catch (e) {
       alert('error createWallet :' + JSON.stringify(e.message));
     }
@@ -75,18 +73,8 @@ const Secret = observer(({ navigation }) => {
 
   async function saveKey(key) {
     await saveSecure(key, secretStore, t('secret.alert.wallet.invalid'));
-
-    if (Device.isDevice) {
-      await registerPushTokenWithClient(
-        secretStore.client,
-        userStore,
-        process.env.EXPO_PUBLIC_APP_KIND,
-      );
-      resetPinCode();
-    } else {
-      console.log('Not on device.');
-      resetPinCode();
-    }
+    await activatePushNotification(t, secretStore, userStore);
+    resetPinCode();
   }
 
   async function saveKeyForShop(key) {
@@ -97,17 +85,8 @@ const Secret = observer(({ navigation }) => {
   }
 
   async function afterSelectingShop() {
-    if (Device.isDevice) {
-      await registerPushTokenWithClient(
-        secretStore.client,
-        userStore,
-        process.env.EXPO_PUBLIC_APP_KIND,
-      );
-      userStore.setAuthState(AUTH_STATE.DONE);
-    } else {
-      console.log('Not on device.');
-      userStore.setAuthState(AUTH_STATE.DONE);
-    }
+    await activatePushNotification(t, secretStore, userStore, userStore.shopId);
+    userStore.setAuthState(AUTH_STATE.DONE);
   }
 
   return (
