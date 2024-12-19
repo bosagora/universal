@@ -32,6 +32,7 @@ import { useTranslation } from 'react-i18next';
 import { WrapBox } from '../../components/styled/layout';
 import { ActiveButtonText, SubHeaderText } from '../../components/styled/text';
 import { WrapButton } from '../../components/styled/button';
+import { activatePushNotification } from '../../utils/push.token';
 
 const registerSchema = yup.object().shape({
   n1: yup.string().required(),
@@ -70,6 +71,7 @@ const ShopReg = observer(({ navigation }) => {
         steps.push(step);
         console.log('submit step :', step);
       }
+      await activatePushNotification(t, secretStore, userStore,shopData.shopId);
       alert(t('shop.alert.reg.done'));
       userStore.setLoading(false);
     } catch (e) {

@@ -84,8 +84,8 @@ const Secret = observer(({ navigation }) => {
     setFromOtherWallet(true);
   }
 
-  async function afterSelectingShop() {
-    await activatePushNotification(t, secretStore, userStore, userStore.shopId);
+  async function afterSelectingShop(selectedShopId) {
+    await activatePushNotification(t, secretStore, userStore, selectedShopId);
     userStore.setAuthState(AUTH_STATE.DONE);
   }
 
