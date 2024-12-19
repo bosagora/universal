@@ -51,8 +51,15 @@ const ImportShopPrivateKey = observer(
         const length = await client.shop.getShopsCount();
         if (length > 0) {
           const shopList = await client.shop.getShops(0, length.toNumber());
+          console.log('shopList:', shopList);
           setShopIds(shopList);
-          await saveShopInfo(userStore.shopId || shopList[0]);
+          if(userStore.shopId && userStore.shopId !== '00000' ){
+            if (userStore.shopId && shopList.includes(userStore.shopId)) {
+              await saveShopInfo(userStore.shopId);
+            }
+          }
+          await saveShopInfo( shopList[0]);
+
         } else {
           setShopIds([]);
         }
@@ -62,6 +69,7 @@ const ImportShopPrivateKey = observer(
 
     const { userStore } = useStores();
     const onPressShop = async (id) => {
+      console.log('onPressShop id:', id);
       await saveShopInfo(id);
     };
 
@@ -74,7 +82,8 @@ const ImportShopPrivateKey = observer(
     };
 
     const onPressSelectShop = async () => {
-      await afterSelectingShop();
+      console.log('onPressSelectShop selectedShopId:', selectedShopId);
+      await afterSelectingShop(selectedShopId);
     };
 
     return (

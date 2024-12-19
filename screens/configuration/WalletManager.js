@@ -109,9 +109,9 @@ const WalletManager = observer(({ navigation }) => {
     setFromOtherWallet(true);
   }
 
-  async function afterSelectingShop() {
+  async function afterSelectingShop(selectedShopId) {
     alert(t('config.wallet.alert.import.done'));
-    await activatePushNotification(t, secretStore, userStore, userStore.shopId);
+    await activatePushNotification(t, secretStore, userStore, selectedShopId);
     navigation.navigate('Wallet');
   }
 

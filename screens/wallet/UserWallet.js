@@ -133,6 +133,7 @@ const UserWallet = observer(({ navigation }) => {
           process.env.EXPO_PUBLIC_APP_KIND === 'user'
             ? MobileType.USER_APP
             : MobileType.SHOP_APP,
+          process.env.EXPO_PUBLIC_APP_KIND === 'shop' ? userStore.shopId : null,
         )
         .then((v) => {
           console.log('isExistsMobileAccountToken :', v);
@@ -204,7 +205,7 @@ const UserWallet = observer(({ navigation }) => {
     const id = setInterval(async () => {
       try {
         if (process.env.EXPO_PUBLIC_APP_KIND === 'user') await setWalletData();
-        if (process.env.EXPO_PUBLIC_APP_KIND === 'shop') await setShopData();
+        if (process.env.EXPO_PUBLIC_APP_KIND === 'shop') await setShopData(null);
       } catch (e) {
         console.log('setWalletData > e1:', e);
       }
@@ -259,8 +260,9 @@ const UserWallet = observer(({ navigation }) => {
 
   async function setShopData(data) {
     try {
+      console.log('setShopData > userStore.shopId :', userStore.shopId);
       const summary =
-        data && !isEmptyObject(data)
+        data && !isEmptyObject(data) && !data
           ? data
           : await secretStore.client.shop.getSummary(userStore.shopId);
 
