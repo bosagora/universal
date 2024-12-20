@@ -39,12 +39,14 @@ import {
   ParaText,
   RobotoMediumText,
   SubHeaderText,
+  Para2Text,
 } from './styled/text';
-import { WrapButton, WrapWhiteButton } from './styled/button';
+import { WrapButton, WrapWhiteButton, WrapHistoryButton } from './styled/button';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { isAddress } from '@ethersproject/address';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { useNavigation } from '@react-navigation/native';
 
 const PointDistributor = observer(() => {
   const { t } = useTranslation();
@@ -56,6 +58,7 @@ const PointDistributor = observer(() => {
   const [showRemoveDistributorModal, setShowRemoveDistributorModal] =
     useState(false);
   const zeroAddress = '0x0000000000000000000000000000000000000000';
+  const navigation = useNavigation();
   useEffect(() => {
     async function getList() {
       const assistance = await secretStore.client.ledger.getAssistant();
@@ -149,6 +152,21 @@ const PointDistributor = observer(() => {
         <AppleSDGothicNeoH color='#5C66D5'>
           {t('user.wallet.point.transfer.agent.title')}
         </AppleSDGothicNeoH>
+        <WrapHistoryButton
+          borderRadius='$full'
+          h={24}
+          pt={-2}
+          onPress={() =>
+            navigation.navigate('PointAgentHistory')
+          }>
+          <Para2Text
+            style={{
+              fontSize: 12,
+              color: '#707070',
+            }}>
+            {t('wallet.link.history.provide')}
+          </Para2Text>
+        </WrapHistoryButton>
       </HStack>
       <Box py={20}>
         {distributor === zeroAddress ? (

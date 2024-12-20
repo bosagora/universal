@@ -109,6 +109,7 @@
   "wallet.heading.description.testnet": "Testnet",
   "wallet.heading.description.devnet": "Devnet",
   "wallet.link.history.redemption": "history",
+  "wallet.link.history.provide": "history",
   "wallet.link.history.settlement": "history",
   "wallet.modal.a.alert.fail": "Refund failed.",
   "wallet.modal.a.alert.done": "Refund completed.",
@@ -135,6 +136,7 @@
   "user.wallet.heading.description": "ACC Loyalty can be redeemed for goods and services at any THE9 kiosk",
   "user.wallet.link.history": "Collection/Redemption History",
   "user.wallet.link.deposit.history": "Deposit/Withdraw History",
+  "user.wallet.link.point.agent.history": "Point Transfer Agent History",
   "user.wallet.link.transfer.history": "Transfer History",
   "user.wallet.link.convert": "Convert to ACC tokens",
   "user.wallet.use.qr": "Use at kiosk(QR)",
@@ -157,6 +159,7 @@
   "wallet.history.body.text.c": "Used",
   "wallet.history.body.text.d": "Provided",
   "wallet.history.body.text.e": "Scheduled to provide",
+
 
   "user.wallet.history.body.text.d": "Converted",
   "user.wallet.history.body.text.e": "Scheduled to collect",
