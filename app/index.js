@@ -74,6 +74,7 @@ import { StatusBar } from 'expo-status-bar';
 import RootPaddingBox from '../components/RootPaddingBox';
 import { LinearGradient } from 'expo-linear-gradient';
 import DepositHistory from '../screens/wallet/DepositHistory';
+import PointAgentHistory from '../screens/wallet/PointAgentHistory';
 import Deposit from '../screens/wallet/Deposit';
 import Transfer from '../screens/wallet/Transfer';
 import TransferMainChainHistory from '../screens/wallet/TransferMainChainHistory';
@@ -455,6 +456,13 @@ function MainStackScreen(userStore) {
           }}
         />
         <MainStack.Screen name='QRActionSheet' component={QRActionSheet} />
+        <MainStack.Screen
+          name='PointAgentHistory'
+          component={PointAgentHistory}
+          options={{
+            title: '',
+          }}
+        />
         <MainStack.Screen
           name='DepositHistory'
           component={DepositHistory}
